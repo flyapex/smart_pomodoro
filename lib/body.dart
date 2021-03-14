@@ -1,6 +1,8 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:spomodoro/bar.dart';
+import 'package:spomodoro/Circle%20animation/timer.dart';
+import 'Circle animation/circle.dart';
 
 class MainBody extends StatelessWidget {
   @override
@@ -30,7 +32,21 @@ class MainBody extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(height: 2, color: Color(0xFF16161e))
+              Container(height: 2, color: Color(0xFF16161e)),
+              Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  // AutoAnimation(),
+                  Timer(),
+                  Container(
+                    width: 500,
+                    height: 500,
+                    // color: Colors.purple,
+                    child: SizedBox.expand(child: MainCircle()),
+                    // child: Timer(),
+                  ),
+                ],
+              )
             ],
           ),
         ),
