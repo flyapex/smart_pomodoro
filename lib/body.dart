@@ -1,10 +1,17 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:spomodoro/bar.dart';
-import 'package:spomodoro/Circle%20animation/timer.dart';
-import 'Circle animation/circle.dart';
 
-class MainBody extends StatelessWidget {
+import 'Circle animation/circle.dart';
+import 'Circle animation/perIndacator.dart';
+import 'Circle animation/timer.dart';
+
+class MainBody extends StatefulWidget {
+  @override
+  _MainBodyState createState() => _MainBodyState();
+}
+
+class _MainBodyState extends State<MainBody> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -33,17 +40,22 @@ class MainBody extends StatelessWidget {
                 ),
               ),
               Container(height: 2, color: Color(0xFF16161e)),
-              Stack(
-                alignment: AlignmentDirectional.center,
+              Column(
                 children: [
-                  // AutoAnimation(),
-                  Timer(),
-                  Container(
-                    width: 500,
-                    height: 500,
-                    // color: Colors.purple,
-                    child: SizedBox.expand(child: MainCircle()),
-                    // child: Timer(),
+                  Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      // AutoAnimation(),
+                      RadialProgress(),
+                      Timer(),
+                      Container(
+                        width: 500,
+                        height: 500,
+                        // color: Colors.purple,
+                        child: SizedBox.expand(child: MainCircle()),
+                        // child: Timer(),
+                      ),
+                    ],
                   ),
                 ],
               )

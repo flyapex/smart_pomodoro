@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:spomodoro/controller/timerAnimaionController.dart';
 
 class Timer extends StatefulWidget {
   @override
@@ -6,7 +8,12 @@ class Timer extends StatefulWidget {
 }
 
 class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
-  final isOpen = ValueNotifier<bool>(false);
+  final TimerAnimationCotroller timerAnimationCotroller =
+      Get.put(TimerAnimationCotroller());
+
+  // var isOpen = ValueNotifier<bool>(false);
+
+  bool isOpen = Get.find<TimerAnimationCotroller>().isActiveTimerCoumdown;
 
   void initState() {
     super.initState();
@@ -14,7 +21,8 @@ class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
       Duration(milliseconds: 100),
       () {
         setState(() {
-          isOpen.value = true;
+          isOpen = true;
+          print("$isOpen");
         });
       },
     );
@@ -36,7 +44,8 @@ class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
     return SizedBox(
       width: 100,
       child: ValueListenableBuilder<bool>(
-        valueListenable: isOpen,
+        valueListenable:
+            ValueNotifier<bool>(timerAnimationCotroller.isActiveTimerCoumdown),
         builder: (context, isOpen, _) {
           return AnimatedContainer(
             duration: Duration(milliseconds: 500),
