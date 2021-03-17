@@ -6,16 +6,23 @@ import 'package:spomodoro/controller/timerAnimaionController.dart';
 import 'package:vector_math/vector_math.dart' show radians;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'animation.dart';
+
 class MainCircle extends StatefulWidget {
+  final bool timerAnimationState;
   final ValueChanged<bool> onChangedTab;
 
-  MainCircle({Key key, this.onChangedTab}) : super(key: key);
+  const MainCircle({Key key, this.timerAnimationState, this.onChangedTab})
+      : super(key: key);
+
   @override
-  _MainCircleState createState() => _MainCircleState();
+  _MainCircleState createState() => _MainCircleState(this.timerAnimationState);
 }
 
 class _MainCircleState extends State<MainCircle>
     with SingleTickerProviderStateMixin {
+  _MainCircleState(this.timerAnimationState);
+  final timerAnimationState;
   AnimationController controller;
   double finalAngle = 0.0;
 
@@ -51,6 +58,7 @@ class _MainCircleState extends State<MainCircle>
               controller: controller,
               finalAngle: finalAngle,
               onChangedTab: widget.onChangedTab,
+              timerAnimationState: timerAnimationState,
             ),
           ),
         );
@@ -61,6 +69,7 @@ class _MainCircleState extends State<MainCircle>
 
 // ignore: must_be_immutable
 class RadialAnimation extends StatefulWidget {
+  final timerAnimationState;
   final ValueChanged<bool> onChangedTab;
   final AnimationController controller;
   final Animation<double> scale;
@@ -68,7 +77,11 @@ class RadialAnimation extends StatefulWidget {
   final Animation<double> rotation;
   final double finalAngle;
   RadialAnimation(
-      {Key key, this.controller, this.finalAngle, this.onChangedTab})
+      {Key key,
+      this.controller,
+      this.finalAngle,
+      this.onChangedTab,
+      this.timerAnimationState})
       : scale = Tween<double>(
           begin: 2,
           end: 0.0,
@@ -141,6 +154,8 @@ class _RadialAnimationState extends State<RadialAnimation> {
 
   @override
   Widget build(context) {
+    bool timerAnimationState = false;
+
     return AnimatedBuilder(
       animation: widget.controller,
       builder: (context, builder) {
@@ -149,6 +164,7 @@ class _RadialAnimationState extends State<RadialAnimation> {
           child: Stack(
             alignment: Alignment.center,
             children: [
+              _autoAnimation(timerAnimationState),
               _buildButton(25, widget.finalAngle, 0,
                   color: Colors.black, icon: FontAwesomeIcons.thumbtack),
               _buildButton(30, widget.finalAngle, 30,
@@ -218,6 +234,10 @@ class _RadialAnimationState extends State<RadialAnimation> {
     );
   }
 
+  _autoAnimation(val) {
+    return AutoAnimation(timerAnimationState: val);
+  }
+
   _buildButton(time, finalAngle, double angle, {Color color, IconData icon}) {
     final double rad = radians(angle);
     return Transform(
@@ -234,8 +254,6 @@ class _RadialAnimationState extends State<RadialAnimation> {
           backgroundColor: color,
           onPressed: () {
             widget.onChangedTab(false);
-            // Get.find<TimerAnimationCotroller>().onOf(false);
-            // print(Get.find<TimerAnimationCotroller>().isActiveTimerCoumdown);
             startTimer(time);
             _close();
           },
