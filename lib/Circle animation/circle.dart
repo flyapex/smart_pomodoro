@@ -7,6 +7,9 @@ import 'package:vector_math/vector_math.dart' show radians;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainCircle extends StatefulWidget {
+  final ValueChanged<bool> onChangedTab;
+
+  MainCircle({Key key, this.onChangedTab}) : super(key: key);
   @override
   _MainCircleState createState() => _MainCircleState();
 }
@@ -15,15 +18,13 @@ class _MainCircleState extends State<MainCircle>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
   double finalAngle = 0.0;
-  bool timeController =
-      Get.find<TimerAnimationCotroller>().isActiveTimerCoumdown;
 
   @override
   void initState() {
     super.initState();
     controller =
         AnimationController(duration: Duration(milliseconds: 300), vsync: this);
-    timeController ? controller.forward() : timeController = false;
+    controller.forward();
   }
 
   @override
@@ -46,8 +47,11 @@ class _MainCircleState extends State<MainCircle>
           },
           child: Transform.rotate(
             angle: finalAngle,
-            child:
-                RadialAnimation(controller: controller, finalAngle: finalAngle),
+            child: RadialAnimation(
+              controller: controller,
+              finalAngle: finalAngle,
+              onChangedTab: widget.onChangedTab,
+            ),
           ),
         );
       },
@@ -57,12 +61,14 @@ class _MainCircleState extends State<MainCircle>
 
 // ignore: must_be_immutable
 class RadialAnimation extends StatefulWidget {
+  final ValueChanged<bool> onChangedTab;
   final AnimationController controller;
   final Animation<double> scale;
   final Animation<double> translation;
   final Animation<double> rotation;
   final double finalAngle;
-  RadialAnimation({Key key, this.controller, this.finalAngle})
+  RadialAnimation(
+      {Key key, this.controller, this.finalAngle, this.onChangedTab})
       : scale = Tween<double>(
           begin: 2,
           end: 0.0,
@@ -110,6 +116,8 @@ class _RadialAnimationState extends State<RadialAnimation> {
         if (_start == 0) {
           setState(() {
             timeText = 0;
+            widget.onChangedTab(true);
+            _open();
             timer.cancel();
           });
         } else {
@@ -171,7 +179,10 @@ class _RadialAnimationState extends State<RadialAnimation> {
                 scale: widget.scale.value - 0.9,
                 child: FloatingActionButton(
                   child: Icon(FontAwesomeIcons.timesCircle),
-                  onPressed: _close,
+                  onPressed: () {
+                    widget.onChangedTab(false);
+                    _close();
+                  },
                   backgroundColor: Colors.red,
                 ),
               ),
@@ -187,13 +198,16 @@ class _RadialAnimationState extends State<RadialAnimation> {
                           color: Colors.white,
                         ),
                         Text(
-                          '${timeText == 0 ? "00:00" : timeText}',
+                          '${timeText == 0 ? '00:00' : timeText}',
                         ),
                       ],
                     ),
                   ),
                   // child: Icon(Icons.play_arrow),
-                  onPressed: _open,
+                  onPressed: () {
+                    widget.onChangedTab(true);
+                    _open();
+                  },
                   backgroundColor: Colors.red,
                 ),
               ),
@@ -219,7 +233,8 @@ class _RadialAnimationState extends State<RadialAnimation> {
           // ),
           backgroundColor: color,
           onPressed: () {
-            Get.find<TimerAnimationCotroller>().onOf(false);
+            widget.onChangedTab(false);
+            // Get.find<TimerAnimationCotroller>().onOf(false);
             // print(Get.find<TimerAnimationCotroller>().isActiveTimerCoumdown);
             startTimer(time);
             _close();

@@ -1,30 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:spomodoro/controller/timerAnimaionController.dart';
 
 class Timer extends StatefulWidget {
+  final timerAnimationState;
+
+  const Timer({Key key, this.timerAnimationState}) : super(key: key);
   @override
   _TimerState createState() => _TimerState();
 }
 
 class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
-  final TimerAnimationCotroller timerAnimationCotroller =
-      Get.put(TimerAnimationCotroller());
-
-  // var isOpen = ValueNotifier<bool>(false);
-
-  bool isOpen = Get.find<TimerAnimationCotroller>().isActiveTimerCoumdown;
+  _TimerState({this.timerAnimationState});
+  bool timerAnimationState;
 
   void initState() {
     super.initState();
     Future.delayed(
       Duration(milliseconds: 100),
-      () {
-        setState(() {
-          isOpen = true;
-          print("$isOpen");
-        });
-      },
+      () {},
     );
   }
 
@@ -44,9 +36,8 @@ class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
     return SizedBox(
       width: 100,
       child: ValueListenableBuilder<bool>(
-        valueListenable:
-            ValueNotifier<bool>(timerAnimationCotroller.isActiveTimerCoumdown),
-        builder: (context, isOpen, _) {
+        valueListenable: ValueNotifier<bool>(widget.timerAnimationState),
+        builder: (context, timerAnimationState, _) {
           return AnimatedContainer(
             duration: Duration(milliseconds: 500),
             curve: Curves.easeOutQuad,
@@ -54,7 +45,7 @@ class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
               shape: BoxShape.circle,
               color: Colors.lightBlue,
               boxShadow: [
-                if (isOpen)
+                if (timerAnimationState)
                   for (var i = 0; i < 5; i++)
                     BoxShadow(
                       spreadRadius: i * 50.0,

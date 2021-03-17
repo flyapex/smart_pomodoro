@@ -12,6 +12,13 @@ class MainBody extends StatefulWidget {
 }
 
 class _MainBodyState extends State<MainBody> {
+  bool timerAnimationState = true;
+  void onChangedTab(bool index) {
+    setState(() {
+      timerAnimationState = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -47,12 +54,15 @@ class _MainBodyState extends State<MainBody> {
                     children: [
                       // AutoAnimation(),
                       RadialProgress(),
-                      Timer(),
+                      Timer(timerAnimationState: timerAnimationState),
                       Container(
                         width: 500,
                         height: 500,
                         // color: Colors.purple,
-                        child: SizedBox.expand(child: MainCircle()),
+                        child: SizedBox.expand(
+                            child: MainCircle(
+                          onChangedTab: onChangedTab,
+                        )),
                         // child: Timer(),
                       ),
                     ],
