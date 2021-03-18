@@ -53,6 +53,17 @@ class _MainBodyState extends State<MainBody>
     });
   }
 
+  IconData addicon = Icons.add;
+  void addIcon() {
+    setState(() {
+      if (addicon == Icons.add) {
+        addicon = Icons.panorama_fish_eye;
+      } else {
+        addicon = Icons.add;
+      }
+    });
+  }
+
 //------------------------------------------
 
   Color textColor = Color(0xFF3f4256);
@@ -83,7 +94,34 @@ class _MainBodyState extends State<MainBody>
     });
   }
 
-  //?------------------------------------------
+  //?------------------------------------------ add button
+  Color boxColor = Color(0xFF1f1f20);
+  // ignore: unused_field
+  int _enterCounter2 = 0;
+  // ignore: unused_field
+  int _exitCounter2 = 0;
+  double x2 = 0.0;
+  double y2 = 0.0;
+  void _incrementEnter2(PointerEvent details2) {
+    setState(() {
+      _enterCounter2++;
+    });
+  }
+
+  void _incrementExit2(PointerEvent details2) {
+    setState(() {
+      boxColor = Color(0xFF1f1f20);
+      _exitCounter2++;
+    });
+  }
+
+  void _updateLocation2(PointerEvent details2) {
+    setState(() {
+      boxColor = Color(0xFF282829);
+      x2 = details2.position.dx;
+      y2 = details2.position.dy;
+    });
+  }
 
 //------------------------------------------
   @override
@@ -337,11 +375,12 @@ class _MainBodyState extends State<MainBody>
                                                       children: [
                                                         InkWell(
                                                           onTap: () {
-                                                            print(ctime +
-                                                                index -
-                                                                1);
-                                                            print(
-                                                                _time.hour + 4);
+                                                            // print(ctime +
+                                                            //     index -
+                                                            //     1);
+                                                            // print(
+                                                            //     _time.hour + 4);
+                                                            print(index);
                                                           },
                                                           child:
                                                               HoverAnimatedContainer(
@@ -496,7 +535,10 @@ class _MainBodyState extends State<MainBody>
                                                 //   height: 2,
                                                 //   color: Colors.grey,
                                                 // ),
-                                                InkWell(
+                                                MouseRegion(
+                                                  onEnter: _incrementEnter2,
+                                                  onHover: _updateLocation2,
+                                                  onExit: _incrementExit2,
                                                   child: Container(
                                                     height: 50,
                                                     margin: EdgeInsets.only(
@@ -505,7 +547,7 @@ class _MainBodyState extends State<MainBody>
                                                       right: 3,
                                                     ),
                                                     decoration: BoxDecoration(
-                                                      color: Colors.red,
+                                                      color: boxColor,
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                         10,
@@ -516,6 +558,7 @@ class _MainBodyState extends State<MainBody>
                                                         onFocusChange:
                                                             (focus) => {
                                                           hintTextChange(focus),
+                                                          addIcon(),
                                                         },
                                                         child: TextField(
                                                           controller:
@@ -533,12 +576,15 @@ class _MainBodyState extends State<MainBody>
                                                           decoration:
                                                               InputDecoration(
                                                             hintText: hinttext,
+                                                            hintStyle: TextStyle(
+                                                                color: Colors
+                                                                    .white),
                                                             border: InputBorder
                                                                 .none,
                                                             prefixIcon: Icon(
-                                                              Icons.add,
-                                                              color:
-                                                                  Colors.white,
+                                                              addicon,
+                                                              color: Color(
+                                                                  0xFF686869),
                                                             ),
                                                           ),
                                                         ),
