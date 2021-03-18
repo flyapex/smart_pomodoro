@@ -108,6 +108,7 @@ class _MainBodyState extends State<MainBody>
             children: [
               Container(
                 color: Color(0xFF16161e),
+                // color: Color(0xFF16161e),
                 child: WindowTitleBarBox(
                   child: Row(
                     children: [
@@ -148,7 +149,7 @@ class _MainBodyState extends State<MainBody>
                                 borderRadius: BorderRadius.circular(
                                   25.0,
                                 ),
-                                color: Colors.green,
+                                color: Color(0xFFe5383b).withOpacity(0.9),
                               ),
                               labelColor: Colors.white,
                               unselectedLabelColor: Colors.black,
@@ -175,7 +176,6 @@ class _MainBodyState extends State<MainBody>
                                   Stack(
                                     alignment: AlignmentDirectional.center,
                                     children: [
-                                      // AutoAnimation(),
                                       RadialProgress(),
                                       Timer(
                                           timerAnimationState:
@@ -183,14 +183,13 @@ class _MainBodyState extends State<MainBody>
                                       Container(
                                         width: 475,
                                         height: 475,
-                                        // color: Colors.purple,
                                         child: SizedBox.expand(
-                                            child: MainCircle(
-                                          timerAnimationState:
-                                              timerAnimationState,
-                                          onChangedTab: onChangedTab,
-                                        )),
-                                        // child: Timer(),
+                                          child: MainCircle(
+                                            timerAnimationState:
+                                                timerAnimationState,
+                                            onChangedTab: onChangedTab,
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -478,11 +477,11 @@ class _MainBodyState extends State<MainBody>
                                             width: wid2,
                                             decoration: BoxDecoration(
                                               gradient: LinearGradient(
-                                                  begin: Alignment.topCenter,
-                                                  end: Alignment.bottomCenter,
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
                                                   colors: [
-                                                    Color(0xFFFFD500),
-                                                    Color(0xFFF6A00C)
+                                                    Color(0xFF00416A),
+                                                    Color(0xFFE4E5E6)
                                                   ],
                                                   stops: [
                                                     0.0,
@@ -501,7 +500,7 @@ class _MainBodyState extends State<MainBody>
                                                   child: Container(
                                                     height: 50,
                                                     margin: EdgeInsets.only(
-                                                      bottom: 3,
+                                                      bottom: 8,
                                                       left: 2,
                                                       right: 3,
                                                     ),
@@ -509,7 +508,7 @@ class _MainBodyState extends State<MainBody>
                                                       color: Colors.red,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                        5,
+                                                        10,
                                                       ),
                                                     ),
                                                     child: FocusScope(
