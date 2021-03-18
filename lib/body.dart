@@ -2,13 +2,11 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:day_night_time_picker/lib/constants.dart';
 import 'package:day_night_time_picker/lib/daynight_timepicker.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:hovering/hovering.dart';
 import 'package:spomodoro/bar.dart';
-
 import 'Circle animation/circle.dart';
 import 'Circle animation/perIndacator.dart';
 import 'Circle animation/timer.dart';
-import 'controller/timerController.dart';
 
 class MainBody extends StatefulWidget {
   @override
@@ -37,6 +35,15 @@ class _MainBodyState extends State<MainBody>
     _tabController.dispose();
   }
 
+//-----------------------------------------------------
+  var ctime = 5;
+  void updateTime(val) {
+    setState(() {
+      ctime = val;
+    });
+  }
+
+//?---------------------------------------------------
   var hinttext = 'Add Task';
 
   var textController = TextEditingController();
@@ -47,16 +54,11 @@ class _MainBodyState extends State<MainBody>
   }
 
 //------------------------------------------
-  int activetab = 0;
 
-  void isctivetab(val) {
-    setState(() {
-      activetab = val;
-    });
-  }
-
-  Color textColor = Colors.blue;
+  Color textColor = Color(0xFF3f4256);
+  // ignore: unused_field
   int _enterCounter = 0;
+  // ignore: unused_field
   int _exitCounter = 0;
   double x = 0.0;
   double y = 0.0;
@@ -68,16 +70,25 @@ class _MainBodyState extends State<MainBody>
 
   void _incrementExit(PointerEvent details) {
     setState(() {
-      textColor = Colors.blue;
+      textColor = Color(0xFF3f4256);
       _exitCounter++;
     });
   }
 
   void _updateLocation(PointerEvent details) {
     setState(() {
-      textColor = Colors.red;
+      textColor = Color(0xFF3f4256).withOpacity(0.5);
       x = details.position.dx;
       y = details.position.dy;
+    });
+  }
+
+  //?------------------------------------------
+  int activetab = 0;
+
+  void isctivetab(val) {
+    setState(() {
+      activetab = val;
     });
   }
 
@@ -95,8 +106,6 @@ class _MainBodyState extends State<MainBody>
       });
     }
 
-    final hoursTimerController htimerController =
-        Get.put(hoursTimerController());
     ScrollController _controller = ScrollController();
     return Expanded(
       child: Container(
@@ -210,13 +219,11 @@ class _MainBodyState extends State<MainBody>
                                               92,
                                           width: wid,
                                           child: ListView.builder(
-                                            itemCount:
-                                                24 - htimerController.ctime,
+                                            itemCount: 24 - ctime + 2,
                                             controller: _controller,
                                             itemBuilder: (context, index) {
                                               return index == 0
                                                   ? MouseRegion(
-                                                      //!--------------------------------------------------------
                                                       onEnter: _incrementEnter,
                                                       onHover: _updateLocation,
                                                       onExit: _incrementExit,
@@ -228,8 +235,7 @@ class _MainBodyState extends State<MainBody>
                                                             right: 3),
                                                         decoration:
                                                             BoxDecoration(
-                                                          color:
-                                                              Color(0xFF3f4256),
+                                                          color: textColor,
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(5),
@@ -246,7 +252,7 @@ class _MainBodyState extends State<MainBody>
                                                               child: Icon(
                                                                 Icons.wb_sunny,
                                                                 color: Colors
-                                                                    .white,
+                                                                    .yellow,
                                                               ),
                                                             ),
                                                             Text(
@@ -314,7 +320,7 @@ class _MainBodyState extends State<MainBody>
                                                                                 59,
                                                                             onChangeDateTime:
                                                                                 (DateTime dateTime) {
-                                                                              htimerController.UpdateTime(dateTime.hour);
+                                                                              updateTime(dateTime.hour);
                                                                               print(dateTime);
                                                                               Navigator.pop(context);
                                                                             },
@@ -336,108 +342,130 @@ class _MainBodyState extends State<MainBody>
                                                         ),
                                                       ),
                                                     )
-                                                  : InkWell(
-                                                      onTap: () {
-                                                        print("pressed");
-                                                      },
-                                                      child: Container(
-                                                        height: 50,
-                                                        margin: EdgeInsets.only(
-                                                            bottom: 3,
-                                                            left: 2,
-                                                            right: 3),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors.red,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                        ),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left: 5),
-                                                              child: Icon(
-                                                                Icons
-                                                                    .offline_bolt,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
+                                                  : Column(
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            // print(index);
+                                                          },
+                                                          child:
+                                                              HoverAnimatedContainer(
+                                                            height: 50,
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                              left: 2,
+                                                              right: 3,
                                                             ),
-                                                            Row(
+                                                            hoverDecoration:
+                                                                BoxDecoration(
+                                                              color: Color(
+                                                                  0xFF3f4256),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5),
+                                                            ),
+                                                            child: Row(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
-                                                                      .spaceAround,
+                                                                      .spaceBetween,
                                                               children: [
-                                                                htimerController.ctime +
-                                                                            index -
-                                                                            1 <=
-                                                                        12
-                                                                    ? Text(
-                                                                        (htimerController.ctime +
-                                                                                index -
-                                                                                1)
-                                                                            .toString(),
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white),
-                                                                      )
-                                                                    : Text(
-                                                                        (htimerController.ctime +
-                                                                                index -
-                                                                                1 -
-                                                                                12)
-                                                                            .toString(),
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white),
-                                                                      ),
-                                                                Text(
-                                                                  ' - ',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .white),
+                                                                Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              5),
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .offline_bolt,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
                                                                 ),
-                                                                htimerController.ctime +
-                                                                            index <=
-                                                                        12
-                                                                    ? Text(
-                                                                        (htimerController.ctime +
-                                                                                index)
-                                                                            .toString(),
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white),
-                                                                      )
-                                                                    : Text(
-                                                                        (htimerController.ctime +
-                                                                                index -
-                                                                                12)
-                                                                            .toString(),
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white),
-                                                                      ),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceAround,
+                                                                  children: [
+                                                                    ctime + index - 1 <=
+                                                                            12
+                                                                        ? Text(
+                                                                            (ctime + index - 1).toString(),
+                                                                            style:
+                                                                                TextStyle(color: Colors.white),
+                                                                          )
+                                                                        : Text(
+                                                                            (ctime + index - 1 - 12).toString(),
+                                                                            style:
+                                                                                TextStyle(color: Colors.white),
+                                                                          ),
+                                                                    Text(
+                                                                      ' - ',
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.white),
+                                                                    ),
+                                                                    ctime + index <=
+                                                                            12
+                                                                        ? Text(
+                                                                            (ctime + index).toString() +
+                                                                                ' AM',
+                                                                            style:
+                                                                                TextStyle(color: Colors.white),
+                                                                          )
+                                                                        : ctime + index ==
+                                                                                25
+                                                                            ? Text(
+                                                                                (ctime + index - 24).toString() + ' AM',
+                                                                                style: TextStyle(color: Colors.white),
+                                                                              )
+                                                                            : Text(
+                                                                                (ctime + index - 12).toString() + ' PM',
+                                                                                style: TextStyle(color: Colors.white),
+                                                                              ),
+                                                                  ],
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              10),
+                                                                  child: index ==
+                                                                          1
+                                                                      ? Icon(
+                                                                          Icons
+                                                                              .flash_on,
+                                                                          color:
+                                                                              Colors.yellow,
+                                                                        )
+                                                                      : Icon(
+                                                                          Icons
+                                                                              .offline_bolt,
+                                                                          color:
+                                                                              Colors.transparent,
+                                                                        ),
+                                                                ),
                                                               ],
                                                             ),
-                                                            Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left: 10),
-                                                              child: Icon(
-                                                                Icons.flash_on,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                            ),
-                                                          ],
+                                                          ),
                                                         ),
-                                                      ),
+                                                        Container(
+                                                          height: 3,
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                            left: 2,
+                                                            right: 3,
+                                                          ),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5),
+                                                          ),
+                                                        )
+                                                      ],
                                                     );
                                             },
                                           ),
