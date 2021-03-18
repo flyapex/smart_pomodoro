@@ -36,7 +36,7 @@ class _MainBodyState extends State<MainBody>
   }
 
 //-----------------------------------------------------
-  var ctime = 5;
+  var ctime = 0;
   void updateTime(val) {
     setState(() {
       ctime = val;
@@ -84,13 +84,6 @@ class _MainBodyState extends State<MainBody>
   }
 
   //?------------------------------------------
-  int activetab = 0;
-
-  void isctivetab(val) {
-    setState(() {
-      activetab = val;
-    });
-  }
 
 //------------------------------------------
   @override
@@ -151,7 +144,6 @@ class _MainBodyState extends State<MainBody>
                             ),
                             child: TabBar(
                               controller: _tabController,
-                              // give the indicator a decoration (color and border radius)
                               indicator: BoxDecoration(
                                 borderRadius: BorderRadius.circular(
                                   25.0,
@@ -346,7 +338,11 @@ class _MainBodyState extends State<MainBody>
                                                       children: [
                                                         InkWell(
                                                           onTap: () {
-                                                            // print(index);
+                                                            print(ctime +
+                                                                index -
+                                                                1);
+                                                            print(
+                                                                _time.hour + 4);
                                                           },
                                                           child:
                                                               HoverAnimatedContainer(
@@ -430,8 +426,11 @@ class _MainBodyState extends State<MainBody>
                                                                       .only(
                                                                           left:
                                                                               10),
-                                                                  child: index ==
-                                                                          1
+                                                                  child: ctime +
+                                                                              index -
+                                                                              1 ==
+                                                                          _time
+                                                                              .hour
                                                                       ? Icon(
                                                                           Icons
                                                                               .flash_on,
