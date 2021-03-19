@@ -2,11 +2,13 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:day_night_time_picker/lib/constants.dart';
 import 'package:day_night_time_picker/lib/daynight_timepicker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hovering/hovering.dart';
 import 'package:spomodoro/bar.dart';
 import 'Circle animation/circle.dart';
 import 'Circle animation/perIndacator.dart';
 import 'Circle animation/timer.dart';
+import 'controller/timerAnimaionController.dart';
 
 class MainBody extends StatefulWidget {
   @override
@@ -44,25 +46,6 @@ class _MainBodyState extends State<MainBody>
   }
 
 //?---------------------------------------------------
-  var hinttext = 'Add Task';
-
-  var textController = TextEditingController();
-  void hintTextChange(val) {
-    setState(() {
-      val ? hinttext = '' : hinttext = 'Add Task';
-    });
-  }
-
-  IconData addicon = Icons.add;
-  void addIcon() {
-    setState(() {
-      if (addicon == Icons.add) {
-        addicon = Icons.panorama_fish_eye;
-      } else {
-        addicon = Icons.add;
-      }
-    });
-  }
 
 //------------------------------------------
 
@@ -123,7 +106,28 @@ class _MainBodyState extends State<MainBody>
     });
   }
 
-//------------------------------------------
+//?------------------------------------------
+  var hinttext = 'Add Task';
+  void hintTextChange(val) {
+    setState(() {
+      val ? hinttext = '' : hinttext = 'Add Task';
+    });
+  }
+
+  IconData addicon = Icons.add;
+  void addIcon() {
+    setState(() {
+      if (addicon == Icons.add) {
+        addicon = Icons.panorama_fish_eye;
+      } else {
+        addicon = Icons.add;
+      }
+    });
+  }
+
+  var textController = TextEditingController();
+  var todoController = Get.put(TODOController());
+
   @override
   Widget build(BuildContext context) {
     double wid = MediaQuery.of(context).size.width / 3.5;
@@ -527,70 +531,130 @@ class _MainBodyState extends State<MainBody>
                                                     1.0
                                                   ]),
                                             ),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
+                                            child: Stack(
                                               children: [
-                                                // Container(
-                                                //   height: 2,
-                                                //   color: Colors.grey,
-                                                // ),
-                                                MouseRegion(
-                                                  onEnter: _incrementEnter2,
-                                                  onHover: _updateLocation2,
-                                                  onExit: _incrementExit2,
-                                                  child: Container(
-                                                    height: 50,
-                                                    margin: EdgeInsets.only(
-                                                      bottom: 8,
-                                                      left: 2,
-                                                      right: 3,
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      color: boxColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                        10,
+                                                Obx(
+                                                  () => ListView.separated(
+                                                    itemBuilder:
+                                                        (context, index2) =>
+                                                            ListTile(
+                                                      title: Text(
+                                                        todoController
+                                                            .alltodoslist[
+                                                                index2]
+                                                            .text,
+                                                      ),
+                                                      trailing: Checkbox(
+                                                        value: todoController
+                                                            .alltodoslist[
+                                                                index2]
+                                                            .done,
+                                                        onChanged: (v) {
+                                                          var changed =
+                                                              todoController
+                                                                      .alltodoslist[
+                                                                  index2];
+                                                          changed.done = v;
+                                                          todoController
+                                                                  .alltodoslist[
+                                                              index2] = changed;
+                                                        },
                                                       ),
                                                     ),
-                                                    child: FocusScope(
-                                                      child: Focus(
-                                                        onFocusChange:
-                                                            (focus) => {
-                                                          hintTextChange(focus),
-                                                          addIcon(),
-                                                        },
-                                                        child: TextField(
-                                                          controller:
-                                                              textController,
-                                                          onSubmitted: (val) {
-                                                            print(val);
-                                                            textController
-                                                                .clear();
-                                                          },
-                                                          cursorColor:
-                                                              Colors.white,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
-                                                          decoration:
-                                                              InputDecoration(
-                                                            hintText: hinttext,
-                                                            hintStyle: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                            border: InputBorder
-                                                                .none,
-                                                            prefixIcon: Icon(
-                                                              addicon,
-                                                              color: Color(
-                                                                  0xFF686869),
+                                                    separatorBuilder: (_, __) =>
+                                                        Divider(),
+                                                    itemCount: todoController
+                                                        .alltodoslist.length,
+                                                  ),
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    MouseRegion(
+                                                      onEnter: _incrementEnter2,
+                                                      onHover: _updateLocation2,
+                                                      onExit: _incrementExit2,
+                                                      child: Container(
+                                                        height: 50,
+                                                        margin: EdgeInsets.only(
+                                                          bottom: 8,
+                                                          left: 2,
+                                                          right: 3,
+                                                        ),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: boxColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            10,
+                                                          ),
+                                                        ),
+                                                        child: FocusScope(
+                                                          child: Focus(
+                                                            onFocusChange:
+                                                                (focus) => {
+                                                              hintTextChange(
+                                                                  focus),
+                                                              addIcon(),
+                                                            },
+                                                            child: TextField(
+                                                              controller:
+                                                                  textController,
+                                                              onSubmitted:
+                                                                  (val) {
+                                                                print(
+                                                                    _time.hour);
+                                                                todoController
+                                                                    .alltodoslist
+                                                                    .add(
+                                                                  Todo(
+                                                                      text: textController
+                                                                          .text),
+                                                                );
+                                                                textController
+                                                                    .clear();
+                                                                // todoController
+                                                                //     .mainList
+                                                                //     .add(
+                                                                //   MainList(
+                                                                //     time:
+                                                                //         _time.hour,
+                                                                //   ),
+                                                                // );
+                                                                // print(val);
+                                                                // textController
+                                                                //     .clear();
+                                                              },
+                                                              cursorColor:
+                                                                  Colors.white,
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                hintText:
+                                                                    hinttext,
+                                                                hintStyle: TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                                border:
+                                                                    InputBorder
+                                                                        .none,
+                                                                prefixIcon:
+                                                                    Icon(
+                                                                  addicon,
+                                                                  color: Color(
+                                                                      0xFF686869),
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
