@@ -137,8 +137,8 @@ class _RadialAnimationState extends State<RadialAnimation> {
           progressController.updatepersentage(1 / timeText);
           setState(() {
             timeText = _start;
-            // print(_start);
-            print(progressController.persent);
+            print(_start);
+            // print(progressController.persent);
             _start--;
           });
         }
@@ -214,7 +214,7 @@ class _RadialAnimationState extends State<RadialAnimation> {
                           color: Colors.white,
                         ),
                         Text(
-                          '${timeText == 0 ? '00:00' : timeText}',
+                          '${((timeText / 60).truncate() % 60).toString().padLeft(2, '0') + ':' + (timeText % 60).toString().padLeft(2, '0')}',
                         ),
                       ],
                     ),
@@ -223,6 +223,8 @@ class _RadialAnimationState extends State<RadialAnimation> {
                   onPressed: () {
                     widget.onChangedTab(true);
                     _open();
+                    _timer.cancel();
+                    startTimer(0);
                   },
                   backgroundColor: Colors.red,
                 ),
@@ -254,7 +256,7 @@ class _RadialAnimationState extends State<RadialAnimation> {
           backgroundColor: color,
           onPressed: () {
             widget.onChangedTab(false);
-            startTimer(time);
+            startTimer(time * 60);
             _close();
           },
           elevation: 1,

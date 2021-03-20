@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:spomodoro/controller/timerAnimaionController.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 
 class RadialProgress extends StatefulWidget {
-  // double goalCompleted = pcontroller.persent;
   @override
   _RadialProgressState createState() => _RadialProgressState();
 }
 
 class _RadialProgressState extends State<RadialProgress>
     with SingleTickerProviderStateMixin {
-  final pcontroller = Get.put(ProgressController());
   AnimationController _radialProgressAnimationController;
   Animation<double> _progressAnimation;
   final Duration fadeInDuration = Duration(milliseconds: 500);
   final Duration fillDuration = Duration(seconds: 2);
-
   double progressDegrees = 0;
   var count = 0;
+  double goalCompleted = ProgressController().persent;
 
   @override
   void initState() {
@@ -29,7 +26,8 @@ class _RadialProgressState extends State<RadialProgress>
         parent: _radialProgressAnimationController, curve: Curves.easeIn))
       ..addListener(() {
         setState(() {
-          progressDegrees = pcontroller.persent * _progressAnimation.value;
+          progressDegrees = goalCompleted * _progressAnimation.value;
+          //print(goalCompleted);
         });
       });
 

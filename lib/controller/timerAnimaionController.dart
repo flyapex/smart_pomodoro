@@ -10,7 +10,7 @@ class TimerAnimationCotroller extends GetxController {
 }
 
 class ProgressController extends GetxController {
-  double persent = 1;
+  double persent = 2;
 
   void updatepersentage(val) {
     persent = val;
@@ -32,6 +32,7 @@ class Todo {
 // }
 
 class TODOController extends GetxController {
+  // ignore: deprecated_member_use
   var alltodoslist = List<Todo>().obs;
   // var mainList = List<mainList>().obs;
   // int index = -1;
