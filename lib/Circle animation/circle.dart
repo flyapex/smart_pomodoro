@@ -41,7 +41,6 @@ class _MainCircleState extends State<MainCircle> with SingleTickerProviderStateM
           onPanUpdate: (details) {
             Offset centerOfGestureDetector = Offset(constraints.maxWidth / 2, constraints.maxHeight / 2);
             final touchPositionFromCenter = details.localPosition - centerOfGestureDetector;
-            // print(touchPositionFromCenter.direction * 180 / pi);
             setState(
               () {
                 finalAngle = touchPositionFromCenter.direction;
@@ -54,7 +53,6 @@ class _MainCircleState extends State<MainCircle> with SingleTickerProviderStateM
               controller: controller,
               finalAngle: finalAngle,
               onChangedTab: widget.onChangedTab,
-              timerAnimationState: timerAnimationState,
             ),
           ),
         );
@@ -108,9 +106,6 @@ class RadialAnimation extends StatefulWidget {
 class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAliveClientMixin<RadialAnimation> {
   @override
   bool get wantKeepAlive => true;
-  final ProgressController progressController = Get.put(ProgressController());
-  // String get timerText =>
-  //     '${timerMaxMINUT < 0 ? ((timerMaxMINUT).toString().padLeft(2, '0')) : ((timerMaxMINUT - currentMINUTE) - 1).toString().padLeft(2, '0')}:${((timerMaxSec - currentSec) % 60).toString().padLeft(2, '0')}';
 
   Timer _timer;
   int timeText = 0;
@@ -127,11 +122,8 @@ class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAli
             timer.cancel();
           });
         } else {
-          progressController.updatepersentage(1 / timeText);
           setState(() {
             timeText = _start;
-            print(_start);
-            // print(progressController.persent);
             _start--;
           });
         }
@@ -149,6 +141,7 @@ class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAli
   // ignore: must_call_super
   Widget build(context) {
     bool timerAnimationState = false;
+    final ProgressController progressController = Get.put(ProgressController());
 
     return AnimatedBuilder(
       animation: widget.controller,
@@ -205,6 +198,7 @@ class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAli
                     widget.onChangedTab(true);
                     _open();
                     _timer.cancel();
+                    progressController.updatepersentage(timeText.toDouble());
                     startTimer(0);
                   },
                   backgroundColor: Colors.red,
@@ -236,6 +230,7 @@ class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAli
           onPressed: () {
             widget.onChangedTab(false);
             startTimer(time * 60);
+
             _close();
           },
           elevation: 1,

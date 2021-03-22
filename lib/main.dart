@@ -9,7 +9,7 @@ void main() {
     final initialSize = Size(800, 550);
     win.minSize = initialSize;
     win.size = initialSize;
-    win.alignment = Alignment.center;
+    win.alignment = Alignment.topCenter;
     win.title = "Smart Pmodoro Timer";
     win.show();
   });

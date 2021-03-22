@@ -25,11 +25,11 @@ dependencies:
     sdk: flutter
   bitsdojo_window: ^0.0.9
   vector_math: ^2.1.0
-  percent_indicator: ^2.1.9+1
   day_night_time_picker: ^1.0.1
   hovering: ^1.0.4
   # flutter_vector_icons: ^1.0.0
   # dots_indicator: ^2.0.0
+  flutter_swipe_action_cell: ^2.0.0
   responsive_util: ^0.3.0
   font_awesome_flutter: ^8.12.0
   get: ^3.26.0

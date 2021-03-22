@@ -10,7 +10,7 @@ class TimerAnimationCotroller extends GetxController {
 }
 
 class ProgressController extends GetxController {
-  double persent = 2;
+  double persent = 60;
 
   void updatepersentage(val) {
     persent = val;

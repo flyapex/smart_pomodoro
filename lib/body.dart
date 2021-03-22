@@ -42,7 +42,14 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     super.dispose();
   }
 
-//-----------------------------------------------------
+//!-----------------------------------------------------shared preference
+  TimeOfDay _time2 = TimeOfDay.now().replacing(minute: 0);
+  void onTimeChanged2(TimeOfDay newTime) {
+    setState(() {
+      _time2 = newTime;
+    });
+  }
+
   var ctime = 4;
   void updateTime(val) {
     setState(() {
@@ -51,8 +58,6 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
   }
 
 //?---------------------------------------------------
-
-//------------------------------------------
 
   Color textColor = Color(0xFF3f4256);
   // ignore: unused_field
@@ -83,7 +88,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
   }
 
   //?------------------------------------------ add button
-  Color boxColor = Color(0xFF1f1f20);
+  Color boxColor = Color(0xFF3b3e45);
   // ignore: unused_field
   int _enterCounter2 = 0;
   // ignore: unused_field
@@ -98,14 +103,14 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
 
   void _incrementExit2(PointerEvent details2) {
     setState(() {
-      boxColor = Color(0xFF1f1f20);
+      boxColor = Color(0xFF3b3e45);
       _exitCounter2++;
     });
   }
 
   void _updateLocation2(PointerEvent details2) {
     setState(() {
-      boxColor = Color(0xFF282829);
+      boxColor = Color(0xFF3b3e45);
       x2 = details2.position.dx;
       y2 = details2.position.dy;
     });
@@ -222,66 +227,122 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     }
   }
 
-  // ignore: unused_element
   Widget _textDisplay(BuildContext context, index) {
     if (activeindex == 0) {
-      return Text(todoController.sublist0[index].text);
+      return Text('- ' + todoController.sublist0[index].text);
     } else if (activeindex == 1) {
-      return Text(todoController.sublist1[index].text);
+      return Text('- ' + todoController.sublist1[index].text);
     } else if (activeindex == 2) {
-      return Text(todoController.sublist2[index].text);
+      return Text('- ' + todoController.sublist2[index].text);
     } else if (activeindex == 3) {
-      return Text(todoController.sublist3[index].text);
+      return Text('- ' + todoController.sublist3[index].text);
     } else if (activeindex == 4) {
       return Text('- ' + todoController.sublist4[index].text);
     } else if (activeindex == 5) {
-      return Text(todoController.sublist5[index].text);
+      return Text('- ' + todoController.sublist5[index].text);
     } else if (activeindex == 6) {
-      return Text(todoController.sublist6[index].text);
+      return Text('- ' + todoController.sublist6[index].text);
     } else if (activeindex == 7) {
-      return Text(todoController.sublist7[index].text);
+      return Text('- ' + todoController.sublist7[index].text);
     } else if (activeindex == 8) {
-      return Text(todoController.sublist8[index].text);
+      return Text('- ' + todoController.sublist8[index].text);
     } else if (activeindex == 9) {
-      return Text(todoController.sublist9[index].text);
+      return Text('- ' + todoController.sublist9[index].text);
     } else if (activeindex == 10) {
-      return Text(todoController.sublist10[index].text);
+      return Text('- ' + todoController.sublist10[index].text);
     } else if (activeindex == 11) {
-      return Text(todoController.sublist11[index].text);
+      return Text('- ' + todoController.sublist11[index].text);
     } else if (activeindex == 12) {
-      return Text(todoController.sublist12[index].text);
+      return Text('- ' + todoController.sublist12[index].text);
     } else if (activeindex == 13) {
-      return Text(todoController.sublist13[index].text);
+      return Text('- ' + todoController.sublist13[index].text);
     } else if (activeindex == 14) {
-      return Text(todoController.sublist14[index].text);
+      return Text('- ' + todoController.sublist14[index].text);
     } else if (activeindex == 15) {
-      return Text(todoController.sublist15[index].text);
+      return Text('- ' + todoController.sublist15[index].text);
     } else if (activeindex == 16) {
-      return Text(todoController.sublist16[index].text);
+      return Text('- ' + todoController.sublist16[index].text);
     } else if (activeindex == 17) {
-      return Text(todoController.sublist17[index].text);
+      return Text('- ' + todoController.sublist17[index].text);
     } else if (activeindex == 18) {
-      return Text(todoController.sublist18[index].text);
+      return Text('- ' + todoController.sublist18[index].text);
     } else if (activeindex == 19) {
-      return Text(todoController.sublist19[index].text);
+      return Text('- ' + todoController.sublist19[index].text);
     } else if (activeindex == 20) {
-      return Text(todoController.sublist20[index].text);
+      return Text('- ' + todoController.sublist20[index].text);
     } else if (activeindex == 21) {
-      return Text(todoController.sublist21[index].text);
+      return Text('- ' + todoController.sublist21[index].text);
     } else if (activeindex == 22) {
-      return Text(todoController.sublist22[index].text);
+      return Text('- ' + todoController.sublist22[index].text);
     } else if (activeindex == 23) {
-      return Text(todoController.sublist23[index].text);
+      return Text('- ' + todoController.sublist23[index].text);
     } else if (activeindex == 24) {
-      return Text(todoController.sublist24[index].text);
+      return Text('- ' + todoController.sublist24[index].text);
     } else if (activeindex == 25) {
-      return Text(todoController.sublist25[index].text);
+      return Text('- ' + todoController.sublist25[index].text);
     } else {
-      return Text('');
+      return Text('- ' + '');
     }
   }
 
-//?-------------------------------------------------------------------------------------------------------
+  // ignore: missing_return
+  Todo _slidTodeleted(BuildContext context, index) {
+    if (activeindex == 0) {
+      return todoController.sublist0.removeAt(index);
+    } else if (activeindex == 1) {
+      return todoController.sublist1.removeAt(index);
+    } else if (activeindex == 2) {
+      return todoController.sublist2.removeAt(index);
+    } else if (activeindex == 3) {
+      return todoController.sublist3.removeAt(index);
+    } else if (activeindex == 4) {
+      return todoController.sublist4.removeAt(index);
+    } else if (activeindex == 5) {
+      return todoController.sublist5.removeAt(index);
+    } else if (activeindex == 6) {
+      return todoController.sublist6.removeAt(index);
+    } else if (activeindex == 7) {
+      return todoController.sublist7.removeAt(index);
+    } else if (activeindex == 8) {
+      return todoController.sublist8.removeAt(index);
+    } else if (activeindex == 9) {
+      return todoController.sublist9.removeAt(index);
+    } else if (activeindex == 10) {
+      return todoController.sublist10.removeAt(index);
+    } else if (activeindex == 11) {
+      return todoController.sublist11.removeAt(index);
+    } else if (activeindex == 12) {
+      return todoController.sublist12.removeAt(index);
+    } else if (activeindex == 13) {
+      return todoController.sublist13.removeAt(index);
+    } else if (activeindex == 14) {
+      return todoController.sublist14.removeAt(index);
+    } else if (activeindex == 15) {
+      return todoController.sublist15.removeAt(index);
+    } else if (activeindex == 16) {
+      return todoController.sublist16.removeAt(index);
+    } else if (activeindex == 17) {
+      return todoController.sublist17.removeAt(index);
+    } else if (activeindex == 18) {
+      return todoController.sublist18.removeAt(index);
+    } else if (activeindex == 19) {
+      return todoController.sublist19.removeAt(index);
+    } else if (activeindex == 20) {
+      return todoController.sublist20.removeAt(index);
+    } else if (activeindex == 21) {
+      return todoController.sublist21.removeAt(index);
+    } else if (activeindex == 22) {
+      return todoController.sublist22.removeAt(index);
+    } else if (activeindex == 23) {
+      return todoController.sublist23.removeAt(index);
+    } else if (activeindex == 24) {
+      return todoController.sublist24.removeAt(index);
+    } else if (activeindex == 25) {
+      return todoController.sublist25.removeAt(index);
+    }
+  }
+
+//?------------------------------------------------------------------------------------------------------
   TimeOfDay _time = TimeOfDay.now().replacing(minute: 0);
   void onTimeChanged(TimeOfDay newTime) {
     setState(() {
@@ -290,11 +351,8 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
   }
 
   //?---------------------------RadialProgress
-  double onchangeValue = 1;
-  void onChangeValue(val) {
-    setState(() {
-      onchangeValue = val;
-    });
+  void isTaskComplete() {
+    setState(() {});
   }
 
   @override
@@ -318,9 +376,57 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                       Padding(
                         padding: EdgeInsets.only(left: 4, right: 4),
                         child: Icon(
-                          Icons.camera,
+                          Icons.explore_outlined,
                           color: Color(0xFF39a7f2),
                           size: 20,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                contentPadding: EdgeInsets.all(0.0),
+                                content: Container(
+                                  height: 390,
+                                  width: 500,
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      createInlinePicker(
+                                        borderRadius: 5.3,
+                                        dialogInsetPadding: EdgeInsets.all(0),
+                                        elevation: 1,
+                                        value: _time2,
+                                        onChange: onTimeChanged2,
+                                        minuteInterval: MinuteInterval.FIVE,
+                                        iosStylePicker: false,
+                                        minMinute: 0,
+                                        maxMinute: 59,
+                                        onChangeDateTime: (DateTime dateTime) {
+                                          updateTime(dateTime.hour);
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                          // Navigator.pop(context);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 4, right: 4),
+                          child: Icon(
+                            Icons.bookmark_outline_sharp,
+                            color: Color(0xFF39a7f2),
+                            size: 20,
+                          ),
                         ),
                       ),
                       Expanded(child: MoveWindow()),
@@ -342,7 +448,8 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                             height: 30,
                             width: 300,
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 56, 41, 51),
+                              // color: Color.fromARGB(255, 56, 41, 51)
+                              color: Color(0xFFf5f3f4),
                               borderRadius: BorderRadius.circular(25),
                             ),
                             child: TabBar(
@@ -351,10 +458,10 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                 borderRadius: BorderRadius.circular(
                                   25.0,
                                 ),
-                                color: Color.fromARGB(255, 31, 229, 146),
+                                color: Color(0xFFef233c),
                               ),
-                              labelColor: Colors.black,
-                              unselectedLabelColor: Colors.white,
+                              labelColor: Colors.white,
+                              unselectedLabelColor: Colors.black,
                               tabs: [
                                 Tab(
                                   text: 'Smart Timer',
@@ -368,7 +475,6 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                         ),
                         Container(
                           height: MediaQuery.of(context).size.height - 75,
-                          // color: Colors.white,
                           child: TabBarView(
                             controller: _tabController,
                             children: [
@@ -378,7 +484,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                   Stack(
                                     alignment: AlignmentDirectional.center,
                                     children: [
-                                      RadialProgress(),
+                                      RadialProgress(onTimerChnage: timerAnimationState),
                                       Timer(timerAnimationState: timerAnimationState),
                                       Container(
                                         width: 475,
@@ -398,11 +504,14 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.only(top: 17),
+                                    // color: Color(0xFF101014),
+                                    padding: EdgeInsets.only(top: 7),
                                     child: Row(
                                       children: [
                                         Container(
-                                          color: Color(0xFF12202f),
+                                          //! part 1 bg
+                                          color: Color(0xFF1c1427),
+                                          // color: Color(0xFF12202f),
                                           height: MediaQuery.of(context).size.height - 92,
                                           width: wid,
                                           child: RawScrollbar(
@@ -420,7 +529,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                         onHover: _updateLocation,
                                                         onExit: _incrementExit,
                                                         child: Container(
-                                                          height: 50,
+                                                          height: 45,
                                                           margin: EdgeInsets.only(bottom: 3, left: 2, right: 3),
                                                           decoration: BoxDecoration(
                                                             color: textColor,
@@ -493,102 +602,109 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                           ),
                                                         ),
                                                       )
-                                                    : Column(
-                                                        children: [
-                                                          //!  tap here-----------------------------------------------------------------
-                                                          InkWell(
-                                                            onTap: () {
-                                                              colorIndex(ctime + index - 1);
-                                                            },
-                                                            onHover: (val) {
-                                                              val ? activeIndex(ctime + index - 1) : activeIndex(colorindex);
-                                                            },
-                                                            child: HoverAnimatedContainer(
-                                                              height: 50,
+                                                    : ClipRRect(
+                                                        child: Column(
+                                                          children: [
+                                                            //!  1st row part
+                                                            InkWell(
+                                                              onTap: () {
+                                                                colorIndex(ctime + index - 1);
+                                                              },
+                                                              onHover: (val) {
+                                                                val ? activeIndex(ctime + index - 1) : activeIndex(colorindex);
+                                                              },
+                                                              child: HoverAnimatedContainer(
+                                                                height: 45,
+                                                                margin: EdgeInsets.only(
+                                                                  left: 2,
+                                                                  right: 3,
+                                                                ),
+                                                                hoverDecoration: BoxDecoration(
+                                                                  color: Color(0xFF3f4256),
+                                                                  borderRadius: BorderRadius.circular(5),
+                                                                ),
+                                                                child: Container(
+                                                                  decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.circular(5),
+                                                                    color: colorindex == ctime + index - 1 ? Colors.cyan : Colors.transparent,
+                                                                  ),
+                                                                  //  Color.fromARGB(255, 31, 229, 146)
+
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: EdgeInsets.only(left: 5),
+                                                                        child: Icon(
+                                                                          Icons.offline_bolt,
+                                                                          color: Colors.white,
+                                                                        ),
+                                                                      ),
+                                                                      DefaultTextStyle(
+                                                                        style: TextStyle(color: Colors.white, fontSize: 17),
+                                                                        child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                          children: [
+                                                                            ctime + index - 1 <= 12
+                                                                                ? Text(
+                                                                                    (ctime + index - 1).toString(),
+                                                                                    style: TextStyle(color: Colors.white),
+                                                                                  )
+                                                                                : Text(
+                                                                                    (ctime + index - 1 - 12).toString(),
+                                                                                    style: TextStyle(color: Colors.white),
+                                                                                  ),
+                                                                            Text(
+                                                                              ' - ',
+                                                                              style: TextStyle(color: Colors.white),
+                                                                            ),
+                                                                            ctime + index <= 12
+                                                                                ? Text(
+                                                                                    (ctime + index).toString() + ' AM',
+                                                                                    style: TextStyle(color: Colors.white),
+                                                                                  )
+                                                                                : ctime + index == 25
+                                                                                    ? Text(
+                                                                                        (ctime + index - 24).toString() + ' AM',
+                                                                                        style: TextStyle(color: Colors.white),
+                                                                                      )
+                                                                                    : Text(
+                                                                                        (ctime + index - 12).toString() + ' PM',
+                                                                                        style: TextStyle(color: Colors.white),
+                                                                                      ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: EdgeInsets.only(left: 10),
+                                                                        child: ctime + index - 1 == _time.hour
+                                                                            ? Icon(
+                                                                                Icons.flash_on,
+                                                                                color: Colors.yellow,
+                                                                              )
+                                                                            : Icon(
+                                                                                Icons.offline_bolt,
+                                                                                color: Colors.transparent,
+                                                                              ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              height: 3,
                                                               margin: EdgeInsets.only(
                                                                 left: 2,
                                                                 right: 3,
                                                               ),
-                                                              hoverDecoration: BoxDecoration(
-                                                                color: Color(0xFF3f4256),
+                                                              decoration: BoxDecoration(
+                                                                color: Colors.white,
                                                                 borderRadius: BorderRadius.circular(5),
                                                               ),
-                                                              child: Container(
-                                                                color: colorindex == ctime + index - 1 ? Color.fromARGB(255, 31, 229, 146).withOpacity(0.85) : Colors.transparent,
-                                                                child: Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                  children: [
-                                                                    Padding(
-                                                                      padding: EdgeInsets.only(left: 5),
-                                                                      child: Icon(
-                                                                        Icons.offline_bolt,
-                                                                        color: Colors.white,
-                                                                      ),
-                                                                    ),
-                                                                    DefaultTextStyle(
-                                                                      style: TextStyle(color: Colors.white, fontSize: 17),
-                                                                      child: Row(
-                                                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                        children: [
-                                                                          ctime + index - 1 <= 12
-                                                                              ? Text(
-                                                                                  (ctime + index - 1).toString(),
-                                                                                  style: TextStyle(color: Colors.white),
-                                                                                )
-                                                                              : Text(
-                                                                                  (ctime + index - 1 - 12).toString(),
-                                                                                  style: TextStyle(color: Colors.white),
-                                                                                ),
-                                                                          Text(
-                                                                            ' - ',
-                                                                            style: TextStyle(color: Colors.white),
-                                                                          ),
-                                                                          ctime + index <= 12
-                                                                              ? Text(
-                                                                                  (ctime + index).toString() + ' AM',
-                                                                                  style: TextStyle(color: Colors.white),
-                                                                                )
-                                                                              : ctime + index == 25
-                                                                                  ? Text(
-                                                                                      (ctime + index - 24).toString() + ' AM',
-                                                                                      style: TextStyle(color: Colors.white),
-                                                                                    )
-                                                                                  : Text(
-                                                                                      (ctime + index - 12).toString() + ' PM',
-                                                                                      style: TextStyle(color: Colors.white),
-                                                                                    ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Padding(
-                                                                      padding: EdgeInsets.only(left: 10),
-                                                                      child: ctime + index - 1 == _time.hour
-                                                                          ? Icon(
-                                                                              Icons.flash_on,
-                                                                              color: Colors.yellow,
-                                                                            )
-                                                                          : Icon(
-                                                                              Icons.offline_bolt,
-                                                                              color: Colors.transparent,
-                                                                            ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            height: 3,
-                                                            margin: EdgeInsets.only(
-                                                              left: 2,
-                                                              right: 3,
-                                                            ),
-                                                            decoration: BoxDecoration(
-                                                              color: Colors.white,
-                                                              borderRadius: BorderRadius.circular(5),
-                                                            ),
-                                                          )
-                                                        ],
+                                                            )
+                                                          ],
+                                                        ),
                                                       );
                                               },
                                             ),
@@ -599,71 +715,95 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                             height: MediaQuery.of(context).size.height - 92,
                                             width: wid2,
                                             decoration: BoxDecoration(
-                                              gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xFF00416A), Color(0xFFE4E5E6)], stops: [0.0, 1.0]),
+                                              //! backgroun color
+                                              color: Color(0xFF12202f),
+                                              // gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xFF00416A), Color(0xFFE4E5E6)], stops: [0.0, 1.0]),
                                             ),
                                             child: NotificationListener<ScrollNotification>(
                                                 child: Stack(
                                                   children: [
-                                                    ListView.separated(
+                                                    ListView.builder(
+                                                      physics: BouncingScrollPhysics(),
                                                       controller: _mycontroller1,
                                                       itemBuilder: (context, index2) => Column(
                                                         children: [
                                                           Container(
                                                             margin: EdgeInsets.only(
+                                                              top: index2 == 0 ? 4 : 0,
                                                               left: 10,
                                                               right: 10,
                                                             ),
-                                                            height: 45,
+                                                            height: 35,
                                                           ),
+                                                          Container(
+                                                            margin: EdgeInsets.only(
+                                                              // top: index2 == 0 ? 4 : 0,
+                                                              left: 10,
+                                                              right: 10,
+                                                            ),
+                                                            height: 2,
+                                                            color: Color(0xFF181923),
+                                                          )
                                                         ],
                                                       ),
                                                       itemCount: 100,
-                                                      separatorBuilder: (_, index2) => Divider(),
                                                     ),
                                                     RawScrollbar(
                                                       thumbColor: Colors.redAccent,
                                                       radius: Radius.circular(20),
                                                       thickness: 5,
-                                                      child: ListView.separated(
+                                                      child: ListView.builder(
+                                                        physics: BouncingScrollPhysics(),
                                                         controller: _mycontroller2,
-                                                        itemBuilder: (context, index3) => Column(
-                                                          children: [
-                                                            Container(
-                                                              margin: EdgeInsets.only(
-                                                                left: 10,
-                                                                right: 10,
-                                                              ),
-                                                              height: 45,
-                                                              decoration: BoxDecoration(
-                                                                color: Colors.white.withOpacity(0.1),
-                                                                borderRadius: BorderRadius.circular(3),
-                                                              ),
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                children: [
-                                                                  //!  display here-----------------------------------------------------------------
-                                                                  DefaultTextStyle(
-                                                                    style: TextStyle(color: Colors.white, fontSize: 20),
-                                                                    child: Container(
-                                                                      padding: EdgeInsets.only(left: 25),
-                                                                      child: _textDisplay(context, index3),
+                                                        itemBuilder: (context, index3) => Dismissible(
+                                                          key: Key(UniqueKey().toString()),
+                                                          onDismissed: (direction) async {
+                                                            setState(() {
+                                                              _slidTodeleted(context, index3);
+                                                            });
+                                                          },
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                margin: EdgeInsets.only(
+                                                                  top: index3 == 0 ? 4 : 0,
+                                                                  left: 10,
+                                                                  right: 10,
+                                                                ),
+                                                                height: 35,
+                                                                decoration: BoxDecoration(
+                                                                  //!color all
+                                                                  color: Color(0xFF3f4256),
+                                                                  borderRadius: BorderRadius.circular(3),
+                                                                ),
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    //!  display here-----------------------------------------------------------------
+                                                                    DefaultTextStyle(
+                                                                      style: TextStyle(color: Colors.white, fontSize: 20),
+                                                                      child: Container(
+                                                                        padding: EdgeInsets.only(left: 25),
+                                                                        child: _textDisplay(context, index3),
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                  Checkbox(
-                                                                    activeColor: Colors.grey,
-                                                                    value: true,
-                                                                    onChanged: (v) {
-                                                                      // var changed = todoController.sublist[index2];
-                                                                      // changed.done = v;
-                                                                      // todoController.sublist[index2] = changed;
-                                                                    },
-                                                                  ),
-                                                                ],
+                                                                    Checkbox(
+                                                                      activeColor: Colors.grey,
+                                                                      value: true,
+                                                                      onChanged: (v) {
+                                                                        // var changed = todoController.sublist[index2];
+                                                                        // changed.done = v;
+                                                                        // todoController.sublist[index2] = changed;
+                                                                      },
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
-                                                            ),
-                                                          ],
+                                                              Container(height: 2)
+                                                            ],
+                                                          ),
                                                         ),
-                                                        separatorBuilder: (_, index2) => Divider(),
+                                                        // separatorBuilder: (_, index2) => Divider(),
                                                         itemCount: itemCountt(),
                                                       ),
                                                     ),
@@ -675,17 +815,15 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                           onHover: _updateLocation2,
                                                           onExit: _incrementExit2,
                                                           child: Container(
-                                                            height: 50,
+                                                            height: 40,
                                                             margin: EdgeInsets.only(
                                                               bottom: 8,
-                                                              left: 2,
-                                                              right: 3,
+                                                              left: 10,
+                                                              right: 10,
                                                             ),
                                                             decoration: BoxDecoration(
                                                               color: boxColor,
-                                                              borderRadius: BorderRadius.circular(
-                                                                10,
-                                                              ),
+                                                              borderRadius: BorderRadius.circular(6),
                                                             ),
                                                             child: FocusScope(
                                                               child: Focus(
@@ -763,7 +901,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                     border: InputBorder.none,
                                                                     prefixIcon: Icon(
                                                                       addicon,
-                                                                      color: Color(0xFF686869),
+                                                                      color: Color(0xFFb9bbbe),
                                                                     ),
                                                                   ),
                                                                 ),

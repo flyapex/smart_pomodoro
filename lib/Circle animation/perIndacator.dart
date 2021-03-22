@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 
 class RadialProgress extends StatefulWidget {
+  final bool onTimerChnage;
+  const RadialProgress({Key key, this.onTimerChnage}) : super(key: key);
   @override
   _RadialProgressState createState() => _RadialProgressState();
 }
@@ -12,7 +16,7 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
   final Duration fadeInDuration = Duration(milliseconds: 500);
   final Duration fillDuration = Duration(seconds: 2);
   double progressDegrees = 0;
-  var count = 0;
+  // var count = 0;
   // double totals = ProgressController().persent;
   double totals = 60;
   double goalCompleted;
@@ -27,8 +31,14 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
           progressDegrees = (totals * _progressAnimation.value) / totals;
         });
       });
-
+    _update();
     _radialProgressAnimationController.forward();
+  }
+
+  void _update() {
+    setState(() {
+      Timer(Duration(seconds: 1), () {});
+    });
   }
 
   @override
