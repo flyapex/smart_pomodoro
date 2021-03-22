@@ -12,15 +12,14 @@ class MainCircle extends StatefulWidget {
   final bool timerAnimationState;
   final ValueChanged<bool> onChangedTab;
 
-  const MainCircle({Key key, this.timerAnimationState, this.onChangedTab})
-      : super(key: key);
+  const MainCircle({Key key, this.timerAnimationState, this.onChangedTab}) : super(key: key);
 
   @override
   _MainCircleState createState() => _MainCircleState(this.timerAnimationState);
 }
 
-class _MainCircleState extends State<MainCircle>
-    with SingleTickerProviderStateMixin {
+class _MainCircleState extends State<MainCircle> with SingleTickerProviderStateMixin {
+  @override
   _MainCircleState(this.timerAnimationState);
   final timerAnimationState;
   AnimationController controller;
@@ -29,8 +28,7 @@ class _MainCircleState extends State<MainCircle>
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(duration: Duration(milliseconds: 300), vsync: this);
+    controller = AnimationController(duration: Duration(milliseconds: 300), vsync: this);
     controller.forward();
   }
 
@@ -41,10 +39,8 @@ class _MainCircleState extends State<MainCircle>
         return GestureDetector(
           behavior: HitTestBehavior.translucent,
           onPanUpdate: (details) {
-            Offset centerOfGestureDetector =
-                Offset(constraints.maxWidth / 2, constraints.maxHeight / 2);
-            final touchPositionFromCenter =
-                details.localPosition - centerOfGestureDetector;
+            Offset centerOfGestureDetector = Offset(constraints.maxWidth / 2, constraints.maxHeight / 2);
+            final touchPositionFromCenter = details.localPosition - centerOfGestureDetector;
             // print(touchPositionFromCenter.direction * 180 / pi);
             setState(
               () {
@@ -76,12 +72,7 @@ class RadialAnimation extends StatefulWidget {
   final Animation<double> translation;
   final Animation<double> rotation;
   final double finalAngle;
-  RadialAnimation(
-      {Key key,
-      this.controller,
-      this.finalAngle,
-      this.onChangedTab,
-      this.timerAnimationState})
+  RadialAnimation({Key key, this.controller, this.finalAngle, this.onChangedTab, this.timerAnimationState})
       : scale = Tween<double>(
           begin: 2,
           end: 0.0,
@@ -114,7 +105,9 @@ class RadialAnimation extends StatefulWidget {
   _RadialAnimationState createState() => _RadialAnimationState();
 }
 
-class _RadialAnimationState extends State<RadialAnimation> {
+class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAliveClientMixin<RadialAnimation> {
+  @override
+  bool get wantKeepAlive => true;
   final ProgressController progressController = Get.put(ProgressController());
   // String get timerText =>
   //     '${timerMaxMINUT < 0 ? ((timerMaxMINUT).toString().padLeft(2, '0')) : ((timerMaxMINUT - currentMINUTE) - 1).toString().padLeft(2, '0')}:${((timerMaxSec - currentSec) % 60).toString().padLeft(2, '0')}';
@@ -153,6 +146,7 @@ class _RadialAnimationState extends State<RadialAnimation> {
   }
 
   @override
+  // ignore: must_call_super
   Widget build(context) {
     bool timerAnimationState = false;
 
@@ -165,32 +159,19 @@ class _RadialAnimationState extends State<RadialAnimation> {
             alignment: Alignment.center,
             children: [
               _autoAnimation(timerAnimationState),
-              _buildButton(25, widget.finalAngle, 0,
-                  color: Colors.black, icon: FontAwesomeIcons.thumbtack),
-              _buildButton(30, widget.finalAngle, 30,
-                  color: Colors.green, icon: FontAwesomeIcons.sprayCan),
-              _buildButton(35, widget.finalAngle, 60,
-                  color: Colors.orange, icon: FontAwesomeIcons.fire),
-              _buildButton(40, widget.finalAngle, 90,
-                  color: Colors.blue, icon: FontAwesomeIcons.kiwiBird),
-              _buildButton(45, widget.finalAngle, 120,
-                  color: Colors.black, icon: FontAwesomeIcons.cat),
-              _buildButton(50, widget.finalAngle, 150,
-                  color: Colors.indigo, icon: FontAwesomeIcons.paw),
-              _buildButton(55, widget.finalAngle, 180,
-                  color: Colors.pink, icon: FontAwesomeIcons.bong),
-              _buildButton(60, widget.finalAngle, 210,
-                  color: Colors.yellow, icon: FontAwesomeIcons.bolt),
-              _buildButton(1, widget.finalAngle, 240,
-                  color: Colors.red, icon: FontAwesomeIcons.thumbtack),
-              _buildButton(10, widget.finalAngle, 270,
-                  color: Colors.green, icon: FontAwesomeIcons.sprayCan),
-              _buildButton(15, widget.finalAngle, 300,
-                  color: Colors.orange, icon: FontAwesomeIcons.fire),
-              _buildButton(20, widget.finalAngle, 330,
-                  color: Colors.blue, icon: FontAwesomeIcons.kiwiBird),
-              _buildButton(25, widget.finalAngle, 360,
-                  color: Colors.pink, icon: FontAwesomeIcons.bong),
+              _buildButton(25, widget.finalAngle, 0, color: Colors.black, icon: FontAwesomeIcons.thumbtack),
+              _buildButton(30, widget.finalAngle, 30, color: Colors.green, icon: FontAwesomeIcons.sprayCan),
+              _buildButton(35, widget.finalAngle, 60, color: Colors.orange, icon: FontAwesomeIcons.fire),
+              _buildButton(40, widget.finalAngle, 90, color: Colors.blue, icon: FontAwesomeIcons.kiwiBird),
+              _buildButton(45, widget.finalAngle, 120, color: Colors.black, icon: FontAwesomeIcons.cat),
+              _buildButton(50, widget.finalAngle, 150, color: Colors.indigo, icon: FontAwesomeIcons.paw),
+              _buildButton(55, widget.finalAngle, 180, color: Colors.pink, icon: FontAwesomeIcons.bong),
+              _buildButton(60, widget.finalAngle, 210, color: Colors.yellow, icon: FontAwesomeIcons.bolt),
+              _buildButton(1, widget.finalAngle, 240, color: Colors.red, icon: FontAwesomeIcons.thumbtack),
+              _buildButton(10, widget.finalAngle, 270, color: Colors.green, icon: FontAwesomeIcons.sprayCan),
+              _buildButton(15, widget.finalAngle, 300, color: Colors.orange, icon: FontAwesomeIcons.fire),
+              _buildButton(20, widget.finalAngle, 330, color: Colors.blue, icon: FontAwesomeIcons.kiwiBird),
+              _buildButton(25, widget.finalAngle, 360, color: Colors.pink, icon: FontAwesomeIcons.bong),
               Transform.scale(
                 scale: widget.scale.value - 0.9,
                 child: FloatingActionButton(
@@ -243,9 +224,7 @@ class _RadialAnimationState extends State<RadialAnimation> {
   _buildButton(time, finalAngle, double angle, {Color color, IconData icon}) {
     final double rad = radians(angle);
     return Transform(
-      transform: Matrix4.identity()
-        ..translate((widget.translation.value) * cos(rad),
-            (widget.translation.value) * sin(rad)),
+      transform: Matrix4.identity()..translate((widget.translation.value) * cos(rad), (widget.translation.value) * sin(rad)),
       child: Container(
         height: 38,
         child: FloatingActionButton(

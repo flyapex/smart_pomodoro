@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spomodoro/controller/timerAnimaionController.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 
 class RadialProgress extends StatefulWidget {
@@ -7,27 +6,25 @@ class RadialProgress extends StatefulWidget {
   _RadialProgressState createState() => _RadialProgressState();
 }
 
-class _RadialProgressState extends State<RadialProgress>
-    with SingleTickerProviderStateMixin {
+class _RadialProgressState extends State<RadialProgress> with SingleTickerProviderStateMixin {
   AnimationController _radialProgressAnimationController;
   Animation<double> _progressAnimation;
   final Duration fadeInDuration = Duration(milliseconds: 500);
   final Duration fillDuration = Duration(seconds: 2);
   double progressDegrees = 0;
   var count = 0;
-  double goalCompleted = ProgressController().persent;
+  // double totals = ProgressController().persent;
+  double totals = 60;
+  double goalCompleted;
 
   @override
   void initState() {
     super.initState();
-    _radialProgressAnimationController =
-        AnimationController(vsync: this, duration: fillDuration);
-    _progressAnimation = Tween(begin: 0.0, end: 360.0).animate(CurvedAnimation(
-        parent: _radialProgressAnimationController, curve: Curves.easeIn))
+    _radialProgressAnimationController = AnimationController(vsync: this, duration: fillDuration);
+    _progressAnimation = Tween(begin: 0.0, end: 360.0).animate(CurvedAnimation(parent: _radialProgressAnimationController, curve: Curves.easeIn))
       ..addListener(() {
         setState(() {
-          progressDegrees = goalCompleted * _progressAnimation.value;
-          //print(goalCompleted);
+          progressDegrees = (totals * _progressAnimation.value) / totals;
         });
       });
 
@@ -74,19 +71,12 @@ class RadialPainter extends CustomPainter {
     canvas.drawCircle(center, size.width / 2, paint);
 
     Paint progressPaint = Paint()
-      ..shader = LinearGradient(
-              colors: [Colors.red, Colors.purple, Colors.purpleAccent])
-          .createShader(Rect.fromCircle(center: center, radius: size.width / 2))
+      ..shader = LinearGradient(colors: [Colors.red, Colors.purple, Colors.purpleAccent]).createShader(Rect.fromCircle(center: center, radius: size.width / 2))
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 8.0;
 
-    canvas.drawArc(
-        Rect.fromCircle(center: center, radius: size.width / 2),
-        math.radians(-90),
-        math.radians(progressInDegrees),
-        false,
-        progressPaint);
+    canvas.drawArc(Rect.fromCircle(center: center, radius: size.width / 2), math.radians(-90), math.radians(progressInDegrees), false, progressPaint);
   }
 
   @override

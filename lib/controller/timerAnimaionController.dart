@@ -24,19 +24,57 @@ class Todo {
   Todo({this.text, this.done = false});
 }
 
-// class MainList {
-//   List<Todo> alltodos;
-//   bool done;
-//   int time;
-//   MainList({this.alltodos, this.time, this.done = false});
-// }
-
 class TODOController extends GetxController {
   // ignore: deprecated_member_use
-  var alltodoslist = List<Todo>().obs;
-  // var mainList = List<mainList>().obs;
-  // int index = -1;
-  // void updatepersentage(val) {
-  //   // numbers[index += 1] = val;
-  // }
+  var sublist0 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist1 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist2 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist3 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist4 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist5 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist6 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist7 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist8 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist9 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist10 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist11 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist12 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist13 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist14 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist15 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist16 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist17 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist18 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist19 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist20 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist21 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist22 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist23 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist24 = List<Todo>().obs;
+  // ignore: deprecated_member_use
+  var sublist25 = List<Todo>().obs;
 }
