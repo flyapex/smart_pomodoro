@@ -29,7 +29,9 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
 
   ScrollController _mycontroller1 = new ScrollController();
   ScrollController _mycontroller2 = new ScrollController();
-
+  ScrollController _controller = ScrollController();
+  var focusNode = FocusNode();
+  var textController = TextEditingController();
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this, initialIndex: index);
@@ -88,7 +90,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
   }
 
   //?------------------------------------------ add button
-  Color boxColor = Color(0xFF3b3e45);
+  Color boxColor = Colors.white.withOpacity(0.2);
   // ignore: unused_field
   int _enterCounter2 = 0;
   // ignore: unused_field
@@ -101,18 +103,24 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     });
   }
 
-  void _incrementExit2(PointerEvent details2) {
+  void _updateLocation2(PointerEvent details2) {
     setState(() {
-      boxColor = Color(0xFF3b3e45);
-      _exitCounter2++;
+      // boxColor = Colors.green;
+      boxColor = Colors.blue[50].withOpacity(0.3);
+      hintTextChange(true);
+      FocusScope.of(context).requestFocus(focusNode);
+      x2 = details2.position.dx;
+      y2 = details2.position.dy;
     });
   }
 
-  void _updateLocation2(PointerEvent details2) {
+  void _incrementExit2(PointerEvent details2) {
     setState(() {
-      boxColor = Color(0xFF3b3e45);
-      x2 = details2.position.dx;
-      y2 = details2.position.dy;
+      boxColor = Colors.white.withOpacity(0.2);
+      FocusScope.of(context).requestFocus(new FocusNode());
+      hintTextChange(false);
+      // boxColor = Color(0xFF3b3e45);
+      _exitCounter2++;
     });
   }
 
@@ -135,7 +143,6 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     });
   }
 
-  var textController = TextEditingController();
   var todoController = Get.put(TODOController());
 
   //?-------------index of row1
@@ -360,8 +367,6 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     double wid = MediaQuery.of(context).size.width / 3.5;
     double wid2 = wid;
 
-    ScrollController _controller = ScrollController();
-    var focusNode = FocusNode();
     return Expanded(
       child: Container(
         color: Color(0xFF1a1b26),
@@ -380,6 +385,10 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                           color: Color(0xFF39a7f2),
                           size: 20,
                         ),
+                      ),
+                      Text(
+                        "Smart Timer",
+                        style: TextStyle(fontFamily: "Pixel", color: Colors.white),
                       ),
                       InkWell(
                         onTap: () {
@@ -787,15 +796,15 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                         child: _textDisplay(context, index3),
                                                                       ),
                                                                     ),
-                                                                    Checkbox(
-                                                                      activeColor: Colors.grey,
-                                                                      value: true,
-                                                                      onChanged: (v) {
-                                                                        // var changed = todoController.sublist[index2];
-                                                                        // changed.done = v;
-                                                                        // todoController.sublist[index2] = changed;
-                                                                      },
-                                                                    ),
+                                                                    // Checkbox(
+                                                                    //   activeColor: Colors.grey,
+                                                                    //   value: true,
+                                                                    //   onChanged: (v) {
+                                                                    //     // var changed = todoController.sublist[index2];
+                                                                    //     // changed.done = v;
+                                                                    //     // todoController.sublist[index2] = changed;
+                                                                    //   },
+                                                                    // ),
                                                                   ],
                                                                 ),
                                                               ),
@@ -825,85 +834,80 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                               color: boxColor,
                                                               borderRadius: BorderRadius.circular(6),
                                                             ),
-                                                            child: FocusScope(
-                                                              child: Focus(
-                                                                onFocusChange: (focus) => {
-                                                                  hintTextChange(focus),
-                                                                  addIcon(),
-                                                                },
-                                                                child: TextField(
-                                                                  //!  inputHere-----------------------------------------------------------------
-                                                                  focusNode: focusNode,
-                                                                  controller: textController,
-                                                                  onSubmitted: (val) {
-                                                                    print(activeindex);
-                                                                    if (colorindex == 0) {
-                                                                      todoController.sublist0.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 1) {
-                                                                      todoController.sublist1.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 2) {
-                                                                      todoController.sublist2.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 3) {
-                                                                      todoController.sublist3.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 4) {
-                                                                      todoController.sublist4.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 5) {
-                                                                      todoController.sublist5.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 6) {
-                                                                      todoController.sublist6.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 7) {
-                                                                      todoController.sublist7.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 8) {
-                                                                      todoController.sublist8.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 9) {
-                                                                      todoController.sublist9.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 10) {
-                                                                      todoController.sublist10.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 11) {
-                                                                      todoController.sublist11.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 12) {
-                                                                      todoController.sublist12.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 13) {
-                                                                      todoController.sublist13.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 14) {
-                                                                      todoController.sublist14.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 15) {
-                                                                      todoController.sublist15.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 16) {
-                                                                      todoController.sublist16.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 17) {
-                                                                      todoController.sublist17.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 18) {
-                                                                      todoController.sublist18.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 19) {
-                                                                      todoController.sublist19.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 20) {
-                                                                      todoController.sublist20.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 21) {
-                                                                      todoController.sublist21.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 22) {
-                                                                      todoController.sublist22.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 23) {
-                                                                      todoController.sublist23.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 24) {
-                                                                      todoController.sublist24.add(Todo(text: textController.text));
-                                                                    } else if (colorindex == 25) {
-                                                                      todoController.sublist25.add(Todo(text: textController.text));
-                                                                    }
-                                                                    textController.clear();
-                                                                    FocusScope.of(context).requestFocus(focusNode);
-                                                                  },
-                                                                  cursorColor: Colors.white,
-                                                                  style: TextStyle(color: Colors.white),
-                                                                  decoration: InputDecoration(
-                                                                    hintText: hinttext,
-                                                                    hintStyle: TextStyle(color: Colors.white),
-                                                                    border: InputBorder.none,
-                                                                    prefixIcon: Icon(
-                                                                      addicon,
-                                                                      color: Color(0xFFb9bbbe),
-                                                                    ),
-                                                                  ),
+                                                            child: TextField(
+                                                              //!  inputHere-----------------------------------------------------------------
+                                                              focusNode: focusNode,
+                                                              controller: textController,
+                                                              onSubmitted: (val) {
+                                                                addIcon();
+                                                                if (colorindex == 0) {
+                                                                  todoController.sublist0.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 1) {
+                                                                  todoController.sublist1.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 2) {
+                                                                  todoController.sublist2.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 3) {
+                                                                  todoController.sublist3.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 4) {
+                                                                  todoController.sublist4.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 5) {
+                                                                  todoController.sublist5.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 6) {
+                                                                  todoController.sublist6.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 7) {
+                                                                  todoController.sublist7.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 8) {
+                                                                  todoController.sublist8.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 9) {
+                                                                  todoController.sublist9.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 10) {
+                                                                  todoController.sublist10.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 11) {
+                                                                  todoController.sublist11.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 12) {
+                                                                  todoController.sublist12.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 13) {
+                                                                  todoController.sublist13.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 14) {
+                                                                  todoController.sublist14.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 15) {
+                                                                  todoController.sublist15.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 16) {
+                                                                  todoController.sublist16.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 17) {
+                                                                  todoController.sublist17.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 18) {
+                                                                  todoController.sublist18.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 19) {
+                                                                  todoController.sublist19.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 20) {
+                                                                  todoController.sublist20.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 21) {
+                                                                  todoController.sublist21.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 22) {
+                                                                  todoController.sublist22.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 23) {
+                                                                  todoController.sublist23.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 24) {
+                                                                  todoController.sublist24.add(Todo(text: textController.text));
+                                                                } else if (colorindex == 25) {
+                                                                  todoController.sublist25.add(Todo(text: textController.text));
+                                                                }
+                                                                setState(() {
+                                                                  textController.clear();
+                                                                  FocusScope.of(context).requestFocus(focusNode);
+                                                                });
+                                                              },
+                                                              cursorColor: Colors.white,
+                                                              style: TextStyle(color: Colors.white),
+                                                              keyboardType: TextInputType.text,
+                                                              decoration: InputDecoration(
+                                                                hintText: hinttext,
+                                                                hintStyle: TextStyle(color: Colors.white),
+                                                                border: InputBorder.none,
+                                                                prefixIcon: Icon(
+                                                                  addicon,
+                                                                  color: Color(0xFFb9bbbe),
                                                                 ),
                                                               ),
                                                             ),
