@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:spomodoro/body.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  runApp(
+    MyApp(),
+  );
   doWhenWindowReady(() {
     final win = appWindow;
     final initialSize = Size(800, 550);

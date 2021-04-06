@@ -1,14 +1,14 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:day_night_time_picker/lib/constants.dart';
 import 'package:day_night_time_picker/lib/daynight_timepicker.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:hovering/hovering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spomodoro/bar.dart';
 import 'Circle animation/circle.dart';
 import 'Circle animation/perIndacator.dart';
 import 'Circle animation/timer.dart';
-import 'controller/timerAnimaionController.dart';
 
 class MainBody extends StatefulWidget {
   @override
@@ -29,9 +29,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
 
   ScrollController _mycontroller1 = new ScrollController();
   ScrollController _mycontroller2 = new ScrollController();
-  ScrollController _controller = ScrollController();
-  var focusNode = FocusNode();
-  var textController = TextEditingController();
+
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this, initialIndex: index);
@@ -90,7 +88,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
   }
 
   //?------------------------------------------ add button
-  Color boxColor = Colors.white.withOpacity(0.2);
+  Color boxColor = Color(0xFF494d5c);
   // ignore: unused_field
   int _enterCounter2 = 0;
   // ignore: unused_field
@@ -103,24 +101,18 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     });
   }
 
-  void _updateLocation2(PointerEvent details2) {
+  void _incrementExit2(PointerEvent details2) {
     setState(() {
-      // boxColor = Colors.green;
-      boxColor = Colors.blue[50].withOpacity(0.3);
-      hintTextChange(true);
-      FocusScope.of(context).requestFocus(focusNode);
-      x2 = details2.position.dx;
-      y2 = details2.position.dy;
+      boxColor = Color(0xFF343742);
+      _exitCounter2++;
     });
   }
 
-  void _incrementExit2(PointerEvent details2) {
+  void _updateLocation2(PointerEvent details2) {
     setState(() {
-      boxColor = Colors.white.withOpacity(0.2);
-      FocusScope.of(context).requestFocus(new FocusNode());
-      hintTextChange(false);
-      // boxColor = Color(0xFF3b3e45);
-      _exitCounter2++;
+      boxColor = Color(0xFF494d5c);
+      x2 = details2.position.dx;
+      y2 = details2.position.dy;
     });
   }
 
@@ -143,7 +135,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     });
   }
 
-  var todoController = Get.put(TODOController());
+  var textController = TextEditingController();
 
   //?-------------index of row1
   int totalindex = 0;
@@ -176,177 +168,53 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
 
 //?-------------------------------------------------------------------------------------------------------
 
-  int itemCountt() {
-    if (activeindex == 0) {
-      return todoController.sublist0.length;
-    } else if (activeindex == 1) {
-      return todoController.sublist1.length;
-    } else if (activeindex == 2) {
-      return todoController.sublist2.length;
-    } else if (activeindex == 3) {
-      return todoController.sublist3.length;
-    } else if (activeindex == 4) {
-      return todoController.sublist4.length;
-    } else if (activeindex == 5) {
-      return todoController.sublist5.length;
-    } else if (activeindex == 6) {
-      return todoController.sublist6.length;
-    } else if (activeindex == 7) {
-      return todoController.sublist7.length;
-    } else if (activeindex == 8) {
-      return todoController.sublist8.length;
-    } else if (activeindex == 9) {
-      return todoController.sublist9.length;
-    } else if (activeindex == 10) {
-      return todoController.sublist10.length;
-    } else if (activeindex == 11) {
-      return todoController.sublist11.length;
-    } else if (activeindex == 12) {
-      return todoController.sublist12.length;
-    } else if (activeindex == 13) {
-      return todoController.sublist13.length;
-    } else if (activeindex == 14) {
-      return todoController.sublist14.length;
-    } else if (activeindex == 15) {
-      return todoController.sublist15.length;
-    } else if (activeindex == 16) {
-      return todoController.sublist16.length;
-    } else if (activeindex == 17) {
-      return todoController.sublist17.length;
-    } else if (activeindex == 18) {
-      return todoController.sublist18.length;
-    } else if (activeindex == 19) {
-      return todoController.sublist19.length;
-    } else if (activeindex == 20) {
-      return todoController.sublist20.length;
-    } else if (activeindex == 21) {
-      return todoController.sublist21.length;
-    } else if (activeindex == 22) {
-      return todoController.sublist22.length;
-    } else if (activeindex == 23) {
-      return todoController.sublist23.length;
-    } else if (activeindex == 24) {
-      return todoController.sublist24.length;
-    } else if (activeindex == 25) {
-      return todoController.sublist25.length;
-    } else {
-      return 0;
-    }
+  // ignore: deprecated_member_use
+  var list4 = List<String>();
+  // ignore: deprecated_member_use
+  var list5 = List<String>();
+  // ignore: deprecated_member_use
+  var list6 = List<String>();
+  // ignore: deprecated_member_use
+  var list7 = List<String>();
+  itemCountt() {
+    // if (activeindex == 4) {
+    //   var temp = addGetSharedPref("4");
+    //   return temp.toString().length;
+    // } else if (activeindex == 5) {
+    //   var temp = addGetSharedPref("5");
+    //   return temp.toString().length;
+    // } else if (activeindex == 6) {
+    //   var temp = addGetSharedPref("6");
+    //   return temp.toString().length;
+    // } else if (activeindex == 7) {
+    //   var temp = addGetSharedPref("7");
+    //   return temp.toString().length;
+    // }
   }
 
-  Widget _textDisplay(BuildContext context, index) {
-    if (activeindex == 0) {
-      return Text('- ' + todoController.sublist0[index].text);
-    } else if (activeindex == 1) {
-      return Text('- ' + todoController.sublist1[index].text);
-    } else if (activeindex == 2) {
-      return Text('- ' + todoController.sublist2[index].text);
-    } else if (activeindex == 3) {
-      return Text('- ' + todoController.sublist3[index].text);
-    } else if (activeindex == 4) {
-      return Text('- ' + todoController.sublist4[index].text);
-    } else if (activeindex == 5) {
-      return Text('- ' + todoController.sublist5[index].text);
-    } else if (activeindex == 6) {
-      return Text('- ' + todoController.sublist6[index].text);
-    } else if (activeindex == 7) {
-      return Text('- ' + todoController.sublist7[index].text);
-    } else if (activeindex == 8) {
-      return Text('- ' + todoController.sublist8[index].text);
-    } else if (activeindex == 9) {
-      return Text('- ' + todoController.sublist9[index].text);
-    } else if (activeindex == 10) {
-      return Text('- ' + todoController.sublist10[index].text);
-    } else if (activeindex == 11) {
-      return Text('- ' + todoController.sublist11[index].text);
-    } else if (activeindex == 12) {
-      return Text('- ' + todoController.sublist12[index].text);
-    } else if (activeindex == 13) {
-      return Text('- ' + todoController.sublist13[index].text);
-    } else if (activeindex == 14) {
-      return Text('- ' + todoController.sublist14[index].text);
-    } else if (activeindex == 15) {
-      return Text('- ' + todoController.sublist15[index].text);
-    } else if (activeindex == 16) {
-      return Text('- ' + todoController.sublist16[index].text);
-    } else if (activeindex == 17) {
-      return Text('- ' + todoController.sublist17[index].text);
-    } else if (activeindex == 18) {
-      return Text('- ' + todoController.sublist18[index].text);
-    } else if (activeindex == 19) {
-      return Text('- ' + todoController.sublist19[index].text);
-    } else if (activeindex == 20) {
-      return Text('- ' + todoController.sublist20[index].text);
-    } else if (activeindex == 21) {
-      return Text('- ' + todoController.sublist21[index].text);
-    } else if (activeindex == 22) {
-      return Text('- ' + todoController.sublist22[index].text);
-    } else if (activeindex == 23) {
-      return Text('- ' + todoController.sublist23[index].text);
-    } else if (activeindex == 24) {
-      return Text('- ' + todoController.sublist24[index].text);
-    } else if (activeindex == 25) {
-      return Text('- ' + todoController.sublist25[index].text);
-    } else {
-      return Text('- ' + '');
-    }
+  _textDisplay(BuildContext context, index) {
+    // if (activeindex == 4) {
+    //   return Text('- ' + todoController.sublist4[index].text);
+    // } else if (activeindex == 5) {
+    //   return Text('- ' + todoController.sublist5[index].text);
+    // } else if (activeindex == 6) {
+    //   return Text('- ' + todoController.sublist6[index].text);
+    // } else if (activeindex == 7) {
+    //   return Text('- ' + todoController.sublist7[index].text);
+    // }
   }
 
   // ignore: missing_return
-  Todo _slidTodeleted(BuildContext context, index) {
-    if (activeindex == 0) {
-      return todoController.sublist0.removeAt(index);
-    } else if (activeindex == 1) {
-      return todoController.sublist1.removeAt(index);
-    } else if (activeindex == 2) {
-      return todoController.sublist2.removeAt(index);
-    } else if (activeindex == 3) {
-      return todoController.sublist3.removeAt(index);
-    } else if (activeindex == 4) {
-      return todoController.sublist4.removeAt(index);
-    } else if (activeindex == 5) {
-      return todoController.sublist5.removeAt(index);
-    } else if (activeindex == 6) {
-      return todoController.sublist6.removeAt(index);
-    } else if (activeindex == 7) {
-      return todoController.sublist7.removeAt(index);
-    } else if (activeindex == 8) {
-      return todoController.sublist8.removeAt(index);
-    } else if (activeindex == 9) {
-      return todoController.sublist9.removeAt(index);
-    } else if (activeindex == 10) {
-      return todoController.sublist10.removeAt(index);
-    } else if (activeindex == 11) {
-      return todoController.sublist11.removeAt(index);
-    } else if (activeindex == 12) {
-      return todoController.sublist12.removeAt(index);
-    } else if (activeindex == 13) {
-      return todoController.sublist13.removeAt(index);
-    } else if (activeindex == 14) {
-      return todoController.sublist14.removeAt(index);
-    } else if (activeindex == 15) {
-      return todoController.sublist15.removeAt(index);
-    } else if (activeindex == 16) {
-      return todoController.sublist16.removeAt(index);
-    } else if (activeindex == 17) {
-      return todoController.sublist17.removeAt(index);
-    } else if (activeindex == 18) {
-      return todoController.sublist18.removeAt(index);
-    } else if (activeindex == 19) {
-      return todoController.sublist19.removeAt(index);
-    } else if (activeindex == 20) {
-      return todoController.sublist20.removeAt(index);
-    } else if (activeindex == 21) {
-      return todoController.sublist21.removeAt(index);
-    } else if (activeindex == 22) {
-      return todoController.sublist22.removeAt(index);
-    } else if (activeindex == 23) {
-      return todoController.sublist23.removeAt(index);
-    } else if (activeindex == 24) {
-      return todoController.sublist24.removeAt(index);
-    } else if (activeindex == 25) {
-      return todoController.sublist25.removeAt(index);
-    }
+  _slidTodeleted(BuildContext context, index) {
+    // if (activeindex == 4) {
+    //   return todoController.sublist4.removeAt(index);
+    // } else if (activeindex == 5) {
+    //   return todoController.sublist5.removeAt(index);
+    // } else if (activeindex == 6) {
+    //   return todoController.sublist6.removeAt(index);
+    // } else if (activeindex == 7) {
+    //   return todoController.sublist7.removeAt(index);
+    // }
   }
 
 //?------------------------------------------------------------------------------------------------------
@@ -362,11 +230,28 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     setState(() {});
   }
 
+  Future<List<String>> addGetSharedPref(String key) async {
+    SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    return myPrefs.getStringList(key);
+  }
+
+  addToSharedPref(String key, List<String> value) async {
+    SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    myPrefs.setStringList(key, value);
+  }
+
+  setBooleanValue(String key, bool value) async {
+    SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    myPrefs.setBool(key, value);
+  }
+
   @override
   Widget build(BuildContext context) {
     double wid = MediaQuery.of(context).size.width / 3.5;
     double wid2 = wid;
 
+    ScrollController _controller = ScrollController();
+    var focusNode = FocusNode();
     return Expanded(
       child: Container(
         color: Color(0xFF1a1b26),
@@ -385,10 +270,6 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                           color: Color(0xFF39a7f2),
                           size: 20,
                         ),
-                      ),
-                      Text(
-                        "Smart Timer",
-                        style: TextStyle(fontFamily: "Pixel", color: Colors.white),
                       ),
                       InkWell(
                         onTap: () {
@@ -644,10 +525,15 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                     children: [
                                                                       Padding(
                                                                         padding: EdgeInsets.only(left: 5),
-                                                                        child: Icon(
-                                                                          Icons.offline_bolt,
-                                                                          color: Colors.white,
-                                                                        ),
+                                                                        child: ctime + index - 1 == _time.hour
+                                                                            ? Icon(
+                                                                                Icons.offline_bolt,
+                                                                                color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.red,
+                                                                              )
+                                                                            : Icon(
+                                                                                Icons.offline_bolt,
+                                                                                color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.white,
+                                                                              ),
                                                                       ),
                                                                       DefaultTextStyle(
                                                                         style: TextStyle(color: Colors.white, fontSize: 17),
@@ -657,29 +543,23 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                             ctime + index - 1 <= 12
                                                                                 ? Text(
                                                                                     (ctime + index - 1).toString(),
-                                                                                    style: TextStyle(color: Colors.white),
                                                                                   )
                                                                                 : Text(
                                                                                     (ctime + index - 1 - 12).toString(),
-                                                                                    style: TextStyle(color: Colors.white),
                                                                                   ),
                                                                             Text(
                                                                               ' - ',
-                                                                              style: TextStyle(color: Colors.white),
                                                                             ),
                                                                             ctime + index <= 12
                                                                                 ? Text(
                                                                                     (ctime + index).toString() + ' AM',
-                                                                                    style: TextStyle(color: Colors.white),
                                                                                   )
                                                                                 : ctime + index == 25
                                                                                     ? Text(
                                                                                         (ctime + index - 24).toString() + ' AM',
-                                                                                        style: TextStyle(color: Colors.white),
                                                                                       )
                                                                                     : Text(
                                                                                         (ctime + index - 12).toString() + ' PM',
-                                                                                        style: TextStyle(color: Colors.white),
                                                                                       ),
                                                                           ],
                                                                         ),
@@ -687,13 +567,28 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                       Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: ctime + index - 1 == _time.hour
-                                                                            ? Icon(
-                                                                                Icons.flash_on,
-                                                                                color: Colors.yellow,
+                                                                            ? AvatarGlow(
+                                                                                endRadius: 22,
+                                                                                duration: Duration(milliseconds: 2000),
+                                                                                repeat: true,
+                                                                                showTwoGlows: true,
+                                                                                repeatPauseDuration: Duration(milliseconds: 100),
+                                                                                glowColor: Colors.blue,
+                                                                                child: Icon(
+                                                                                  Icons.flash_on,
+                                                                                  color: Colors.yellow,
+                                                                                  size: 20,
+                                                                                ),
                                                                               )
-                                                                            : Icon(
-                                                                                Icons.offline_bolt,
-                                                                                color: Colors.transparent,
+                                                                            : Container(
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(20),
+                                                                                ),
+                                                                                child: Icon(
+                                                                                  Icons.flash_on,
+                                                                                  color: Colors.transparent,
+                                                                                  size: 20,
+                                                                                ),
                                                                               ),
                                                                       ),
                                                                     ],
@@ -738,7 +633,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                         children: [
                                                           Container(
                                                             margin: EdgeInsets.only(
-                                                              top: index2 == 0 ? 4 : 0,
+                                                              // top: index2 == 0 ? 4 : 0,
                                                               left: 10,
                                                               right: 10,
                                                             ),
@@ -762,7 +657,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                       radius: Radius.circular(20),
                                                       thickness: 5,
                                                       child: ListView.builder(
-                                                        physics: BouncingScrollPhysics(),
+                                                        // physics: BouncingScrollPhysics(),
                                                         controller: _mycontroller2,
                                                         itemBuilder: (context, index3) => Dismissible(
                                                           key: Key(UniqueKey().toString()),
@@ -773,39 +668,46 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                           },
                                                           child: Column(
                                                             children: [
-                                                              Container(
-                                                                margin: EdgeInsets.only(
-                                                                  top: index3 == 0 ? 4 : 0,
-                                                                  left: 10,
-                                                                  right: 10,
-                                                                ),
-                                                                height: 35,
-                                                                decoration: BoxDecoration(
-                                                                  //!color all
-                                                                  color: Color(0xFF3f4256),
-                                                                  borderRadius: BorderRadius.circular(3),
-                                                                ),
-                                                                child: Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                  children: [
-                                                                    //!  display here-----------------------------------------------------------------
-                                                                    DefaultTextStyle(
-                                                                      style: TextStyle(color: Colors.white, fontSize: 20),
-                                                                      child: Container(
-                                                                        padding: EdgeInsets.only(left: 25),
-                                                                        child: _textDisplay(context, index3),
+                                                              InkWell(
+                                                                // onDoubleTap: () {
+                                                                //   // print(index3);
+                                                                //   _onDoubletabEdit(index3);
+                                                                //   // print(doubleTapedIndex);
+                                                                // },
+                                                                child: Container(
+                                                                  margin: EdgeInsets.only(
+                                                                    top: index3 == 0 ? 4 : 0,
+                                                                    left: 10,
+                                                                    right: 10,
+                                                                  ),
+                                                                  height: 35,
+                                                                  decoration: BoxDecoration(
+                                                                    //!color all
+                                                                    color: Color(0xFF3f4256),
+                                                                    borderRadius: BorderRadius.circular(3),
+                                                                  ),
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                    children: [
+                                                                      //!  display here-----------------------------------------------------------------
+                                                                      DefaultTextStyle(
+                                                                        style: TextStyle(color: Colors.white, fontSize: 20),
+                                                                        child: Container(
+                                                                          padding: EdgeInsets.only(left: 25),
+                                                                          child: _textDisplay(context, index3),
+                                                                        ),
                                                                       ),
-                                                                    ),
-                                                                    // Checkbox(
-                                                                    //   activeColor: Colors.grey,
-                                                                    //   value: true,
-                                                                    //   onChanged: (v) {
-                                                                    //     // var changed = todoController.sublist[index2];
-                                                                    //     // changed.done = v;
-                                                                    //     // todoController.sublist[index2] = changed;
-                                                                    //   },
-                                                                    // ),
-                                                                  ],
+                                                                      Checkbox(
+                                                                        activeColor: Colors.grey,
+                                                                        value: true,
+                                                                        onChanged: (v) {
+                                                                          // var changed = todoController.sublist[index2];
+                                                                          // changed.done = v;
+                                                                          // todoController.sublist[index2] = changed;
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
                                                               Container(height: 2)
@@ -813,12 +715,14 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                           ),
                                                         ),
                                                         // separatorBuilder: (_, index2) => Divider(),
-                                                        itemCount: itemCountt(),
+                                                        itemCount: 0,
+                                                        // itemCount: itemCountt(),
                                                       ),
                                                     ),
                                                     Column(
                                                       mainAxisAlignment: MainAxisAlignment.end,
                                                       children: [
+                                                        // gg
                                                         MouseRegion(
                                                           onEnter: _incrementEnter2,
                                                           onHover: _updateLocation2,
@@ -834,80 +738,31 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                               color: boxColor,
                                                               borderRadius: BorderRadius.circular(6),
                                                             ),
-                                                            child: TextField(
-                                                              //!  inputHere-----------------------------------------------------------------
-                                                              focusNode: focusNode,
-                                                              controller: textController,
-                                                              onSubmitted: (val) {
-                                                                addIcon();
-                                                                if (colorindex == 0) {
-                                                                  todoController.sublist0.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 1) {
-                                                                  todoController.sublist1.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 2) {
-                                                                  todoController.sublist2.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 3) {
-                                                                  todoController.sublist3.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 4) {
-                                                                  todoController.sublist4.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 5) {
-                                                                  todoController.sublist5.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 6) {
-                                                                  todoController.sublist6.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 7) {
-                                                                  todoController.sublist7.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 8) {
-                                                                  todoController.sublist8.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 9) {
-                                                                  todoController.sublist9.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 10) {
-                                                                  todoController.sublist10.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 11) {
-                                                                  todoController.sublist11.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 12) {
-                                                                  todoController.sublist12.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 13) {
-                                                                  todoController.sublist13.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 14) {
-                                                                  todoController.sublist14.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 15) {
-                                                                  todoController.sublist15.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 16) {
-                                                                  todoController.sublist16.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 17) {
-                                                                  todoController.sublist17.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 18) {
-                                                                  todoController.sublist18.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 19) {
-                                                                  todoController.sublist19.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 20) {
-                                                                  todoController.sublist20.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 21) {
-                                                                  todoController.sublist21.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 22) {
-                                                                  todoController.sublist22.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 23) {
-                                                                  todoController.sublist23.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 24) {
-                                                                  todoController.sublist24.add(Todo(text: textController.text));
-                                                                } else if (colorindex == 25) {
-                                                                  todoController.sublist25.add(Todo(text: textController.text));
-                                                                }
-                                                                setState(() {
-                                                                  textController.clear();
-                                                                  FocusScope.of(context).requestFocus(focusNode);
-                                                                });
-                                                              },
-                                                              cursorColor: Colors.white,
-                                                              style: TextStyle(color: Colors.white),
-                                                              keyboardType: TextInputType.text,
-                                                              decoration: InputDecoration(
-                                                                hintText: hinttext,
-                                                                hintStyle: TextStyle(color: Colors.white),
-                                                                border: InputBorder.none,
-                                                                prefixIcon: Icon(
-                                                                  addicon,
-                                                                  color: Color(0xFFb9bbbe),
+                                                            child: FocusScope(
+                                                              child: Focus(
+                                                                onFocusChange: (focus) => {
+                                                                  hintTextChange(focus),
+                                                                  addIcon(),
+                                                                },
+                                                                child: TextField(
+                                                                  //!  inputHere-----------------------------------------------------------------
+                                                                  focusNode: focusNode,
+                                                                  controller: textController,
+                                                                  onSubmitted: (val) {
+                                                                    textController.clear();
+                                                                    FocusScope.of(context).requestFocus(focusNode);
+                                                                  },
+                                                                  cursorColor: Colors.white,
+                                                                  style: TextStyle(color: Colors.white),
+                                                                  decoration: InputDecoration(
+                                                                    hintText: hinttext,
+                                                                    hintStyle: TextStyle(color: Colors.white),
+                                                                    border: InputBorder.none,
+                                                                    prefixIcon: Icon(
+                                                                      addicon,
+                                                                      color: Color(0xFFb9bbbe),
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),

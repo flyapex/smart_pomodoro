@@ -27,9 +27,11 @@ dependencies:
   vector_math: ^2.1.0
   day_night_time_picker: ^1.0.1
   hovering: ^1.0.4
+  avatar_glow: ^2.0.1
   # flutter_vector_icons: ^1.0.0
   # dots_indicator: ^2.0.0
-  flutter_swipe_action_cell: ^2.0.0
+  shared_preferences: ^2.0.5
+  #db
   responsive_util: ^0.3.0
   font_awesome_flutter: ^8.12.0
   get: ^3.26.0
@@ -42,6 +44,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  moor_generator:
+  build_runner: 
+
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -58,6 +64,9 @@ flutter:
       fonts:
         - asset: assets/fonts/Pixel.otf
           weight: 700
+    - family: KeepCalm
+      fonts:
+        - asset: assets/fonts/KeepCalm.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

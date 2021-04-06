@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:spomodoro/controller/timerAnimaionController.dart';
 import 'package:vector_math/vector_math.dart' show radians;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -141,7 +139,6 @@ class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAli
   // ignore: must_call_super
   Widget build(context) {
     bool timerAnimationState = false;
-    final ProgressController progressController = Get.put(ProgressController());
 
     return AnimatedBuilder(
       animation: widget.controller,
@@ -198,7 +195,7 @@ class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAli
                     widget.onChangedTab(true);
                     _open();
                     _timer.cancel();
-                    progressController.updatepersentage(timeText.toDouble());
+                    // progressController.updatepersentage(timeText.toDouble());
                     startTimer(0);
                   },
                   backgroundColor: Colors.red,
