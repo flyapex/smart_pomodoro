@@ -5,18 +5,29 @@ import 'package:day_night_time_picker/lib/daynight_timepicker.dart';
 import 'package:flutter/material.dart';
 import 'package:hovering/hovering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:spomodoro/bar.dart';
-import 'Circle animation/circle.dart';
-import 'Circle animation/perIndacator.dart';
-import 'Circle animation/timer.dart';
+import 'package:spomodoro/windows_widget/bar.dart';
+import 'widget/animationCircleAndTimer.dart';
+import 'widget/perIndacator.dart';
+import 'widget/timerShadow.dart';
 
 class MainBody extends StatefulWidget {
+  const MainBody({
+    Key key,
+  }) : super(key: key);
   @override
   _MainBodyState createState() => _MainBodyState();
 }
 
 class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin {
-//?----------------------------------------List
+  //? ---------part 1--------------------------------
+  //!all controller here
+  TabController _tabController;
+  //!RadialProgress(% timer)
+  void isTaskComplete() {
+    setState(() {});
+  }
+
+  //!timer state
   bool timerAnimationState = true;
   void onChangedTab(bool index) {
     setState(() {
@@ -24,25 +35,29 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     });
   }
 
-  TabController _tabController;
-  var index = 0;
-
-  ScrollController _mycontroller1 = new ScrollController();
-  ScrollController _mycontroller2 = new ScrollController();
-
+  //!db part
+  var tempwidth;
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this, initialIndex: index);
+    tempwidth = width;
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
+    _getsp();
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
+    _tabController.dispose();
   }
 
-//!-----------------------------------------------------shared preference
+//!-------------------------------------------------------------------------------------------Part 2-------------------------------------------
+  //!controller
+
+  ScrollController _mycontroller1 = new ScrollController();
+  ScrollController _mycontroller2 = new ScrollController();
+  var textController = TextEditingController();
+  //!Timer
   TimeOfDay _time2 = TimeOfDay.now().replacing(minute: 0);
   void onTimeChanged2(TimeOfDay newTime) {
     setState(() {
@@ -57,11 +72,20 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     });
   }
 
-//?---------------------------------------------------
+  //!extra timer
+  TimeOfDay _time = TimeOfDay.now().replacing(minute: 0);
+  void onTimeChanged(TimeOfDay newTime) {
+    setState(() {
+      _time = newTime;
+    });
+  }
 
+  //!textfield hover1
   Color textColor = Color(0xFF3f4256);
+
   // ignore: unused_field
   int _enterCounter = 0;
+
   // ignore: unused_field
   int _exitCounter = 0;
   double x = 0.0;
@@ -87,8 +111,8 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     });
   }
 
-  //?------------------------------------------ add button
-  Color boxColor = Color(0xFF494d5c);
+  //!------------------------------------------ add button
+  Color boxColor = Color(0xFF343742);
   // ignore: unused_field
   int _enterCounter2 = 0;
   // ignore: unused_field
@@ -98,6 +122,8 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
   void _incrementEnter2(PointerEvent details2) {
     setState(() {
       _enterCounter2++;
+      // FocusScope.of(context).requestFocus(focusNode);
+      // addicon = Icons.panorama_fish_eye;
     });
   }
 
@@ -105,6 +131,8 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     setState(() {
       boxColor = Color(0xFF343742);
       _exitCounter2++;
+      // FocusScope.of(context).unfocus(); //ggg
+      // addicon = Icons.add;
     });
   }
 
@@ -116,7 +144,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     });
   }
 
-//?------------------------------------------
+  //!text field
   var hinttext = 'Add Task';
   void hintTextChange(val) {
     setState(() {
@@ -135,7 +163,15 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     });
   }
 
-  var textController = TextEditingController();
+  //!----------------------------------------------------------
+  double width;
+  // bool isOpen = true;
+  // void onDrag() {
+  //   setState(() {
+  //     isOpen == true ? isOpen = false : isOpen = true;
+  //     width == tempwidth ? width = tempwidth / 1.7 : width = tempwidth;
+  //   });
+  // }
 
   //?-------------index of row1
   int totalindex = 0;
@@ -166,92 +202,474 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     });
   }
 
-//?-------------------------------------------------------------------------------------------------------
+//?------------------------------------------------------------------------------------------------------- DB
 
-  // ignore: deprecated_member_use
-  var list4 = List<String>();
-  // ignore: deprecated_member_use
-  var list5 = List<String>();
-  // ignore: deprecated_member_use
-  var list6 = List<String>();
-  // ignore: deprecated_member_use
-  var list7 = List<String>();
+  List<String> mainlist0 = [];
+  List<String> mainlist1 = [];
+  List<String> mainlist2 = [];
+  List<String> mainlist3 = [];
+  List<String> mainlist4 = [];
+  List<String> mainlist5 = [];
+  List<String> mainlist6 = [];
+  List<String> mainlist7 = [];
+  List<String> mainlist8 = [];
+  List<String> mainlist9 = [];
+  List<String> mainlist10 = [];
+  List<String> mainlist11 = [];
+  List<String> mainlist12 = [];
+  List<String> mainlist13 = [];
+  List<String> mainlist14 = [];
+  List<String> mainlist15 = [];
+  List<String> mainlist16 = [];
+  List<String> mainlist17 = [];
+  List<String> mainlist18 = [];
+  List<String> mainlist19 = [];
+  List<String> mainlist20 = [];
+  List<String> mainlist21 = [];
+  List<String> mainlist22 = [];
+  List<String> mainlist23 = [];
+  List<String> mainlist24 = [];
+  List<String> mainlist25 = [];
+
+  var prefs;
+  void _getsp() async {
+    prefs = await SharedPreferences.getInstance();
+    // mainlist = prefs.getStringList('1') == null ? [] : prefs.getStringList('1');
+    // print(prefs.getStringList('1'));
+    mainlist0 = prefs.getStringList('0') == null ? [] : prefs.getStringList('0');
+    mainlist1 = prefs.getStringList('1') == null ? [] : prefs.getStringList('1');
+    mainlist2 = prefs.getStringList('2') == null ? [] : prefs.getStringList('2');
+    mainlist3 = prefs.getStringList('3') == null ? [] : prefs.getStringList('3');
+    mainlist4 = prefs.getStringList('4') == null ? [] : prefs.getStringList('4');
+    mainlist5 = prefs.getStringList('5') == null ? [] : prefs.getStringList('5');
+    mainlist6 = prefs.getStringList('6') == null ? [] : prefs.getStringList('6');
+    mainlist7 = prefs.getStringList('7') == null ? [] : prefs.getStringList('7');
+    mainlist8 = prefs.getStringList('8') == null ? [] : prefs.getStringList('8');
+    mainlist9 = prefs.getStringList('9') == null ? [] : prefs.getStringList('9');
+    mainlist10 = prefs.getStringList('10') == null ? [] : prefs.getStringList('10');
+    mainlist11 = prefs.getStringList('11') == null ? [] : prefs.getStringList('11');
+    mainlist12 = prefs.getStringList('12') == null ? [] : prefs.getStringList('12');
+    mainlist13 = prefs.getStringList('13') == null ? [] : prefs.getStringList('13');
+    mainlist14 = prefs.getStringList('14') == null ? [] : prefs.getStringList('14');
+    mainlist15 = prefs.getStringList('15') == null ? [] : prefs.getStringList('15');
+    mainlist16 = prefs.getStringList('16') == null ? [] : prefs.getStringList('16');
+    mainlist17 = prefs.getStringList('17') == null ? [] : prefs.getStringList('17');
+    mainlist18 = prefs.getStringList('18') == null ? [] : prefs.getStringList('18');
+    mainlist19 = prefs.getStringList('19') == null ? [] : prefs.getStringList('19');
+    mainlist20 = prefs.getStringList('20') == null ? [] : prefs.getStringList('20');
+    mainlist21 = prefs.getStringList('21') == null ? [] : prefs.getStringList('21');
+    mainlist22 = prefs.getStringList('22') == null ? [] : prefs.getStringList('22');
+    mainlist23 = prefs.getStringList('23') == null ? [] : prefs.getStringList('23');
+    mainlist24 = prefs.getStringList('24') == null ? [] : prefs.getStringList('24');
+    mainlist25 = prefs.getStringList('125') == null ? [] : prefs.getStringList('25');
+  }
+
+  //!--------------------------------------------------------------------------------------Task list
+
+  // List<List<String>> mainlist = new List.generate(25, (i) => []);
+
   itemCountt() {
-    // if (activeindex == 4) {
-    //   var temp = addGetSharedPref("4");
-    //   return temp.toString().length;
-    // } else if (activeindex == 5) {
-    //   var temp = addGetSharedPref("5");
-    //   return temp.toString().length;
-    // } else if (activeindex == 6) {
-    //   var temp = addGetSharedPref("6");
-    //   return temp.toString().length;
-    // } else if (activeindex == 7) {
-    //   var temp = addGetSharedPref("7");
-    //   return temp.toString().length;
-    // }
+    if (colorindex == 0) {
+      return mainlist0.length;
+    } else if (colorindex == 1) {
+      return mainlist1.length;
+    } else if (colorindex == 2) {
+      return mainlist2.length;
+    } else if (colorindex == 3) {
+      return mainlist3.length;
+    } else if (colorindex == 4) {
+      return mainlist4.length;
+    } else if (colorindex == 5) {
+      return mainlist5.length;
+    } else if (colorindex == 6) {
+      return mainlist6.length;
+    } else if (colorindex == 7) {
+      return mainlist7.length;
+    } else if (colorindex == 8) {
+      return mainlist8.length;
+    } else if (colorindex == 9) {
+      return mainlist9.length;
+    } else if (colorindex == 10) {
+      return mainlist10.length;
+    } else if (colorindex == 11) {
+      return mainlist11.length;
+    } else if (colorindex == 12) {
+      return mainlist12.length;
+    } else if (colorindex == 13) {
+      return mainlist13.length;
+    } else if (colorindex == 14) {
+      return mainlist14.length;
+    } else if (colorindex == 15) {
+      return mainlist15.length;
+    } else if (colorindex == 16) {
+      return mainlist16.length;
+    } else if (colorindex == 17) {
+      return mainlist17.length;
+    } else if (colorindex == 18) {
+      return mainlist18.length;
+    } else if (colorindex == 19) {
+      return mainlist19.length;
+    } else if (colorindex == 20) {
+      return mainlist20.length;
+    } else if (colorindex == 21) {
+      return mainlist21.length;
+    } else if (colorindex == 22) {
+      return mainlist22.length;
+    } else if (colorindex == 23) {
+      return mainlist23.length;
+    } else if (colorindex == 24) {
+      return mainlist24.length;
+    } else if (colorindex == 25) {
+      return mainlist25.length;
+    }
   }
 
-  _textDisplay(BuildContext context, index) {
-    // if (activeindex == 4) {
-    //   return Text('- ' + todoController.sublist4[index].text);
-    // } else if (activeindex == 5) {
-    //   return Text('- ' + todoController.sublist5[index].text);
-    // } else if (activeindex == 6) {
-    //   return Text('- ' + todoController.sublist6[index].text);
-    // } else if (activeindex == 7) {
-    //   return Text('- ' + todoController.sublist7[index].text);
-    // }
-  }
-
-  // ignore: missing_return
+//? Delete* from DB
   _slidTodeleted(BuildContext context, index) {
-    // if (activeindex == 4) {
-    //   return todoController.sublist4.removeAt(index);
-    // } else if (activeindex == 5) {
-    //   return todoController.sublist5.removeAt(index);
-    // } else if (activeindex == 6) {
-    //   return todoController.sublist6.removeAt(index);
-    // } else if (activeindex == 7) {
-    //   return todoController.sublist7.removeAt(index);
-    // }
+    // mainlist.removeAt(index);
+    if (colorindex == 0) {
+      mainlist0.removeAt(index);
+    } else if (colorindex == 1) {
+      mainlist1.removeAt(index);
+    } else if (colorindex == 2) {
+      mainlist2.removeAt(index);
+    } else if (colorindex == 3) {
+      mainlist3.removeAt(index);
+    } else if (colorindex == 4) {
+      mainlist4.removeAt(index);
+    } else if (colorindex == 5) {
+      mainlist5.removeAt(index);
+    } else if (colorindex == 6) {
+      mainlist6.removeAt(index);
+    } else if (colorindex == 7) {
+      mainlist7.removeAt(index);
+    } else if (colorindex == 8) {
+      mainlist8.removeAt(index);
+    } else if (colorindex == 9) {
+      mainlist9.removeAt(index);
+    } else if (colorindex == 10) {
+      mainlist10.removeAt(index);
+    } else if (colorindex == 11) {
+      mainlist11.removeAt(index);
+    } else if (colorindex == 12) {
+      mainlist12.removeAt(index);
+    } else if (colorindex == 13) {
+      mainlist13.removeAt(index);
+    } else if (colorindex == 14) {
+      mainlist14.removeAt(index);
+    } else if (colorindex == 15) {
+      mainlist15.removeAt(index);
+    } else if (colorindex == 16) {
+      mainlist16.removeAt(index);
+    } else if (colorindex == 17) {
+      mainlist17.removeAt(index);
+    } else if (colorindex == 18) {
+      mainlist18.removeAt(index);
+    } else if (colorindex == 19) {
+      mainlist19.removeAt(index);
+    } else if (colorindex == 20) {
+      mainlist20.removeAt(index);
+    } else if (colorindex == 21) {
+      mainlist21.removeAt(index);
+    } else if (colorindex == 22) {
+      mainlist22.removeAt(index);
+    } else if (colorindex == 23) {
+      mainlist23.removeAt(index);
+    } else if (colorindex == 24) {
+      mainlist24.removeAt(index);
+    } else if (colorindex == 25) {
+      mainlist25.removeAt(index);
+    }
   }
 
-//?------------------------------------------------------------------------------------------------------
-  TimeOfDay _time = TimeOfDay.now().replacing(minute: 0);
-  void onTimeChanged(TimeOfDay newTime) {
+//? Display* from db
+  _textDisplay(BuildContext context, index) {
+    if (colorindex == 0) {
+      return Text('- ' + mainlist0[index]);
+    } else if (colorindex == 1) {
+      return Text('- ' + mainlist1[index]);
+    } else if (colorindex == 2) {
+      return Text('- ' + mainlist2[index]);
+    } else if (colorindex == 3) {
+      return Text('- ' + mainlist3[index]);
+    } else if (colorindex == 4) {
+      return Text('- ' + mainlist4[index]);
+    } else if (colorindex == 5) {
+      return Text('- ' + mainlist5[index]);
+    } else if (colorindex == 6) {
+      return Text('- ' + mainlist6[index]);
+    } else if (colorindex == 7) {
+      return Text('- ' + mainlist7[index]);
+    } else if (colorindex == 8) {
+      return Text('- ' + mainlist8[index]);
+    } else if (colorindex == 9) {
+      return Text('- ' + mainlist9[index]);
+    } else if (colorindex == 10) {
+      return Text('- ' + mainlist10[index]);
+    } else if (colorindex == 11) {
+      return Text('- ' + mainlist11[index]);
+    } else if (colorindex == 12) {
+      return Text('- ' + mainlist12[index]);
+    } else if (colorindex == 13) {
+      return Text('- ' + mainlist13[index]);
+    } else if (colorindex == 14) {
+      return Text('- ' + mainlist14[index]);
+    } else if (colorindex == 15) {
+      return Text('- ' + mainlist15[index]);
+    } else if (colorindex == 16) {
+      return Text('- ' + mainlist16[index]);
+    } else if (colorindex == 17) {
+      return Text('- ' + mainlist17[index]);
+    } else if (colorindex == 18) {
+      return Text('- ' + mainlist18[index]);
+    } else if (colorindex == 19) {
+      return Text('- ' + mainlist19[index]);
+    } else if (colorindex == 20) {
+      return Text('- ' + mainlist20[index]);
+    } else if (colorindex == 21) {
+      return Text('- ' + mainlist21[index]);
+    } else if (colorindex == 22) {
+      return Text('- ' + mainlist22[index]);
+    } else if (colorindex == 23) {
+      return Text('- ' + mainlist23[index]);
+    } else if (colorindex == 24) {
+      return Text('- ' + mainlist24[index]);
+    } else if (colorindex == 25) {
+      return Text('- ' + mainlist25[index]);
+    }
+  }
+
+//? insert* DB
+  _inputTOdb() {
+    // if (colorindex == 1) {
+    //   mainlist.add(textController.text);
+    //   prefs.setStringList("1", mainlist);
+    //   // print(mainlist);
+    // }
+    if (colorindex == 0) {
+      mainlist0.add(textController.text);
+      prefs.setStringList("0", mainlist0);
+    } else if (colorindex == 1) {
+      mainlist1.add(textController.text);
+      prefs.setStringList("1", mainlist1);
+    } else if (colorindex == 2) {
+      mainlist2.add(textController.text);
+      prefs.setStringList("2", mainlist2);
+    } else if (colorindex == 3) {
+      mainlist3.add(textController.text);
+      prefs.setStringList("3", mainlist3);
+    } else if (colorindex == 4) {
+      mainlist4.add(textController.text);
+      prefs.setStringList("4", mainlist4);
+    } else if (colorindex == 5) {
+      mainlist5.add(textController.text);
+      prefs.setStringList("5", mainlist5);
+    } else if (colorindex == 6) {
+      mainlist6.add(textController.text);
+      prefs.setStringList("6", mainlist6);
+    } else if (colorindex == 7) {
+      mainlist7.add(textController.text);
+      prefs.setStringList("7", mainlist7);
+    } else if (colorindex == 8) {
+      mainlist8.add(textController.text);
+      prefs.setStringList("8", mainlist8);
+    } else if (colorindex == 9) {
+      mainlist9.add(textController.text);
+      prefs.setStringList("9", mainlist9);
+    } else if (colorindex == 10) {
+      mainlist10.add(textController.text);
+      prefs.setStringList("10", mainlist10);
+    } else if (colorindex == 11) {
+      mainlist11.add(textController.text);
+      prefs.setStringList("11", mainlist11);
+    } else if (colorindex == 12) {
+      mainlist12.add(textController.text);
+      prefs.setStringList("12", mainlist12);
+    } else if (colorindex == 13) {
+      mainlist13.add(textController.text);
+      prefs.setStringList("13", mainlist13);
+    } else if (colorindex == 14) {
+      mainlist14.add(textController.text);
+      prefs.setStringList("14", mainlist14);
+    } else if (colorindex == 15) {
+      mainlist15.add(textController.text);
+      prefs.setStringList("15", mainlist15);
+    } else if (colorindex == 16) {
+      mainlist16.add(textController.text);
+      prefs.setStringList("16", mainlist16);
+    } else if (colorindex == 17) {
+      mainlist17.add(textController.text);
+      prefs.setStringList("17", mainlist17);
+    } else if (colorindex == 18) {
+      mainlist18.add(textController.text);
+      prefs.setStringList("18", mainlist18);
+    } else if (colorindex == 19) {
+      mainlist19.add(textController.text);
+      prefs.setStringList("19", mainlist19);
+    } else if (colorindex == 20) {
+      mainlist20.add(textController.text);
+      prefs.setStringList("20", mainlist20);
+    } else if (colorindex == 21) {
+      mainlist21.add(textController.text);
+      prefs.setStringList("21", mainlist21);
+    } else if (colorindex == 22) {
+      mainlist22.add(textController.text);
+      prefs.setStringList("22", mainlist22);
+    } else if (colorindex == 23) {
+      mainlist23.add(textController.text);
+      prefs.setStringList("23", mainlist23);
+    } else if (colorindex == 24) {
+      mainlist24.add(textController.text);
+      prefs.setStringList("24", mainlist24);
+    } else if (colorindex == 25) {
+      mainlist25.add(textController.text);
+      prefs.setStringList("25", mainlist25);
+    }
+  }
+
+//?double tap Update*
+  _updateToDb() {
+    // if (colorindex == 4) {
+    //   mainlist4[doubleTapedIndex] = textController.text;
+    // } else if (colorindex == 5) {
+    //   mainlist5[doubleTapedIndex] = textController.text;
+    // }
+    if (colorindex == 0) {
+      mainlist0[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 1) {
+      mainlist1[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 2) {
+      mainlist2[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 3) {
+      mainlist3[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 4) {
+      mainlist4[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 5) {
+      mainlist5[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 6) {
+      mainlist6[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 7) {
+      mainlist7[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 8) {
+      mainlist8[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 9) {
+      mainlist9[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 10) {
+      mainlist10[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 11) {
+      mainlist11[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 12) {
+      mainlist12[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 13) {
+      mainlist13[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 14) {
+      mainlist14[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 15) {
+      mainlist15[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 16) {
+      mainlist16[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 17) {
+      mainlist17[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 18) {
+      mainlist18[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 19) {
+      mainlist19[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 20) {
+      mainlist20[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 21) {
+      mainlist21[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 22) {
+      mainlist22[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 23) {
+      mainlist23[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 24) {
+      mainlist24[doubleTapedIndex] = textController.text;
+    } else if (colorindex == 25) {
+      mainlist25[doubleTapedIndex] = textController.text;
+    }
     setState(() {
-      _time = newTime;
+      editModeActive = false;
     });
   }
 
-  //?---------------------------RadialProgress
-  void isTaskComplete() {
-    setState(() {});
+  var doubleTapedIndex;
+  bool editModeActive = false;
+  void _onDoubletabEdit(val) {
+    setState(() {
+      doubleTapedIndex = val;
+    });
+
+    // if (colorindex == 4) {
+    //   textController.text = mainlist4[doubleTapedIndex];
+    // } else if (colorindex == 5) {
+    //   textController.text = mainlist5[doubleTapedIndex];
+    // }
+    if (colorindex == 0) {
+      textController.text = mainlist0[doubleTapedIndex];
+    } else if (colorindex == 1) {
+      textController.text = mainlist1[doubleTapedIndex];
+    } else if (colorindex == 2) {
+      textController.text = mainlist2[doubleTapedIndex];
+    } else if (colorindex == 3) {
+      textController.text = mainlist3[doubleTapedIndex];
+    } else if (colorindex == 4) {
+      textController.text = mainlist4[doubleTapedIndex];
+    } else if (colorindex == 5) {
+      textController.text = mainlist5[doubleTapedIndex];
+    } else if (colorindex == 6) {
+      textController.text = mainlist6[doubleTapedIndex];
+    } else if (colorindex == 7) {
+      textController.text = mainlist7[doubleTapedIndex];
+    } else if (colorindex == 8) {
+      textController.text = mainlist8[doubleTapedIndex];
+    } else if (colorindex == 9) {
+      textController.text = mainlist9[doubleTapedIndex];
+    } else if (colorindex == 10) {
+      textController.text = mainlist10[doubleTapedIndex];
+    } else if (colorindex == 11) {
+      textController.text = mainlist11[doubleTapedIndex];
+    } else if (colorindex == 12) {
+      textController.text = mainlist12[doubleTapedIndex];
+    } else if (colorindex == 13) {
+      textController.text = mainlist13[doubleTapedIndex];
+    } else if (colorindex == 14) {
+      textController.text = mainlist14[doubleTapedIndex];
+    } else if (colorindex == 15) {
+      textController.text = mainlist15[doubleTapedIndex];
+    } else if (colorindex == 16) {
+      textController.text = mainlist16[doubleTapedIndex];
+    } else if (colorindex == 17) {
+      textController.text = mainlist17[doubleTapedIndex];
+    } else if (colorindex == 18) {
+      textController.text = mainlist18[doubleTapedIndex];
+    } else if (colorindex == 19) {
+      textController.text = mainlist19[doubleTapedIndex];
+    } else if (colorindex == 20) {
+      textController.text = mainlist20[doubleTapedIndex];
+    } else if (colorindex == 21) {
+      textController.text = mainlist21[doubleTapedIndex];
+    } else if (colorindex == 22) {
+      textController.text = mainlist22[doubleTapedIndex];
+    } else if (colorindex == 23) {
+      textController.text = mainlist23[doubleTapedIndex];
+    } else if (colorindex == 24) {
+      textController.text = mainlist24[doubleTapedIndex];
+    } else if (colorindex == 25) {
+      textController.text = mainlist25[doubleTapedIndex];
+    }
+    setState(() {
+      editModeActive = true;
+    });
   }
 
-  Future<List<String>> addGetSharedPref(String key) async {
-    SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    return myPrefs.getStringList(key);
-  }
-
-  addToSharedPref(String key, List<String> value) async {
-    SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    myPrefs.setStringList(key, value);
-  }
-
-  setBooleanValue(String key, bool value) async {
-    SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    myPrefs.setBool(key, value);
-  }
-
+  var focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     double wid = MediaQuery.of(context).size.width / 3.5;
     double wid2 = wid;
 
     ScrollController _controller = ScrollController();
-    var focusNode = FocusNode();
+
     return Expanded(
       child: Container(
         color: Color(0xFF1a1b26),
@@ -377,13 +795,17 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                       RadialProgress(onTimerChnage: timerAnimationState),
                                       Timer(timerAnimationState: timerAnimationState),
                                       Container(
+                                        // width: MediaQuery.of(context).size.width,
+                                        // height: ((MediaQuery.of(context).size.width + MediaQuery.of(context).size.height) / 2) - 40,
+
                                         width: 475,
                                         height: 475,
-                                        child: SizedBox.expand(
-                                          child: MainCircle(
-                                            timerAnimationState: timerAnimationState,
-                                            onChangedTab: onChangedTab,
-                                          ),
+                                        // width: MediaQuery.of(context).size.width,
+                                        // height: ((MediaQuery.of(context).size.width + MediaQuery.of(context).size.height) / 2) - 40,
+                                        child: MainCircle(
+                                          timerAnimationState: timerAnimationState,
+                                          onChangedTab: onChangedTab,
+                                          screenSizew: MediaQuery.of(context).size.height,
                                         ),
                                       ),
                                     ],
@@ -403,6 +825,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                           color: Color(0xFF1c1427),
                                           // color: Color(0xFF12202f),
                                           height: MediaQuery.of(context).size.height - 92,
+                                          // width: MediaQuery.of(context).size.height / 2 < MediaQuery.of(context).size.height ? 230 : 300,
                                           width: wid,
                                           child: RawScrollbar(
                                             thumbColor: Colors.redAccent,
@@ -669,11 +1092,9 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                           child: Column(
                                                             children: [
                                                               InkWell(
-                                                                // onDoubleTap: () {
-                                                                //   // print(index3);
-                                                                //   _onDoubletabEdit(index3);
-                                                                //   // print(doubleTapedIndex);
-                                                                // },
+                                                                onDoubleTap: () {
+                                                                  _onDoubletabEdit(index3);
+                                                                },
                                                                 child: Container(
                                                                   margin: EdgeInsets.only(
                                                                     top: index3 == 0 ? 4 : 0,
@@ -715,8 +1136,8 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                           ),
                                                         ),
                                                         // separatorBuilder: (_, index2) => Divider(),
-                                                        itemCount: 0,
-                                                        // itemCount: itemCountt(),
+                                                        // itemCount: 0,
+                                                        itemCount: itemCountt(),
                                                       ),
                                                     ),
                                                     Column(
@@ -749,6 +1170,9 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                   focusNode: focusNode,
                                                                   controller: textController,
                                                                   onSubmitted: (val) {
+                                                                    setState(() {
+                                                                      editModeActive ? _updateToDb() : _inputTOdb();
+                                                                    });
                                                                     textController.clear();
                                                                     FocusScope.of(context).requestFocus(focusNode);
                                                                   },
@@ -767,7 +1191,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
+                                                        )
                                                       ],
                                                     ),
                                                   ],
@@ -778,7 +1202,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                   _mycontroller1.jumpTo(_mycontroller2.offset);
                                                 }),
                                           ),
-                                        ),
+                                        )
                                       ],
                                     ),
                                   )

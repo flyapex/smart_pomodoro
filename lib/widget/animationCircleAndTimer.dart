@@ -1,16 +1,17 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' show radians;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'animation.dart';
-
 class MainCircle extends StatefulWidget {
   final bool timerAnimationState;
   final ValueChanged<bool> onChangedTab;
+  final double screenSizew;
 
-  const MainCircle({Key key, this.timerAnimationState, this.onChangedTab}) : super(key: key);
+  const MainCircle({Key key, this.timerAnimationState, this.onChangedTab, this.screenSizew}) : super(key: key);
 
   @override
   _MainCircleState createState() => _MainCircleState(this.timerAnimationState);
@@ -51,6 +52,7 @@ class _MainCircleState extends State<MainCircle> with SingleTickerProviderStateM
               controller: controller,
               finalAngle: finalAngle,
               onChangedTab: widget.onChangedTab,
+              screenSizew: widget.screenSizew,
             ),
           ),
         );
@@ -61,6 +63,7 @@ class _MainCircleState extends State<MainCircle> with SingleTickerProviderStateM
 
 // ignore: must_be_immutable
 class RadialAnimation extends StatefulWidget {
+  final double screenSizew;
   final timerAnimationState;
   final ValueChanged<bool> onChangedTab;
   final AnimationController controller;
@@ -68,7 +71,7 @@ class RadialAnimation extends StatefulWidget {
   final Animation<double> translation;
   final Animation<double> rotation;
   final double finalAngle;
-  RadialAnimation({Key key, this.controller, this.finalAngle, this.onChangedTab, this.timerAnimationState})
+  RadialAnimation({Key key, this.controller, this.finalAngle, this.onChangedTab, this.timerAnimationState, this.screenSizew})
       : scale = Tween<double>(
           begin: 2,
           end: 0.0,
@@ -76,8 +79,9 @@ class RadialAnimation extends StatefulWidget {
           CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn),
         ),
         translation = Tween<double>(
-          begin: 0.0,
-          end: 175.0,
+          begin: 0,
+          end: (4 * screenSizew / 12) + 2, //gg
+          // end: screenSizew / 3 > screenSizew ? (4 * screenSizew / 12) : (4 * screenSizew / 11) - 10, //gg
         ).animate(
           CurvedAnimation(parent: controller, curve: Curves.linear),
         ),
@@ -98,12 +102,41 @@ class RadialAnimation extends StatefulWidget {
   double finalAngle2 = 0.0;
 
   @override
-  _RadialAnimationState createState() => _RadialAnimationState();
+  _RadialAnimationState createState() => _RadialAnimationState(this.screenSizew);
 }
 
-class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAliveClientMixin<RadialAnimation> {
+class _RadialAnimationState extends State<RadialAnimation> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<RadialAnimation> {
+  _RadialAnimationState(this.screenSizew);
+  var screenSizew;
+  AnimationController _controller2;
+  Tween<double> _tween = Tween(begin: 0.95, end: 1);
+  AnimationController _controller3;
+  // Tween<double> _tween3 = Tween(begin: 0.23, end: 0.40);
+  AnimationController _controller4;
+  // Tween<double> _tween4 = Tween(begin: 0.23, end: 0.40);
+  // //!-----------Audio
+
+  @override
+  void initState() {
+    _controller2 = AnimationController(duration: const Duration(seconds: 1), vsync: this);
+    _controller2.repeat(reverse: true);
+    _controller3 = AnimationController(duration: const Duration(milliseconds: 1700), vsync: this);
+    Timer(Duration(milliseconds: 300), () {
+      _controller3.repeat(reverse: true);
+    });
+    //?-------------------------------------------------------
+    _controller4 = AnimationController(duration: const Duration(milliseconds: 2200), vsync: this);
+    _controller4.repeat(reverse: true);
+
+    super.initState();
+  }
+
   @override
   bool get wantKeepAlive => true;
+  Future<AudioPlayer> playLocalAsset() async {
+    AudioCache cache = new AudioCache();
+    return await cache.play("a.mp3");
+  }
 
   Timer _timer;
   int timeText = 0;
@@ -138,8 +171,7 @@ class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAli
   @override
   // ignore: must_call_super
   Widget build(context) {
-    bool timerAnimationState = false;
-
+    double wid = (MediaQuery.of(context).size.height / 610);
     return AnimatedBuilder(
       animation: widget.controller,
       builder: (context, builder) {
@@ -148,7 +180,6 @@ class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAli
           child: Stack(
             alignment: Alignment.center,
             children: [
-              _autoAnimation(timerAnimationState),
               _buildButton(25, widget.finalAngle, 0, color: Colors.black, icon: FontAwesomeIcons.thumbtack),
               _buildButton(30, widget.finalAngle, 30, color: Colors.green, icon: FontAwesomeIcons.sprayCan),
               _buildButton(35, widget.finalAngle, 60, color: Colors.orange, icon: FontAwesomeIcons.fire),
@@ -175,30 +206,103 @@ class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAli
               ),
               Transform.scale(
                 scale: widget.scale.value,
-                child: FloatingActionButton(
-                  child: Container(
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.timer,
-                          size: 15,
-                          color: Colors.white,
+                child: Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    ScaleTransition(
+                      scale: Tween(begin: 0.23, end: wid).animate(CurvedAnimation(parent: _controller3, curve: Curves.decelerate)),
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.lightBlue,
+                          boxShadow: [
+                            BoxShadow(
+                              spreadRadius: 30,
+                              color: Colors.lightBlue.withAlpha((255 ~/ 5)),
+                            ),
+                            BoxShadow(
+                              spreadRadius: 50,
+                              color: Colors.lightBlue.withAlpha((255 ~/ 5)),
+                            ),
+                            BoxShadow(
+                              spreadRadius: 70,
+                              color: Colors.lightBlue.withAlpha((255 ~/ 5)),
+                            ),
+                            BoxShadow(
+                              spreadRadius: 90,
+                              color: Colors.lightBlue.withAlpha((255 ~/ 5)),
+                            )
+                          ],
                         ),
-                        Text(
-                          '${((timeText / 60).truncate() % 60).toString().padLeft(2, '0') + ':' + (timeText % 60).toString().padLeft(2, '0')}',
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                  // child: Icon(Icons.play_arrow),
-                  onPressed: () {
-                    widget.onChangedTab(true);
-                    _open();
-                    _timer.cancel();
-                    // progressController.updatepersentage(timeText.toDouble());
-                    startTimer(0);
-                  },
-                  backgroundColor: Colors.red,
+                    ScaleTransition(
+                      scale: Tween(begin: 0.23, end: wid).animate(CurvedAnimation(parent: _controller4, curve: Curves.easeInOutCirc)),
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.lightBlue,
+                          boxShadow: [
+                            BoxShadow(
+                              spreadRadius: 30,
+                              color: Colors.transparent,
+                            ),
+                            BoxShadow(
+                              spreadRadius: 50,
+                              color: Colors.transparent,
+                            ),
+                            BoxShadow(
+                              spreadRadius: 70,
+                              color: Colors.transparent,
+                            ),
+                            BoxShadow(
+                              spreadRadius: 90,
+                              color: Colors.lightBlue.withAlpha((255 ~/ 5)),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    ScaleTransition(
+                      scale: _tween.animate(CurvedAnimation(parent: _controller2, curve: Curves.easeInOutCirc)),
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        child: FloatingActionButton(
+                          elevation: 4,
+                          backgroundColor: Colors.red,
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.timer,
+                                  size: 19,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  '${((timeText / 60).truncate() % 60).toString().padLeft(2, '0') + ':' + (timeText % 60).toString().padLeft(2, '0')}',
+                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // child: Icon(Icons.play_arrow),
+                          onPressed: () {
+                            widget.onChangedTab(true);
+                            _open();
+                            _timer.cancel();
+                            // progressController.updatepersentage(timeText.toDouble());
+                            startTimer(0);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -208,16 +312,12 @@ class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAli
     );
   }
 
-  _autoAnimation(val) {
-    return AutoAnimation(timerAnimationState: val);
-  }
-
   _buildButton(time, finalAngle, double angle, {Color color, IconData icon}) {
     final double rad = radians(angle);
     return Transform(
       transform: Matrix4.identity()..translate((widget.translation.value) * cos(rad), (widget.translation.value) * sin(rad)),
       child: Container(
-        height: 38,
+        height: (MediaQuery.of(context).size.height / 14) - 2,
         child: FloatingActionButton(
           child: Text(time.toString()),
           // child: Icon(
@@ -227,7 +327,6 @@ class _RadialAnimationState extends State<RadialAnimation> with AutomaticKeepAli
           onPressed: () {
             widget.onChangedTab(false);
             startTimer(time * 60);
-
             _close();
           },
           elevation: 1,

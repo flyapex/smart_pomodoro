@@ -46,9 +46,9 @@ class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
               color: Colors.lightBlue,
               boxShadow: [
                 if (timerAnimationState)
-                  for (var i = 0; i < 5; i++)
+                  for (var i = 0; i < 6; i++)
                     BoxShadow(
-                      spreadRadius: i * 50.0,
+                      spreadRadius: (i * MediaQuery.of(context).size.height / 12) - 22,
                       color: Colors.lightBlue.withAlpha((255 ~/ 5)),
                     )
               ],
