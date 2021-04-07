@@ -39,7 +39,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
   var tempwidth;
   @override
   void initState() {
-    tempwidth = width;
+    tempwidth = smallBOXwidth;
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
     _getsp();
@@ -162,16 +162,6 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
       }
     });
   }
-
-  //!----------------------------------------------------------
-  double width;
-  // bool isOpen = true;
-  // void onDrag() {
-  //   setState(() {
-  //     isOpen == true ? isOpen = false : isOpen = true;
-  //     width == tempwidth ? width = tempwidth / 1.7 : width = tempwidth;
-  //   });
-  // }
 
   //?-------------index of row1
   int totalindex = 0;
@@ -662,6 +652,16 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     });
   }
 
+  //!----------------------------------------------------------
+  double smallBOXwidth = 303;
+  bool isOpen = true;
+  void onDrag() {
+    setState(() {
+      isOpen == true ? isOpen = false : isOpen = true;
+      smallBOXwidth == tempwidth ? smallBOXwidth = tempwidth / 1.7 : smallBOXwidth = tempwidth;
+    });
+  }
+
   var focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
@@ -820,222 +820,473 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                     padding: EdgeInsets.only(top: 7),
                                     child: Row(
                                       children: [
-                                        Container(
-                                          //! part 1 bg
-                                          color: Color(0xFF1c1427),
-                                          // color: Color(0xFF12202f),
-                                          height: MediaQuery.of(context).size.height - 92,
-                                          // width: MediaQuery.of(context).size.height / 2 < MediaQuery.of(context).size.height ? 230 : 300,
-                                          width: wid,
-                                          child: RawScrollbar(
-                                            thumbColor: Colors.redAccent,
-                                            radius: Radius.circular(20),
-                                            thickness: 5,
-                                            child: ListView.builder(
-                                              physics: BouncingScrollPhysics(),
-                                              itemCount: 24 - ctime + 2,
-                                              controller: _controller,
-                                              itemBuilder: (context, index) {
-                                                return index == 0
-                                                    ? MouseRegion(
-                                                        onEnter: _incrementEnter,
-                                                        onHover: _updateLocation,
-                                                        onExit: _incrementExit,
-                                                        child: Container(
-                                                          height: 45,
-                                                          margin: EdgeInsets.only(bottom: 3, left: 2, right: 3),
-                                                          decoration: BoxDecoration(
-                                                            color: textColor,
-                                                            borderRadius: BorderRadius.circular(5),
-                                                          ),
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                            children: [
-                                                              Padding(
-                                                                padding: EdgeInsets.only(left: 10),
-                                                                child: Icon(
-                                                                  Icons.wb_sunny,
-                                                                  color: Colors.yellow,
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                "Morning",
-                                                                style: TextStyle(
-                                                                  color: Colors.white,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontSize: 20,
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                height: 30,
-                                                                width: 30,
-                                                                child: FloatingActionButton(
-                                                                  elevation: 0,
-                                                                  backgroundColor: Color(0xFF3f4256),
-                                                                  onPressed: () {
-                                                                    showDialog(
-                                                                      context: context,
-                                                                      builder: (BuildContext context) {
-                                                                        return AlertDialog(
-                                                                          contentPadding: EdgeInsets.all(0.0),
-                                                                          content: Container(
-                                                                            height: 390,
-                                                                            width: 500,
-                                                                            decoration: BoxDecoration(
-                                                                              color: Colors.transparent,
-                                                                              borderRadius: BorderRadius.circular(30),
-                                                                            ),
-                                                                            child: createInlinePicker(
-                                                                              borderRadius: 5.3,
-                                                                              dialogInsetPadding: EdgeInsets.all(0),
-                                                                              elevation: 1,
-                                                                              value: _time,
-                                                                              onChange: onTimeChanged,
-                                                                              minuteInterval: MinuteInterval.FIVE,
-                                                                              iosStylePicker: false,
-                                                                              minMinute: 0,
-                                                                              maxMinute: 59,
-                                                                              onChangeDateTime: (DateTime dateTime) {
-                                                                                updateTime(dateTime.hour);
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                            ),
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                    );
-                                                                  },
-                                                                  child: Icon(
-                                                                    Icons.date_range,
-                                                                    color: Colors.white,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : ClipRRect(
-                                                        child: Column(
-                                                          children: [
-                                                            //!  1st row part
-                                                            InkWell(
-                                                              onTap: () {
-                                                                colorIndex(ctime + index - 1);
-                                                              },
-                                                              onHover: (val) {
-                                                                val ? activeIndex(ctime + index - 1) : activeIndex(colorindex);
-                                                              },
-                                                              child: HoverAnimatedContainer(
-                                                                height: 45,
-                                                                margin: EdgeInsets.only(
-                                                                  left: 2,
-                                                                  right: 3,
-                                                                ),
-                                                                hoverDecoration: BoxDecoration(
-                                                                  color: Color(0xFF3f4256),
-                                                                  borderRadius: BorderRadius.circular(5),
-                                                                ),
+                                        GestureDetector(
+                                          onDoubleTap: onDrag,
+                                          child: isOpen
+                                              ? Container(
+                                                  //! part 1 bg
+                                                  color: Color(0xFF1c1427),
+                                                  // color: Color(0xFF12202f),
+                                                  height: MediaQuery.of(context).size.height - 92,
+                                                  // width: MediaQuery.of(context).size.height / 2 < MediaQuery.of(context).size.height ? 230 : 300,
+                                                  width: wid,
+                                                  child: RawScrollbar(
+                                                    thumbColor: Colors.redAccent,
+                                                    radius: Radius.circular(20),
+                                                    thickness: 5,
+                                                    child: ListView.builder(
+                                                      physics: BouncingScrollPhysics(),
+                                                      itemCount: 24 - ctime + 2,
+                                                      controller: _controller,
+                                                      itemBuilder: (context, index) {
+                                                        return index == 0
+                                                            ? MouseRegion(
+                                                                onEnter: _incrementEnter,
+                                                                onHover: _updateLocation,
+                                                                onExit: _incrementExit,
                                                                 child: Container(
+                                                                  height: 45,
+                                                                  margin: EdgeInsets.only(bottom: 3, left: 2, right: 3),
                                                                   decoration: BoxDecoration(
+                                                                    color: textColor,
                                                                     borderRadius: BorderRadius.circular(5),
-                                                                    color: colorindex == ctime + index - 1 ? Colors.cyan : Colors.transparent,
                                                                   ),
-                                                                  //  Color.fromARGB(255, 31, 229, 146)
-
                                                                   child: Row(
                                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                     children: [
                                                                       Padding(
-                                                                        padding: EdgeInsets.only(left: 5),
-                                                                        child: ctime + index - 1 == _time.hour
-                                                                            ? Icon(
-                                                                                Icons.offline_bolt,
-                                                                                color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.red,
-                                                                              )
-                                                                            : Icon(
-                                                                                Icons.offline_bolt,
-                                                                                color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.white,
-                                                                              ),
-                                                                      ),
-                                                                      DefaultTextStyle(
-                                                                        style: TextStyle(color: Colors.white, fontSize: 17),
-                                                                        child: Row(
-                                                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                          children: [
-                                                                            ctime + index - 1 <= 12
-                                                                                ? Text(
-                                                                                    (ctime + index - 1).toString(),
-                                                                                  )
-                                                                                : Text(
-                                                                                    (ctime + index - 1 - 12).toString(),
-                                                                                  ),
-                                                                            Text(
-                                                                              ' - ',
-                                                                            ),
-                                                                            ctime + index <= 12
-                                                                                ? Text(
-                                                                                    (ctime + index).toString() + ' AM',
-                                                                                  )
-                                                                                : ctime + index == 25
-                                                                                    ? Text(
-                                                                                        (ctime + index - 24).toString() + ' AM',
-                                                                                      )
-                                                                                    : Text(
-                                                                                        (ctime + index - 12).toString() + ' PM',
-                                                                                      ),
-                                                                          ],
+                                                                        padding: EdgeInsets.only(left: 10),
+                                                                        child: Icon(
+                                                                          Icons.wb_sunny,
+                                                                          color: Colors.yellow,
                                                                         ),
                                                                       ),
-                                                                      Padding(
-                                                                        padding: EdgeInsets.only(left: 10),
-                                                                        child: ctime + index - 1 == _time.hour
-                                                                            ? AvatarGlow(
-                                                                                endRadius: 22,
-                                                                                duration: Duration(milliseconds: 2000),
-                                                                                repeat: true,
-                                                                                showTwoGlows: true,
-                                                                                repeatPauseDuration: Duration(milliseconds: 100),
-                                                                                glowColor: Colors.blue,
-                                                                                child: Icon(
-                                                                                  Icons.flash_on,
-                                                                                  color: Colors.yellow,
-                                                                                  size: 20,
-                                                                                ),
-                                                                              )
-                                                                            : Container(
-                                                                                decoration: BoxDecoration(
-                                                                                  borderRadius: BorderRadius.circular(20),
-                                                                                ),
-                                                                                child: Icon(
-                                                                                  Icons.flash_on,
-                                                                                  color: Colors.transparent,
-                                                                                  size: 20,
-                                                                                ),
-                                                                              ),
+                                                                      Text(
+                                                                        "Morning",
+                                                                        style: TextStyle(
+                                                                          color: Colors.white,
+                                                                          fontWeight: FontWeight.bold,
+                                                                          fontSize: 20,
+                                                                        ),
+                                                                      ),
+                                                                      Container(
+                                                                        height: 30,
+                                                                        width: 30,
+                                                                        child: FloatingActionButton(
+                                                                          elevation: 0,
+                                                                          backgroundColor: Color(0xFF3f4256),
+                                                                          onPressed: () {
+                                                                            showDialog(
+                                                                              context: context,
+                                                                              builder: (BuildContext context) {
+                                                                                return AlertDialog(
+                                                                                  contentPadding: EdgeInsets.all(0.0),
+                                                                                  content: Container(
+                                                                                    height: 390,
+                                                                                    width: 500,
+                                                                                    decoration: BoxDecoration(
+                                                                                      color: Colors.transparent,
+                                                                                      borderRadius: BorderRadius.circular(30),
+                                                                                    ),
+                                                                                    child: createInlinePicker(
+                                                                                      borderRadius: 5.3,
+                                                                                      dialogInsetPadding: EdgeInsets.all(0),
+                                                                                      elevation: 1,
+                                                                                      value: _time,
+                                                                                      onChange: onTimeChanged,
+                                                                                      minuteInterval: MinuteInterval.FIVE,
+                                                                                      iosStylePicker: false,
+                                                                                      minMinute: 0,
+                                                                                      maxMinute: 59,
+                                                                                      onChangeDateTime: (DateTime dateTime) {
+                                                                                        updateTime(dateTime.hour);
+                                                                                        Navigator.pop(context);
+                                                                                      },
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              },
+                                                                            );
+                                                                          },
+                                                                          child: Icon(
+                                                                            Icons.date_range,
+                                                                            color: Colors.white,
+                                                                          ),
+                                                                        ),
                                                                       ),
                                                                     ],
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                              height: 3,
-                                                              margin: EdgeInsets.only(
-                                                                left: 2,
-                                                                right: 3,
-                                                              ),
-                                                              decoration: BoxDecoration(
-                                                                color: Colors.white,
-                                                                borderRadius: BorderRadius.circular(5),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      );
-                                              },
-                                            ),
-                                          ),
+                                                              )
+                                                            : ClipRRect(
+                                                                child: Column(
+                                                                  children: [
+                                                                    //!  1st row part
+                                                                    InkWell(
+                                                                      onTap: () {
+                                                                        colorIndex(ctime + index - 1);
+                                                                      },
+                                                                      onHover: (val) {
+                                                                        val ? activeIndex(ctime + index - 1) : activeIndex(colorindex);
+                                                                      },
+                                                                      child: HoverAnimatedContainer(
+                                                                        height: 45,
+                                                                        margin: EdgeInsets.only(
+                                                                          left: 2,
+                                                                          right: 3,
+                                                                        ),
+                                                                        hoverDecoration: BoxDecoration(
+                                                                          color: Color(0xFF3f4256),
+                                                                          borderRadius: BorderRadius.circular(5),
+                                                                        ),
+                                                                        child: Container(
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(5),
+                                                                            gradient: LinearGradient(
+                                                                              begin: Alignment.topLeft,
+                                                                              end: Alignment.bottomRight,
+                                                                              colors:
+                                                                                  colorindex == ctime + index - 1 ? [Color(0xFF69ff97), Colors.cyanAccent] : [Colors.transparent, Colors.transparent],
+                                                                              stops: [0.0, 1.0],
+                                                                            ),
+                                                                            // color: colorindex == ctime + index - 1 ? Colors.cyan : Colors.transparent,
+                                                                          ),
+                                                                          //  Color.fromARGB(255, 31, 229, 146)
+
+                                                                          child: Row(
+                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                            children: [
+                                                                              Padding(
+                                                                                padding: EdgeInsets.only(left: 7),
+                                                                                child: ctime + index - 1 == _time.hour
+                                                                                    ? Icon(
+                                                                                        Icons.offline_bolt, color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.red,
+                                                                                        // Color(0xFF673ab7)
+                                                                                      )
+                                                                                    : Icon(
+                                                                                        Icons.offline_bolt,
+                                                                                        color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.white,
+                                                                                      ),
+                                                                              ),
+                                                                              DefaultTextStyle(
+                                                                                style: TextStyle(
+                                                                                  color: colorindex == ctime + index - 1 ? Color(0xFF00416a) : Colors.white, //gg
+                                                                                  fontSize: 17,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  fontFamily: 'KeepCalm',
+                                                                                ),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                  children: [
+                                                                                    ctime + index - 1 <= 12
+                                                                                        ? Text(
+                                                                                            (ctime + index - 1).toString(),
+                                                                                          )
+                                                                                        : Text(
+                                                                                            (ctime + index - 1 - 12).toString(),
+                                                                                          ),
+                                                                                    Text(
+                                                                                      ' - ',
+                                                                                    ),
+                                                                                    ctime + index <= 12
+                                                                                        ? Text(
+                                                                                            (ctime + index).toString() + ' AM',
+                                                                                          )
+                                                                                        : ctime + index == 25
+                                                                                            ? Text(
+                                                                                                (ctime + index - 24).toString() + ' AM',
+                                                                                              )
+                                                                                            : Text(
+                                                                                                (ctime + index - 12).toString() + ' PM',
+                                                                                              ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              Padding(
+                                                                                  padding: EdgeInsets.only(right: 5),
+                                                                                  child: ctime + index - 1 == _time.hour
+                                                                                      ? AvatarGlow(
+                                                                                          endRadius: 22,
+                                                                                          duration: Duration(milliseconds: 2000),
+                                                                                          repeat: true,
+                                                                                          showTwoGlows: true,
+                                                                                          repeatPauseDuration: Duration(milliseconds: 100),
+                                                                                          glowColor: colorindex == ctime + index - 1 ? Colors.deepPurpleAccent : Colors.blue,
+                                                                                          child: Icon(
+                                                                                            Icons.flash_on,
+                                                                                            color: colorindex == ctime + index - 1 ? Color(0xFF1e2936) : Colors.yellow,
+                                                                                            size: 20,
+                                                                                          ),
+                                                                                        )
+                                                                                      : AvatarGlow(
+                                                                                          endRadius: 22,
+                                                                                          duration: Duration(milliseconds: 0),
+                                                                                          repeat: false,
+                                                                                          showTwoGlows: false,
+                                                                                          repeatPauseDuration: Duration(milliseconds: 100),
+                                                                                          glowColor: Colors.blue,
+                                                                                          child: Icon(
+                                                                                            Icons.flash_on,
+                                                                                            color: Colors.transparent,
+                                                                                            size: 20,
+                                                                                          ),
+                                                                                        )),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                      height: 3,
+                                                                      margin: EdgeInsets.only(
+                                                                        left: 2,
+                                                                        right: 3,
+                                                                      ),
+                                                                      decoration: BoxDecoration(
+                                                                        color: Colors.white,
+                                                                        borderRadius: BorderRadius.circular(5),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              );
+                                                      },
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container(
+                                                  //! part 1 small box bg
+                                                  color: Color(0xFF1c1427),
+                                                  // color: Color(0xFF12202f),
+                                                  height: MediaQuery.of(context).size.height - 92,
+                                                  // width: MediaQuery.of(context).size.height / 2 < MediaQuery.of(context).size.height ? 230 : 300,
+                                                  width: smallBOXwidth,
+                                                  child: RawScrollbar(
+                                                    thumbColor: Colors.redAccent,
+                                                    radius: Radius.circular(20),
+                                                    thickness: 5,
+                                                    child: ListView.builder(
+                                                      physics: BouncingScrollPhysics(),
+                                                      itemCount: 24 - ctime + 2,
+                                                      controller: _controller,
+                                                      itemBuilder: (context, index) {
+                                                        return index == 0
+                                                            ? MouseRegion(
+                                                                onEnter: _incrementEnter,
+                                                                onHover: _updateLocation,
+                                                                onExit: _incrementExit,
+                                                                child: Container(
+                                                                  height: 45,
+                                                                  margin: EdgeInsets.only(bottom: 3, left: 2, right: 3),
+                                                                  decoration: BoxDecoration(
+                                                                    color: textColor,
+                                                                    borderRadius: BorderRadius.circular(5),
+                                                                  ),
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: EdgeInsets.only(left: 10),
+                                                                        child: Icon(
+                                                                          Icons.wb_sunny,
+                                                                          color: Colors.yellow,
+                                                                        ),
+                                                                      ),
+                                                                      Text(
+                                                                        "Morning",
+                                                                        style: TextStyle(
+                                                                          color: Colors.white,
+                                                                          fontWeight: FontWeight.bold,
+                                                                          fontSize: 20,
+                                                                        ),
+                                                                      ),
+                                                                      Container(
+                                                                        height: 30,
+                                                                        width: 30,
+                                                                        child: FloatingActionButton(
+                                                                          elevation: 0,
+                                                                          backgroundColor: Color(0xFF3f4256),
+                                                                          onPressed: () {
+                                                                            showDialog(
+                                                                              context: context,
+                                                                              builder: (BuildContext context) {
+                                                                                return AlertDialog(
+                                                                                  contentPadding: EdgeInsets.all(0.0),
+                                                                                  content: Container(
+                                                                                    height: 390,
+                                                                                    width: 500,
+                                                                                    decoration: BoxDecoration(
+                                                                                      color: Colors.transparent,
+                                                                                      borderRadius: BorderRadius.circular(30),
+                                                                                    ),
+                                                                                    child: createInlinePicker(
+                                                                                      borderRadius: 5.3,
+                                                                                      dialogInsetPadding: EdgeInsets.all(0),
+                                                                                      elevation: 1,
+                                                                                      value: _time,
+                                                                                      onChange: onTimeChanged,
+                                                                                      minuteInterval: MinuteInterval.FIVE,
+                                                                                      iosStylePicker: false,
+                                                                                      minMinute: 0,
+                                                                                      maxMinute: 59,
+                                                                                      onChangeDateTime: (DateTime dateTime) {
+                                                                                        updateTime(dateTime.hour);
+                                                                                        Navigator.pop(context);
+                                                                                      },
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              },
+                                                                            );
+                                                                          },
+                                                                          child: Icon(
+                                                                            Icons.date_range,
+                                                                            color: Colors.white,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            : ClipRRect(
+                                                                child: Column(
+                                                                  children: [
+                                                                    //!  1st row part
+                                                                    InkWell(
+                                                                      onTap: () {
+                                                                        colorIndex(ctime + index - 1);
+                                                                      },
+                                                                      onHover: (val) {
+                                                                        val ? activeIndex(ctime + index - 1) : activeIndex(colorindex);
+                                                                      },
+                                                                      child: HoverAnimatedContainer(
+                                                                        height: 45,
+                                                                        margin: EdgeInsets.only(
+                                                                          left: 2,
+                                                                          right: 3,
+                                                                        ),
+                                                                        hoverDecoration: BoxDecoration(
+                                                                          color: Color(0xFF3f4256),
+                                                                          borderRadius: BorderRadius.circular(5),
+                                                                        ),
+                                                                        child: Container(
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(5),
+                                                                            gradient: LinearGradient(
+                                                                              begin: Alignment.topLeft,
+                                                                              end: Alignment.bottomRight,
+                                                                              colors: colorindex == ctime + index - 1
+                                                                                  ? [Color.fromARGB(255, 31, 229, 146), Colors.cyanAccent]
+                                                                                  : [Colors.transparent, Colors.transparent],
+                                                                              stops: [0.0, 1.0],
+                                                                            ),
+                                                                            // color: colorindex == ctime + index - 1 ? Colors.cyan : Colors.transparent,
+                                                                          ),
+                                                                          //  Color.fromARGB(255, 31, 229, 146)
+
+                                                                          child: Row(
+                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                            children: [
+                                                                              Padding(
+                                                                                padding: EdgeInsets.only(left: 5),
+                                                                                child: ctime + index - 1 == _time.hour
+                                                                                    ? Icon(
+                                                                                        Icons.offline_bolt, color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.red,
+                                                                                        // Color(0xFF673ab7)
+                                                                                      )
+                                                                                    : Icon(
+                                                                                        Icons.offline_bolt,
+                                                                                        color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.white,
+                                                                                      ),
+                                                                              ),
+                                                                              DefaultTextStyle(
+                                                                                style: TextStyle(
+                                                                                  color: colorindex == ctime + index - 1 ? Color(0xFF00416a) : Colors.white, //gg
+                                                                                  fontSize: 17,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  fontFamily: 'KeepCalm',
+                                                                                ),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                  children: [
+                                                                                    ctime + index - 1 <= 12
+                                                                                        ? Text(
+                                                                                            (ctime + index - 1).toString(),
+                                                                                          )
+                                                                                        : Text(
+                                                                                            (ctime + index - 1 - 12).toString(),
+                                                                                          ),
+                                                                                    Text(
+                                                                                      ' - ',
+                                                                                    ),
+                                                                                    ctime + index <= 12
+                                                                                        ? Text(
+                                                                                            (ctime + index).toString() + ' AM',
+                                                                                          )
+                                                                                        : ctime + index == 25
+                                                                                            ? Text(
+                                                                                                (ctime + index - 24).toString() + ' AM',
+                                                                                              )
+                                                                                            : Text(
+                                                                                                (ctime + index - 12).toString() + ' PM',
+                                                                                              ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              Padding(
+                                                                                padding: EdgeInsets.only(right: 0),
+                                                                                child: ctime + index - 1 == _time.hour
+                                                                                    ? AvatarGlow(
+                                                                                        endRadius: 22,
+                                                                                        duration: Duration(milliseconds: 2000),
+                                                                                        repeat: true,
+                                                                                        showTwoGlows: true,
+                                                                                        repeatPauseDuration: Duration(milliseconds: 100),
+                                                                                        glowColor: Colors.blue,
+                                                                                        child: Icon(
+                                                                                          Icons.flash_on,
+                                                                                          color: Colors.yellow,
+                                                                                          size: 20,
+                                                                                        ),
+                                                                                      )
+                                                                                    : AvatarGlow(
+                                                                                        endRadius: 22,
+                                                                                        duration: Duration(milliseconds: 0),
+                                                                                        repeat: false,
+                                                                                        showTwoGlows: false,
+                                                                                        repeatPauseDuration: Duration(milliseconds: 0),
+                                                                                        glowColor: Colors.blue,
+                                                                                        child: Icon(
+                                                                                          Icons.flash_on,
+                                                                                          color: Colors.transparent,
+                                                                                          size: 20,
+                                                                                        ),
+                                                                                      ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                      height: 3,
+                                                                      margin: EdgeInsets.only(
+                                                                        left: 2,
+                                                                        right: 3,
+                                                                      ),
+                                                                      decoration: BoxDecoration(
+                                                                        color: Colors.white,
+                                                                        borderRadius: BorderRadius.circular(5),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
                                         ),
                                         Expanded(
                                           child: Container(
@@ -1143,7 +1394,6 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                     Column(
                                                       mainAxisAlignment: MainAxisAlignment.end,
                                                       children: [
-                                                        // gg
                                                         MouseRegion(
                                                           onEnter: _incrementEnter2,
                                                           onHover: _updateLocation2,

@@ -49,7 +49,7 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    double hiwe = (4 * MediaQuery.of(context).size.height / 7) - 3;
+    double hiwe = (4 * MediaQuery.of(context).size.height / 7) + 35;
     return CustomPaint(
       child: Container(
         height: hiwe,

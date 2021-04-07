@@ -80,7 +80,7 @@ class RadialAnimation extends StatefulWidget {
         ),
         translation = Tween<double>(
           begin: 0,
-          end: (4 * screenSizew / 12) + 2, //gg
+          end: 203, //gg
           // end: screenSizew / 3 > screenSizew ? (4 * screenSizew / 12) : (4 * screenSizew / 11) - 10, //gg
         ).animate(
           CurvedAnimation(parent: controller, curve: Curves.linear),
@@ -171,7 +171,7 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
   @override
   // ignore: must_call_super
   Widget build(context) {
-    double wid = (MediaQuery.of(context).size.height / 610);
+    double wid = (MediaQuery.of(context).size.height / 700);
     return AnimatedBuilder(
       animation: widget.controller,
       builder: (context, builder) {
@@ -317,7 +317,7 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
     return Transform(
       transform: Matrix4.identity()..translate((widget.translation.value) * cos(rad), (widget.translation.value) * sin(rad)),
       child: Container(
-        height: (MediaQuery.of(context).size.height / 14) - 2,
+        height: 40,
         child: FloatingActionButton(
           child: Text(time.toString()),
           // child: Icon(
