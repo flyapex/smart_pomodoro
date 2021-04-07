@@ -65,7 +65,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     });
   }
 
-  var ctime = 4;
+  var ctime = 6;
   void updateTime(val) {
     setState(() {
       ctime = val;
@@ -431,11 +431,6 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
 
 //? insert* DB
   _inputTOdb() {
-    // if (colorindex == 1) {
-    //   mainlist.add(textController.text);
-    //   prefs.setStringList("1", mainlist);
-    //   // print(mainlist);
-    // }
     if (colorindex == 0) {
       mainlist0.add(textController.text);
       prefs.setStringList("0", mainlist0);
@@ -931,6 +926,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                       },
                                                                       child: HoverAnimatedContainer(
                                                                         height: 45,
+                                                                        hoverHeight: 47,
                                                                         margin: EdgeInsets.only(
                                                                           left: 2,
                                                                           right: 3,
@@ -957,7 +953,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                             children: [
                                                                               Padding(
-                                                                                padding: EdgeInsets.only(left: 7),
+                                                                                padding: EdgeInsets.only(left: 7, right: 7),
                                                                                 child: ctime + index - 1 == _time.hour
                                                                                     ? Icon(
                                                                                         Icons.offline_bolt, color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.red,
@@ -1162,6 +1158,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                       },
                                                                       child: HoverAnimatedContainer(
                                                                         height: 45,
+                                                                        hoverHeight: 47,
                                                                         margin: EdgeInsets.only(
                                                                           left: 2,
                                                                           right: 3,
@@ -1189,7 +1186,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                             children: [
                                                                               Padding(
-                                                                                padding: EdgeInsets.only(left: 5),
+                                                                                padding: EdgeInsets.only(left: 5, right: 5),
                                                                                 child: ctime + index - 1 == _time.hour
                                                                                     ? Icon(
                                                                                         Icons.offline_bolt, color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.red,
@@ -1370,12 +1367,10 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                         ),
                                                                       ),
                                                                       Checkbox(
-                                                                        activeColor: Colors.grey,
+                                                                        activeColor: Colors.greenAccent,
                                                                         value: true,
                                                                         onChanged: (v) {
-                                                                          // var changed = todoController.sublist[index2];
-                                                                          // changed.done = v;
-                                                                          // todoController.sublist[index2] = changed;
+                                                                          //text cut
                                                                         },
                                                                       ),
                                                                     ],

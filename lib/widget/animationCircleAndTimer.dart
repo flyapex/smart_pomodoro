@@ -80,7 +80,7 @@ class RadialAnimation extends StatefulWidget {
         ),
         translation = Tween<double>(
           begin: 0,
-          end: 203, //gg
+          end: 202, //gg
           // end: screenSizew / 3 > screenSizew ? (4 * screenSizew / 12) : (4 * screenSizew / 11) - 10, //gg
         ).animate(
           CurvedAnimation(parent: controller, curve: Curves.linear),
@@ -118,7 +118,7 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
 
   @override
   void initState() {
-    _controller2 = AnimationController(duration: const Duration(seconds: 1), vsync: this);
+    _controller2 = AnimationController(duration: const Duration(seconds: 2), vsync: this);
     _controller2.repeat(reverse: true);
     _controller3 = AnimationController(duration: const Duration(milliseconds: 1700), vsync: this);
     Timer(Duration(milliseconds: 300), () {
@@ -171,7 +171,7 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
   @override
   // ignore: must_call_super
   Widget build(context) {
-    double wid = (MediaQuery.of(context).size.height / 700);
+    double wid = 0.76;
     return AnimatedBuilder(
       animation: widget.controller,
       builder: (context, builder) {
