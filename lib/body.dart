@@ -57,7 +57,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
   ScrollController _mycontroller1 = new ScrollController();
   ScrollController _mycontroller2 = new ScrollController();
   var textController = TextEditingController();
-  //!Timer
+  //!defult timer
   TimeOfDay _time2 = TimeOfDay.now().replacing(minute: 0);
   void onTimeChanged2(TimeOfDay newTime) {
     setState(() {
@@ -65,7 +65,31 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     });
   }
 
-  var ctime = 6;
+  //?-------------index of row1
+  int totalindex = 0;
+  void totalIndex(val) {
+    setState(() {
+      totalindex = val;
+    });
+  }
+
+  int colorindex = DateTime.now().hour;
+  void colorIndex(val) {
+    setState(() {
+      colorindex = val;
+    });
+  }
+
+  int activeindex = DateTime.now().hour;
+  void activeIndex(val) {
+    setState(() {
+      activeindex = val;
+    });
+  }
+
+//?--------------------------------
+  var ctime = 4;
+
   void updateTime(val) {
     setState(() {
       ctime = val;
@@ -73,6 +97,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
   }
 
   //!extra timer
+  TimeOfDay _currentTime = TimeOfDay.now().replacing(minute: 0);
   TimeOfDay _time = TimeOfDay.now().replacing(minute: 0);
   void onTimeChanged(TimeOfDay newTime) {
     setState(() {
@@ -160,35 +185,6 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
       } else {
         addicon = Icons.add;
       }
-    });
-  }
-
-  //?-------------index of row1
-  int totalindex = 0;
-  int currentindex = 0;
-  void currentIndex(val) {
-    setState(() {
-      currentindex = val;
-    });
-  }
-
-  void totalIndex(val) {
-    setState(() {
-      totalindex = val;
-    });
-  }
-
-  int colorindex = DateTime.now().hour;
-  void colorIndex(val) {
-    setState(() {
-      colorindex = val;
-    });
-  }
-
-  int activeindex = DateTime.now().hour;
-  void activeIndex(val) {
-    setState(() {
-      activeindex = val;
     });
   }
 
@@ -725,21 +721,21 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                   ),
                                   child: Column(
                                     children: [
-                                      createInlinePicker(
-                                        borderRadius: 5.3,
-                                        dialogInsetPadding: EdgeInsets.all(0),
-                                        elevation: 1,
-                                        value: _time2,
-                                        onChange: onTimeChanged2,
-                                        minuteInterval: MinuteInterval.FIVE,
-                                        iosStylePicker: false,
-                                        minMinute: 0,
-                                        maxMinute: 59,
-                                        onChangeDateTime: (DateTime dateTime) {
-                                          updateTime(dateTime.hour);
-                                          Navigator.pop(context);
-                                        },
-                                      ),
+                                      // createInlinePicker(
+                                      //   borderRadius: 5.3,
+                                      //   dialogInsetPadding: EdgeInsets.all(0),
+                                      //   elevation: 1,
+                                      //   value: _time2,
+                                      //   onChange: onTimeChanged2,
+                                      //   minuteInterval: MinuteInterval.FIVE,
+                                      //   iosStylePicker: false,
+                                      //   minMinute: 0,
+                                      //   maxMinute: 59,
+                                      //   onChangeDateTime: (DateTime dateTime) {
+                                      //     updateTime(dateTime.hour);
+                                      //     Navigator.pop(context);
+                                      //   },
+                                      // ),
                                     ],
                                   ),
                                 ),
@@ -876,9 +872,17 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                     children: [
                                                                       Padding(
                                                                         padding: EdgeInsets.only(left: 10),
-                                                                        child: Icon(
-                                                                          Icons.wb_sunny,
-                                                                          color: Colors.yellow,
+                                                                        child: AvatarGlow(
+                                                                          glowColor: Colors.lightBlue,
+                                                                          endRadius: 20,
+                                                                          duration: Duration(milliseconds: 1500),
+                                                                          repeat: true,
+                                                                          showTwoGlows: true,
+                                                                          repeatPauseDuration: Duration(milliseconds: 500),
+                                                                          child: Icon(
+                                                                            Icons.wb_sunny,
+                                                                            color: Colors.yellow,
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                       Text(
@@ -979,9 +983,9 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                             children: [
                                                                               Padding(
                                                                                 padding: EdgeInsets.only(left: 7, right: 7),
-                                                                                child: ctime + index - 1 == _time.hour
+                                                                                child: ctime + index - 1 == _currentTime.hour
                                                                                     ? Icon(
-                                                                                        Icons.offline_bolt, color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.red,
+                                                                                        Icons.offline_bolt, color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.blue,
                                                                                         // Color(0xFF673ab7)
                                                                                       )
                                                                                     : Icon(
@@ -1025,7 +1029,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                               ),
                                                                               Padding(
                                                                                   padding: EdgeInsets.only(right: 5),
-                                                                                  child: ctime + index - 1 == _time.hour
+                                                                                  child: ctime + index - 1 == _currentTime.hour
                                                                                       ? AvatarGlow(
                                                                                           endRadius: 22,
                                                                                           duration: Duration(milliseconds: 2000),
@@ -1108,9 +1112,17 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                     children: [
                                                                       Padding(
                                                                         padding: EdgeInsets.only(left: 10),
-                                                                        child: Icon(
-                                                                          Icons.wb_sunny,
-                                                                          color: Colors.yellow,
+                                                                        child: AvatarGlow(
+                                                                          glowColor: Colors.blue,
+                                                                          endRadius: 20,
+                                                                          duration: Duration(milliseconds: 1500),
+                                                                          repeat: true,
+                                                                          showTwoGlows: true,
+                                                                          repeatPauseDuration: Duration(milliseconds: 500),
+                                                                          child: Icon(
+                                                                            Icons.wb_sunny,
+                                                                            color: Colors.yellow,
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                       Text(
@@ -1212,9 +1224,9 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                             children: [
                                                                               Padding(
                                                                                 padding: EdgeInsets.only(left: 5, right: 5),
-                                                                                child: ctime + index - 1 == _time.hour
+                                                                                child: ctime + index - 1 == _currentTime.hour
                                                                                     ? Icon(
-                                                                                        Icons.offline_bolt, color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.red,
+                                                                                        Icons.offline_bolt, color: colorindex == ctime + index - 1 ? Color(0xFF1c1427) : Colors.blue,
                                                                                         // Color(0xFF673ab7)
                                                                                       )
                                                                                     : Icon(
@@ -1258,7 +1270,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                               ),
                                                                               Padding(
                                                                                 padding: EdgeInsets.only(right: 0),
-                                                                                child: ctime + index - 1 == _time.hour
+                                                                                child: ctime + index - 1 == _currentTime.hour
                                                                                     ? AvatarGlow(
                                                                                         endRadius: 22,
                                                                                         duration: Duration(milliseconds: 2000),
