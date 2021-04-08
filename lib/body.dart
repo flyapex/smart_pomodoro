@@ -782,6 +782,19 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                           ),
                         ),
                       ),
+                      InkWell(
+                        onTap: () {
+                          _cleanup();
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 4, right: 4),
+                          child: Icon(
+                            Icons.clear_all_outlined,
+                            color: Color(0xFF39a7f2),
+                            size: 20,
+                          ),
+                        ),
+                      ),
                       Expanded(child: MoveWindow()),
                       WindowButtons(),
                     ],
@@ -1471,12 +1484,6 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                     Column(
                                                       mainAxisAlignment: MainAxisAlignment.end,
                                                       children: [
-                                                        FloatingActionButton(
-                                                          onPressed: () {
-                                                            _cleanup();
-                                                          },
-                                                          child: Icon(Icons.add),
-                                                        ),
                                                         MouseRegion(
                                                           onEnter: _incrementEnter2,
                                                           onHover: _updateLocation2,
@@ -1543,7 +1550,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
