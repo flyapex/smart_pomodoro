@@ -273,58 +273,57 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
   // List<List<String>> mainlist = new List.generate(25, (i) => []);
 
   itemCountt() {
-    if (colorindex == 0) {
+    if (activeindex == 0) {
       return mainlist0.length;
-    } else if (colorindex == 1) {
+    } else if (activeindex == 1) {
       return mainlist1.length;
-    } else if (colorindex == 2) {
+    } else if (activeindex == 2) {
       return mainlist2.length;
-    } else if (colorindex == 3) {
+    } else if (activeindex == 3) {
       return mainlist3.length;
-    } else if (colorindex == 4) {
-      print(mainlist4.length);
+    } else if (activeindex == 4) {
       return mainlist4.length;
-    } else if (colorindex == 5) {
+    } else if (activeindex == 5) {
       return mainlist5.length;
-    } else if (colorindex == 6) {
+    } else if (activeindex == 6) {
       return mainlist6.length;
-    } else if (colorindex == 7) {
+    } else if (activeindex == 7) {
       return mainlist7.length;
-    } else if (colorindex == 8) {
+    } else if (activeindex == 8) {
       return mainlist8.length;
-    } else if (colorindex == 9) {
+    } else if (activeindex == 9) {
       return mainlist9.length;
-    } else if (colorindex == 10) {
+    } else if (activeindex == 10) {
       return mainlist10.length;
-    } else if (colorindex == 11) {
+    } else if (activeindex == 11) {
       return mainlist11.length;
-    } else if (colorindex == 12) {
+    } else if (activeindex == 12) {
       return mainlist12.length;
-    } else if (colorindex == 13) {
+    } else if (activeindex == 13) {
       return mainlist13.length;
-    } else if (colorindex == 14) {
+    } else if (activeindex == 14) {
       return mainlist14.length;
-    } else if (colorindex == 15) {
+    } else if (activeindex == 15) {
       return mainlist15.length;
-    } else if (colorindex == 16) {
+    } else if (activeindex == 16) {
       return mainlist16.length;
-    } else if (colorindex == 17) {
+    } else if (activeindex == 17) {
       return mainlist17.length;
-    } else if (colorindex == 18) {
+    } else if (activeindex == 18) {
       return mainlist18.length;
-    } else if (colorindex == 19) {
+    } else if (activeindex == 19) {
       return mainlist19.length;
-    } else if (colorindex == 20) {
+    } else if (activeindex == 20) {
       return mainlist20.length;
-    } else if (colorindex == 21) {
+    } else if (activeindex == 21) {
       return mainlist21.length;
-    } else if (colorindex == 22) {
+    } else if (activeindex == 22) {
       return mainlist22.length;
-    } else if (colorindex == 23) {
+    } else if (activeindex == 23) {
       return mainlist23.length;
-    } else if (colorindex == 24) {
+    } else if (activeindex == 24) {
       return mainlist24.length;
-    } else if (colorindex == 25) {
+    } else if (activeindex == 25) {
       return mainlist25.length;
     }
   }
