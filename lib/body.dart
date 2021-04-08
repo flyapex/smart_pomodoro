@@ -220,6 +220,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
   List<String> mainlist23 = [];
   List<String> mainlist24 = [];
   List<String> mainlist25 = [];
+  // List<bool> chackBox6 = [];
 
   var prefs;
   void _getsp() async {
@@ -314,9 +315,37 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     }
   }
 
-//? Delete* from DB
+  _updateDb() {
+    prefs.setStringList("0", mainlist0);
+    prefs.setStringList("1", mainlist1);
+    prefs.setStringList("2", mainlist2);
+    prefs.setStringList("3", mainlist3);
+    prefs.setStringList("4", mainlist4);
+    prefs.setStringList("5", mainlist5);
+    prefs.setStringList("6", mainlist6);
+    prefs.setStringList("7", mainlist7);
+    prefs.setStringList("8", mainlist8);
+    prefs.setStringList("9", mainlist9);
+    prefs.setStringList("10", mainlist10);
+    prefs.setStringList("11", mainlist11);
+    prefs.setStringList("12", mainlist12);
+    prefs.setStringList("13", mainlist13);
+    prefs.setStringList("14", mainlist14);
+    prefs.setStringList("15", mainlist15);
+    prefs.setStringList("16", mainlist16);
+    prefs.setStringList("17", mainlist17);
+    prefs.setStringList("18", mainlist18);
+    prefs.setStringList("19", mainlist19);
+    prefs.setStringList("20", mainlist20);
+    prefs.setStringList("21", mainlist21);
+    prefs.setStringList("22", mainlist22);
+    prefs.setStringList("23", mainlist23);
+    prefs.setStringList("24", mainlist24);
+    prefs.setStringList("25", mainlist25);
+  }
+
+//! delete* from DB
   _slidTodeleted(BuildContext context, index) {
-    // mainlist.removeAt(index);
     if (colorindex == 0) {
       mainlist0.removeAt(index);
     } else if (colorindex == 1) {
@@ -370,9 +399,10 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     } else if (colorindex == 25) {
       mainlist25.removeAt(index);
     }
+    _updateDb();
   }
 
-//? Display* from db
+//! display* from db
   _textDisplay(BuildContext context, index) {
     if (colorindex == 0) {
       return Text('- ' + mainlist0[index]);
@@ -429,7 +459,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     }
   }
 
-//? insert* DB
+//! insert* DB
   _inputTOdb() {
     if (colorindex == 0) {
       mainlist0.add(textController.text);
@@ -512,7 +542,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     }
   }
 
-//?double tap Update*
+//!double tap Update*
   _updateToDb() {
     // if (colorindex == 4) {
     //   mainlist4[doubleTapedIndex] = textController.text;
@@ -584,11 +614,6 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
       doubleTapedIndex = val;
     });
 
-    // if (colorindex == 4) {
-    //   textController.text = mainlist4[doubleTapedIndex];
-    // } else if (colorindex == 5) {
-    //   textController.text = mainlist5[doubleTapedIndex];
-    // }
     if (colorindex == 0) {
       textController.text = mainlist0[doubleTapedIndex];
     } else if (colorindex == 1) {
@@ -966,7 +991,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                               ),
                                                                               DefaultTextStyle(
                                                                                 style: TextStyle(
-                                                                                  color: colorindex == ctime + index - 1 ? Color(0xFF00416a) : Colors.white, //gg
+                                                                                  color: colorindex == ctime + index - 1 ? Color(0xFF00416a) : Colors.white,
                                                                                   fontSize: 17,
                                                                                   fontWeight: FontWeight.bold,
                                                                                   fontFamily: 'KeepCalm',
@@ -1007,10 +1032,10 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                                           repeat: true,
                                                                                           showTwoGlows: true,
                                                                                           repeatPauseDuration: Duration(milliseconds: 100),
-                                                                                          glowColor: colorindex == ctime + index - 1 ? Colors.deepPurpleAccent : Colors.blue,
+                                                                                          glowColor: colorindex == ctime + index - 1 ? Colors.deepPurple.withOpacity(0.9) : Colors.blue,
                                                                                           child: Icon(
                                                                                             Icons.flash_on,
-                                                                                            color: colorindex == ctime + index - 1 ? Color(0xFF1e2936) : Colors.yellow,
+                                                                                            color: colorindex == ctime + index - 1 ? Color(0xFF1e2936) : Colors.yellow, //Color(0xFF1e2936)
                                                                                             size: 20,
                                                                                           ),
                                                                                         )
@@ -1199,7 +1224,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                               ),
                                                                               DefaultTextStyle(
                                                                                 style: TextStyle(
-                                                                                  color: colorindex == ctime + index - 1 ? Color(0xFF00416a) : Colors.white, //gg
+                                                                                  color: colorindex == ctime + index - 1 ? Color(0xFF00416a) : Colors.white,
                                                                                   fontSize: 17,
                                                                                   fontWeight: FontWeight.bold,
                                                                                   fontFamily: 'KeepCalm',
@@ -1360,17 +1385,27 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                     children: [
                                                                       //!  display here-----------------------------------------------------------------
                                                                       DefaultTextStyle(
-                                                                        style: TextStyle(color: Colors.white, fontSize: 20),
-                                                                        child: Container(
-                                                                          padding: EdgeInsets.only(left: 25),
-                                                                          child: _textDisplay(context, index3),
+                                                                        maxLines: 1,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        style: TextStyle(
+                                                                          color: Colors.white,
+                                                                          fontSize: 20,
+                                                                        ),
+                                                                        child: Expanded(
+                                                                          child: Container(
+                                                                            padding: EdgeInsets.only(left: 25),
+                                                                            height: 32,
+                                                                            child: _textDisplay(context, index3),
+                                                                          ),
                                                                         ),
                                                                       ),
+
                                                                       Checkbox(
                                                                         activeColor: Colors.greenAccent,
                                                                         value: true,
                                                                         onChanged: (v) {
-                                                                          //text cut
+                                                                          // _checkbox(v);
+                                                                          //gg
                                                                         },
                                                                       ),
                                                                     ],
