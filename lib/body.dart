@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:day_night_time_picker/lib/constants.dart';
@@ -19,6 +21,21 @@ class MainBody extends StatefulWidget {
 }
 
 class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin {
+  _cleanup() async {
+    await prefs.clear();
+    mainlist0.clear();
+    mainlist1.clear();
+    mainlist2.clear();
+    mainlist3.clear();
+    mainlist4.clear();
+    mainlist5.clear();
+    mainlist6.clear();
+    mainlist7.clear();
+    mainlist8.clear();
+    mainlist9.clear();
+    mainlist10.clear();
+  }
+
   //? ---------part 1--------------------------------
   //!all controller here
   TabController _tabController;
@@ -58,12 +75,12 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
   ScrollController _mycontroller2 = new ScrollController();
   var textController = TextEditingController();
   //!defult timer
-  TimeOfDay _time2 = TimeOfDay.now().replacing(minute: 0);
-  void onTimeChanged2(TimeOfDay newTime) {
-    setState(() {
-      _time2 = newTime;
-    });
-  }
+  // TimeOfDay _time2 = TimeOfDay.now().replacing(minute: 0);
+  // void onTimeChanged2(TimeOfDay newTime) {
+  //   setState(() {
+  //     _time2 = newTime;
+  //   });
+  // }
 
   //?-------------index of row1
   int totalindex = 0;
@@ -265,6 +282,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
     } else if (colorindex == 3) {
       return mainlist3.length;
     } else if (colorindex == 4) {
+      print(mainlist4.length);
       return mainlist4.length;
     } else if (colorindex == 5) {
       return mainlist5.length;
@@ -400,57 +418,57 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
 
 //! display* from db
   _textDisplay(BuildContext context, index) {
-    if (colorindex == 0) {
+    if (activeindex == 0) {
       return Text('- ' + mainlist0[index]);
-    } else if (colorindex == 1) {
+    } else if (activeindex == 1) {
       return Text('- ' + mainlist1[index]);
-    } else if (colorindex == 2) {
+    } else if (activeindex == 2) {
       return Text('- ' + mainlist2[index]);
-    } else if (colorindex == 3) {
+    } else if (activeindex == 3) {
       return Text('- ' + mainlist3[index]);
-    } else if (colorindex == 4) {
+    } else if (activeindex == 4) {
       return Text('- ' + mainlist4[index]);
-    } else if (colorindex == 5) {
+    } else if (activeindex == 5) {
       return Text('- ' + mainlist5[index]);
-    } else if (colorindex == 6) {
+    } else if (activeindex == 6) {
       return Text('- ' + mainlist6[index]);
-    } else if (colorindex == 7) {
+    } else if (activeindex == 7) {
       return Text('- ' + mainlist7[index]);
-    } else if (colorindex == 8) {
+    } else if (activeindex == 8) {
       return Text('- ' + mainlist8[index]);
-    } else if (colorindex == 9) {
+    } else if (activeindex == 9) {
       return Text('- ' + mainlist9[index]);
-    } else if (colorindex == 10) {
+    } else if (activeindex == 10) {
       return Text('- ' + mainlist10[index]);
-    } else if (colorindex == 11) {
+    } else if (activeindex == 11) {
       return Text('- ' + mainlist11[index]);
-    } else if (colorindex == 12) {
+    } else if (activeindex == 12) {
       return Text('- ' + mainlist12[index]);
-    } else if (colorindex == 13) {
+    } else if (activeindex == 13) {
       return Text('- ' + mainlist13[index]);
-    } else if (colorindex == 14) {
+    } else if (activeindex == 14) {
       return Text('- ' + mainlist14[index]);
-    } else if (colorindex == 15) {
+    } else if (activeindex == 15) {
       return Text('- ' + mainlist15[index]);
-    } else if (colorindex == 16) {
+    } else if (activeindex == 16) {
       return Text('- ' + mainlist16[index]);
-    } else if (colorindex == 17) {
+    } else if (activeindex == 17) {
       return Text('- ' + mainlist17[index]);
-    } else if (colorindex == 18) {
+    } else if (activeindex == 18) {
       return Text('- ' + mainlist18[index]);
-    } else if (colorindex == 19) {
+    } else if (activeindex == 19) {
       return Text('- ' + mainlist19[index]);
-    } else if (colorindex == 20) {
+    } else if (activeindex == 20) {
       return Text('- ' + mainlist20[index]);
-    } else if (colorindex == 21) {
+    } else if (activeindex == 21) {
       return Text('- ' + mainlist21[index]);
-    } else if (colorindex == 22) {
+    } else if (activeindex == 22) {
       return Text('- ' + mainlist22[index]);
-    } else if (colorindex == 23) {
+    } else if (activeindex == 23) {
       return Text('- ' + mainlist23[index]);
-    } else if (colorindex == 24) {
+    } else if (activeindex == 24) {
       return Text('- ' + mainlist24[index]);
-    } else if (colorindex == 25) {
+    } else if (activeindex == 25) {
       return Text('- ' + mainlist25[index]);
     }
   }
@@ -719,24 +737,36 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                     color: Colors.transparent,
                                     borderRadius: BorderRadius.circular(30),
                                   ),
-                                  child: Column(
-                                    children: [
-                                      // createInlinePicker(
-                                      //   borderRadius: 5.3,
-                                      //   dialogInsetPadding: EdgeInsets.all(0),
-                                      //   elevation: 1,
-                                      //   value: _time2,
-                                      //   onChange: onTimeChanged2,
-                                      //   minuteInterval: MinuteInterval.FIVE,
-                                      //   iosStylePicker: false,
-                                      //   minMinute: 0,
-                                      //   maxMinute: 59,
-                                      //   onChangeDateTime: (DateTime dateTime) {
-                                      //     updateTime(dateTime.hour);
-                                      //     Navigator.pop(context);
-                                      //   },
-                                      // ),
-                                    ],
+                                  child: DefaultTextStyle(
+                                    style: TextStyle(fontFamily: 'KeepCalm', color: Colors.blue),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(height: 10),
+                                        Text("😁 Hello bitch! 😁", style: TextStyle(fontFamily: 'facon', fontSize: 30, color: Colors.redAccent)),
+                                        Text('This project  was created for Time Tracking in 24H.⏳'),
+                                        Text('''May be You will see This Features Soon🔥\n■ Chack box/ done \n■ Completed task list in bottom \n■ Next task \n■ Priority
+                                        \nKnown Bug🐲 \n■Timer % (gradient circle) \n■Defult Time(now 5AM)  \nlet us know if you want any specfic Features🤘🤘🤘 :)
+                                        '''),
+
+                                        Text('''◇◇◇''', style: TextStyle(color: Colors.deepPurple)),
+                                        Text('Join us')
+                                        // createInlinePicker(
+                                        //   borderRadius: 5.3,
+                                        //   dialogInsetPadding: EdgeInsets.all(0),
+                                        //   elevation: 1,
+                                        //   value: _time2,
+                                        //   onChange: onTimeChanged2,
+                                        //   minuteInterval: MinuteInterval.FIVE,
+                                        //   iosStylePicker: false,
+                                        //   minMinute: 0,
+                                        //   maxMinute: 59,
+                                        //   onChangeDateTime: (DateTime dateTime) {
+                                        //     updateTime(dateTime.hour);
+                                        //     Navigator.pop(context);
+                                        //   },
+                                        // ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
@@ -871,7 +901,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                     children: [
                                                                       Padding(
-                                                                        padding: EdgeInsets.only(left: 10),
+                                                                        padding: EdgeInsets.only(left: 0),
                                                                         child: AvatarGlow(
                                                                           glowColor: Colors.lightBlue,
                                                                           endRadius: 20,
@@ -879,14 +909,17 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                           repeat: true,
                                                                           showTwoGlows: true,
                                                                           repeatPauseDuration: Duration(milliseconds: 500),
-                                                                          child: Icon(
-                                                                            Icons.wb_sunny,
-                                                                            color: Colors.yellow,
+                                                                          child: Transform.rotate(
+                                                                            angle: -34 * pi / 180,
+                                                                            child: Icon(
+                                                                              _currentTime.hour < 12 ? Icons.wb_sunny : Icons.nightlight_round,
+                                                                              color: Colors.yellow,
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
                                                                       Text(
-                                                                        "Morning",
+                                                                        _currentTime.hour < 12 ? "Morning" : "Evening    ",
                                                                         style: TextStyle(
                                                                           color: Colors.white,
                                                                           fontWeight: FontWeight.bold,
@@ -1111,7 +1144,7 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                     children: [
                                                                       Padding(
-                                                                        padding: EdgeInsets.only(left: 10),
+                                                                        padding: EdgeInsets.only(left: 0),
                                                                         child: AvatarGlow(
                                                                           glowColor: Colors.blue,
                                                                           endRadius: 20,
@@ -1119,14 +1152,17 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                                           repeat: true,
                                                                           showTwoGlows: true,
                                                                           repeatPauseDuration: Duration(milliseconds: 500),
-                                                                          child: Icon(
-                                                                            Icons.wb_sunny,
-                                                                            color: Colors.yellow,
+                                                                          child: Transform.rotate(
+                                                                            angle: -34 * pi / 180,
+                                                                            child: Icon(
+                                                                              _currentTime.hour < 12 ? Icons.wb_sunny : Icons.nightlight_round,
+                                                                              color: Colors.yellow,
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
                                                                       Text(
-                                                                        "Morning",
+                                                                        _currentTime.hour < 12 ? "Morning" : "Evening   ",
                                                                         style: TextStyle(
                                                                           color: Colors.white,
                                                                           fontWeight: FontWeight.bold,
@@ -1436,6 +1472,12 @@ class _MainBodyState extends State<MainBody> with SingleTickerProviderStateMixin
                                                     Column(
                                                       mainAxisAlignment: MainAxisAlignment.end,
                                                       children: [
+                                                        FloatingActionButton(
+                                                          onPressed: () {
+                                                            _cleanup();
+                                                          },
+                                                          child: Icon(Icons.add),
+                                                        ),
                                                         MouseRegion(
                                                           onEnter: _incrementEnter2,
                                                           onHover: _updateLocation2,
