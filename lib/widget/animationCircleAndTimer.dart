@@ -80,7 +80,7 @@ class RadialAnimation extends StatefulWidget {
         ),
         translation = Tween<double>(
           begin: 0,
-          end: 202, //gg
+          end: 202,
           // end: screenSizew / 3 > screenSizew ? (4 * screenSizew / 12) : (4 * screenSizew / 11) - 10, //gg
         ).animate(
           CurvedAnimation(parent: controller, curve: Curves.linear),
@@ -109,7 +109,7 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
   _RadialAnimationState(this.screenSizew);
   var screenSizew;
   AnimationController _controller2;
-  Tween<double> _tween = Tween(begin: 0.95, end: 1);
+  Tween<double> _tween = Tween(begin: 0.9, end: 1);
   AnimationController _controller3;
   // Tween<double> _tween3 = Tween(begin: 0.23, end: 0.40);
   AnimationController _controller4;
@@ -118,7 +118,7 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
 
   @override
   void initState() {
-    _controller2 = AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    _controller2 = AnimationController(duration: const Duration(seconds: 1), vsync: this);
     _controller2.repeat(reverse: true);
     _controller3 = AnimationController(duration: const Duration(milliseconds: 1700), vsync: this);
     Timer(Duration(milliseconds: 300), () {
@@ -127,17 +127,16 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
     //?-------------------------------------------------------
     _controller4 = AnimationController(duration: const Duration(milliseconds: 2200), vsync: this);
     _controller4.repeat(reverse: true);
-
     super.initState();
   }
 
-  @override
-  bool get wantKeepAlive => true;
   Future<AudioPlayer> playLocalAsset() async {
     AudioCache cache = new AudioCache();
     return await cache.play("a.mp3");
   }
 
+  @override
+  bool get wantKeepAlive => true;
   Timer _timer;
   int timeText = 0;
   void startTimer(_start) {
@@ -146,8 +145,9 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
       oneSec,
       (Timer timer) {
         if (_start == 0) {
-          setState(() {
+          setState(() async {
             timeText = 0;
+            await playLocalAsset();
             widget.onChangedTab(true);
             _open();
             timer.cancel();
@@ -166,6 +166,9 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
   void dispose() {
     _timer.cancel();
     super.dispose();
+    _controller2.dispose();
+    _controller3.dispose();
+    _controller4.dispose();
   }
 
   @override
@@ -210,7 +213,7 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
                   alignment: AlignmentDirectional.center,
                   children: [
                     ScaleTransition(
-                      scale: Tween(begin: 0.23, end: wid).animate(CurvedAnimation(parent: _controller3, curve: Curves.decelerate)),
+                      scale: Tween(begin: 0.23, end: wid).animate(CurvedAnimation(parent: _controller4, curve: Curves.decelerate)),
                       child: Container(
                         height: 50,
                         width: 50,
@@ -239,7 +242,7 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
                       ),
                     ),
                     ScaleTransition(
-                      scale: Tween(begin: 0.23, end: wid).animate(CurvedAnimation(parent: _controller4, curve: Curves.easeInOutCirc)),
+                      scale: Tween(begin: 0.23, end: wid).animate(CurvedAnimation(parent: _controller3, curve: Curves.easeInOutCirc)),
                       child: Container(
                         height: 50,
                         width: 50,
@@ -268,40 +271,70 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
                       ),
                     ),
                     ScaleTransition(
-                      scale: _tween.animate(CurvedAnimation(parent: _controller2, curve: Curves.easeInOutCirc)),
-                      child: Container(
-                        height: 80,
-                        width: 80,
-                        child: FloatingActionButton(
-                          elevation: 4,
+                      scale: _tween.animate(CurvedAnimation(parent: _controller2, curve: Curves.fastOutSlowIn)),
+                      child: InkWell(
+                        onTap: () {
+                          widget.onChangedTab(true);
+                          _open();
+                          _timer.cancel();
+                          // progressController.updatepersentage(timeText.toDouble());
+                          startTimer(0);
+                        },
+                        child: CircleAvatar(
+                          radius: 40,
                           backgroundColor: Colors.red,
-                          child: Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.timer,
-                                  size: 19,
-                                  color: Colors.white,
-                                ),
-                                Text(
-                                  '${((timeText / 60).truncate() % 60).toString().padLeft(2, '0') + ':' + (timeText % 60).toString().padLeft(2, '0')}',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
-                                ),
-                              ],
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.timer,
+                                size: 19,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                '${((timeText / 60).truncate() % 60).toString().padLeft(2, '0') + ':' + (timeText % 60).toString().padLeft(2, '0')}',
+                                style: TextStyle(color: Colors.white, fontSize: 18),
+                              ),
+                            ],
                           ),
-                          // child: Icon(Icons.play_arrow),
-                          onPressed: () {
-                            widget.onChangedTab(true);
-                            _open();
-                            _timer.cancel();
-                            // progressController.updatepersentage(timeText.toDouble());
-                            startTimer(0);
-                          },
                         ),
                       ),
                     ),
+                    // ScaleTransition(
+                    //   scale: _tween.animate(CurvedAnimation(parent: _controller2, curve: Curves.fastOutSlowIn)),
+                    //   child: Container(
+                    //     height: 80,
+                    //     width: 80,
+                    //     child: FloatingActionButton(
+                    //       elevation: 4,
+                    //       backgroundColor: Colors.red,
+                    //       child: Container(
+                    //         child: Row(
+                    //           mainAxisAlignment: MainAxisAlignment.center,
+                    //           children: [
+                    // Icon(
+                    //   Icons.timer,
+                    //   size: 19,
+                    //   color: Colors.white,
+                    // ),
+                    // Text(
+                    //   '${((timeText / 60).truncate() % 60).toString().padLeft(2, '0') + ':' + (timeText % 60).toString().padLeft(2, '0')}',
+                    //   style: TextStyle(color: Colors.white, fontSize: 18),
+                    // ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //       // child: Icon(Icons.play_arrow),
+                    // onPressed: () {
+                    //   widget.onChangedTab(true);
+                    //   _open();
+                    //   _timer.cancel();
+                    //   // progressController.updatepersentage(timeText.toDouble());
+                    //   startTimer(0);
+                    // },
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
