@@ -109,7 +109,7 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
   _RadialAnimationState(this.screenSizew);
   var screenSizew;
   AnimationController _controller2;
-  Tween<double> _tween = Tween(begin: 0.9, end: 1);
+  Tween<double> _tween = Tween(begin: 0.85, end: 1.1);
   AnimationController _controller3;
   // Tween<double> _tween3 = Tween(begin: 0.23, end: 0.40);
   AnimationController _controller4;
@@ -118,7 +118,7 @@ class _RadialAnimationState extends State<RadialAnimation> with TickerProviderSt
 
   @override
   void initState() {
-    _controller2 = AnimationController(duration: const Duration(seconds: 1), vsync: this);
+    _controller2 = AnimationController(duration: const Duration(milliseconds: 1100), vsync: this);
     _controller2.repeat(reverse: true);
     _controller3 = AnimationController(duration: const Duration(milliseconds: 1700), vsync: this);
     Timer(Duration(milliseconds: 300), () {
