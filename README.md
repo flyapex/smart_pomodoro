@@ -1,12 +1,13 @@
 # spomodoro
 
-A Project to maintain your 24h time table⌚⌛⏳, 
+A Project to maintain your 24h time table⌚⌛⏳
 
 ----------------------
-if you don't know where your time is gatting lost try smart pomodoro👏.
+if you don't know where your time is getting lost try smart pomodoro👏.
 
 
 ---------------------------------------------------------------------
+feel free to add feedback🤑👑👍
 
 
 ![Screenshot (5)](https://user-images.githubusercontent.com/73701802/142753269-4b87911d-5cfc-4e7c-9599-b2c027d47be3.png)
