@@ -1,4 +1,5 @@
-# spomodoro
+#spomodoro
+#smart_pomodoro
 
 A Project to maintain your 24h time table⌚⌛⏳
 
